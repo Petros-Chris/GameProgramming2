@@ -6,13 +6,11 @@ public class CameraMovement : MonoBehaviour
 {
     public float sensX;
     public float sensY;
-
     public Transform orientation;
-
     float xRotation;
     float yRotation;
 
-    private void Start() 
+    private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -25,6 +23,7 @@ public class CameraMovement : MonoBehaviour
 
         yRotation += mouseXAxis;
         xRotation -= mouseYAxis;
+        //Prevents player from breaking their neck
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
         transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);

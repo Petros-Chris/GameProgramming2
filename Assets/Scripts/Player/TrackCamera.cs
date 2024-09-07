@@ -10,6 +10,7 @@ public class TrackCamera : MonoBehaviour
 
     void Update()
     {
+        //moves the camera to the player position
         transform.position = cameraPosition.position;
     }
 }

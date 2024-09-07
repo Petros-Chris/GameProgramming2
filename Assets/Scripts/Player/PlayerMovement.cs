@@ -5,8 +5,8 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
-    [Header("Keybinds")]   
-    [Header("Ground Check")] 
+    [Header("Keybinds")]
+    [Header("Ground Check")]
     public float moveSpeed;
     public float groundDrag;
     public float jumpForce;
@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public float airMultiplier;
     bool readyToJump;
     public KeyCode jumpKey = KeyCode.Space;
+    public KeyCode Attack = KeyCode.H;
     public float playerHeight;
     public LayerMask whatIsGround;
     bool grounded;
@@ -26,15 +27,27 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true;
         readyToJump = true;
     }
 
     private void Update()
     {
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
         MyInput();
         SpeedControl();
+        isGrounded();
+    }
+
+    private void FixedUpdate()
+    {
+        MovePlayer();
+    }
+
+    private void isGrounded()
+    {
+        //Checks if the player is on the ground
+        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
+
+        //Changes how the movement feels depending on if it is flying
         if (grounded)
         {
             rb.drag = groundDrag;
@@ -45,20 +58,20 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
-    {
-        MovePlayer();
-    }
-
+    /// <summary>
+    /// Gets the input to control the player
+    /// </summary>
     private void MyInput()
     {
+        //Get inputs
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
-        if(Input.GetKey(jumpKey) && readyToJump && grounded)
+        if (Input.GetKeyDown(jumpKey) && readyToJump && grounded)
         {
             readyToJump = false;
             Jump();
+            //When the cooldown has been reached, it allows the user to jump again
             Invoke(nameof(ResetJump), jumpCooldown);
         }
     }
@@ -67,26 +80,32 @@ public class PlayerMovement : MonoBehaviour
     {
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
-        if(grounded) {
-        rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+        //Changes player physics while off the ground
+        if (grounded)
+        {
+            rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
         }
-        else if(!grounded) {
+        else if (!grounded)
+        {
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
         }
     }
 
+    /// <summary>
+    /// Ensures the player doesn't go past the set moveSpeed
+    /// </summary>
     private void SpeedControl()
     {
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
-        if(flatVel.magnitude > moveSpeed)
+        if (flatVel.magnitude > moveSpeed)
         {
             Vector3 limitedVel = flatVel.normalized * moveSpeed;
             rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
         }
     }
 
-    private void Jump() 
+    private void Jump()
     {
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
@@ -96,5 +115,13 @@ public class PlayerMovement : MonoBehaviour
     private void ResetJump()
     {
         readyToJump = true;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.TryGetComponent<EnemyAI>(out EnemyAI enemyComponent))
+        {
+            enemyComponent.TakeDamage(1);
+        }
     }
 }
