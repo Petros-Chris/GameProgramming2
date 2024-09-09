@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class WeaponMovement : MonoBehaviour
+public class DogMovement : MonoBehaviour
 {
     public Camera playerCamera;
     public Transform orientation;
-    public Transform weapon;
+    public Transform pissAttack;
     public Vector3 weaponOffset = new Vector3(0.5f, -0.3f, 0.7f);
 
     void Update()
@@ -24,14 +23,14 @@ public class WeaponMovement : MonoBehaviour
 
         Quaternion adjustedRotation = target * offset;
 
-        weapon.rotation = adjustedRotation;
+        pissAttack.rotation = adjustedRotation;
     }
 
     void GunMovesWithPlayerDirection()
     {
-        Vector3 sidePosition = orientation.position + (orientation.right / 2);
+        Vector3 sidePosition = orientation.position + (-orientation.up / 2);
         sidePosition += orientation.forward / 2;
 
-        weapon.position = sidePosition;
+        pissAttack.position = sidePosition;
     }
 }

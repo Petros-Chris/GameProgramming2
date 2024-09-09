@@ -21,19 +21,10 @@ public class spawnBalls : MonoBehaviour
     }
     private string Ball() 
     {
-        if (Input.GetButtonDown("Fire2"))
-        {
-           flag = false;
-        }
-        if (Input.GetKeyDown(SpawnKey))
-        {
-            flag = true;
-        }
-        if (flag)
+        if (Input.GetKey(SpawnKey))
         {
             GameObject ball = Instantiate(projectile, transform.position, transform.rotation);
-        }
-            
+        }        
         return "";
     }
 }
