@@ -6,7 +6,6 @@ public class spawnBalls : MonoBehaviour
 {
     public GameObject projectile;
     public KeyCode SpawnKey = KeyCode.M;
-    bool flag = true;
     // Start is called before the first frame update
     void Start()
     {

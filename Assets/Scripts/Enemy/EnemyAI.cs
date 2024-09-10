@@ -8,8 +8,11 @@ public class EnemyAI : MonoBehaviour
     Transform player;
     Transform fishKingdom;
     NavMeshAgent agent;
+    public GameObject projectile;
+    public GameObject weapon;
 
     public LayerMask whatIsPlayer;
+    public LayerMask whatIsBuilding;
 
     //attacking
     public float timeBetweenAttacks;
@@ -17,7 +20,7 @@ public class EnemyAI : MonoBehaviour
 
     //states
     public float sightRange, attackRange;
-    private bool playerInSightRange, playerInAttackRange;
+    private bool playerInSightRange, playerInAttackRange, fishKingdomInSightRange, fishKingdomInAttackRange;
 
     public float health, maxHealth = 100f;
 
@@ -36,26 +39,43 @@ public class EnemyAI : MonoBehaviour
     {
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
+        fishKingdomInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsBuilding);
 
+        //If player is outside of sight range
         if (!playerInSightRange && !playerInAttackRange)
         {
             HeadToFishKingdom();
         }
+        //If player is in sight but not close enough to attack
         if (playerInSightRange && !playerInAttackRange)
         {
             Chasing();
         }
+        //If player is close enough to attack
         if (playerInAttackRange && playerInSightRange)
         {
-            Attacking();
+            Attacking(player);
         }
+        //If fishKingdom is in attack range
+        if (fishKingdomInAttackRange)
+        {
+            Attacking(fishKingdom);
+        }
+
     }
 
     private void HeadToFishKingdom()
     {
         agent.SetDestination(fishKingdom.position);
 
-        transform.LookAt(fishKingdom);
+        //transform.LookAt(fishKingdom);
+    }
+
+    private void AttackFishKingdom()
+    {
+        agent.SetDestination(fishKingdom.position);
+
+        //transform.LookAt(fishKingdom);
     }
 
     private void Chasing()
@@ -63,19 +83,22 @@ public class EnemyAI : MonoBehaviour
         agent.SetDestination(player.position);
     }
 
-    private void Attacking()
+    private void Attacking(Transform thing)
     {
         //Stops moving?
         agent.SetDestination(transform.position);
 
-        transform.LookAt(player);
+        transform.LookAt(thing);
 
         if (!alreadyAttacked)
         {
+            if (weapon.gameObject.TryGetComponent<EnemyGun>(out EnemyGun GunComponemt))
+            {
+                GunComponemt.Shoot();
 
-            // Rigidbody rb = Instantiate(bullet, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
-            // rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
-            // rb.AddForce(transform.up * 32f, ForceMode.Impulse);
+            }
+
+    
 
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
