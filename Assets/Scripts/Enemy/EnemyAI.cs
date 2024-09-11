@@ -19,8 +19,8 @@ public class EnemyAI : MonoBehaviour
     bool alreadyAttacked;
 
     //states
-    public float sightRange, attackRange;
-    private bool playerInSightRange, playerInAttackRange, fishKingdomInSightRange, fishKingdomInAttackRange;
+    public float sightRange, attackRange, sightRangeNearBuilding;
+    private bool playerInSightRange, playerInAttackRange, fishKingdomInSightRange, fishKingdomInAttackRange, playerInSightRangeNearBuilding;
 
     public float health, maxHealth = 100f;
 
@@ -40,6 +40,7 @@ public class EnemyAI : MonoBehaviour
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
         fishKingdomInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsBuilding);
+        playerInSightRangeNearBuilding = Physics.CheckSphere(transform.position, sightRangeNearBuilding, whatIsPlayer);
 
         //If player is outside of sight range
         if (!playerInSightRange && !playerInAttackRange)
@@ -56,22 +57,14 @@ public class EnemyAI : MonoBehaviour
         {
             Attacking(player);
         }
-        //If fishKingdom is in attack range
-        if (fishKingdomInAttackRange)
+        //If fishKingdom is in attack range but the player isen't in the sight range
+        if (fishKingdomInAttackRange && !playerInSightRange)
         {
             Attacking(fishKingdom);
         }
-
     }
 
     private void HeadToFishKingdom()
-    {
-        agent.SetDestination(fishKingdom.position);
-
-        //transform.LookAt(fishKingdom);
-    }
-
-    private void AttackFishKingdom()
     {
         agent.SetDestination(fishKingdom.position);
 
@@ -95,11 +88,7 @@ public class EnemyAI : MonoBehaviour
             if (weapon.gameObject.TryGetComponent<EnemyGun>(out EnemyGun GunComponemt))
             {
                 GunComponemt.Shoot();
-
             }
-
-    
-
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }

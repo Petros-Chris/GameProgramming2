@@ -146,5 +146,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c2fa6e9b4467994aab64e882c7b4f61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 0}
-  launchVelocity: 700
+  timeTillDeath: 7
+  timeTillDeathAfterHit: 0.2
+  damage: 1

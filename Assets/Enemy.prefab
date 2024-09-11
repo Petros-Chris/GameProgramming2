@@ -155,6 +155,7 @@ MonoBehaviour:
   timeBetweenAttacks: 1
   sightRange: 20
   attackRange: 10
+  sightRangeNearBuilding: 5
   health: 1
   maxHealth: 1
 --- !u!1 &5157568121720218811

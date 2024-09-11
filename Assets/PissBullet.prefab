@@ -120,6 +120,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeTillDeath: 7
+  timeTillDeathAfterHit: 1
+  damage: 1
 --- !u!54 &2981142253530394500
 Rigidbody:
   m_ObjectHideFlags: 0
