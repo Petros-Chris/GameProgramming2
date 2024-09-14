@@ -7,6 +7,7 @@ public class BasicBullet : MonoBehaviour
     public float timeTillDeath = 7.0f;
     public float timeTillDeathAfterHit = 0.5f;
     public int damage = 1;
+    public int amountOfTimesDamageCanBeTrigged = 1;
 
     private void Start()
     {
@@ -16,8 +17,12 @@ public class BasicBullet : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent<EnemyAI>(out EnemyAI enemyComponent))
         {
-            enemyComponent.TakeDamage(damage);
-            Destroy(gameObject, timeTillDeathAfterHit);
+            if(amountOfTimesDamageCanBeTrigged > 0)
+            {
+                enemyComponent.TakeDamage(damage);
+                amountOfTimesDamageCanBeTrigged--;
+                Destroy(gameObject, timeTillDeathAfterHit);
+            }
         }
     }
 }

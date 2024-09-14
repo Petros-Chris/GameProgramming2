@@ -10,6 +10,8 @@ public class EnemyAI : MonoBehaviour
     NavMeshAgent agent;
     public GameObject projectile;
     public GameObject weapon;
+    //Transform healthBar;
+    public HealthBarScript healthBarScript;
 
     public LayerMask whatIsPlayer;
     public LayerMask whatIsBuilding;
@@ -24,17 +26,19 @@ public class EnemyAI : MonoBehaviour
 
     public float health, maxHealth = 100f;
 
-
-    // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.Find("Player").transform;
+        if(GameObject.Find("Player") != null)
+        {
+            player = GameObject.Find("Player").transform;
+        }
+   
         fishKingdom = GameObject.Find("FishKingdom").transform;
+        healthBarScript = GetComponentInChildren<HealthBarScript>();
         agent = GetComponent<NavMeshAgent>();
         health = maxHealth;
     }
 
-    // Update is called once per frame
     void Update()
     {
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
@@ -85,7 +89,7 @@ public class EnemyAI : MonoBehaviour
 
         if (!alreadyAttacked)
         {
-            if (weapon.gameObject.TryGetComponent<EnemyGun>(out EnemyGun GunComponemt))
+            if (weapon.TryGetComponent<EnemyGun>(out EnemyGun GunComponemt))
             {
                 GunComponemt.Shoot();
             }
@@ -101,6 +105,9 @@ public class EnemyAI : MonoBehaviour
     public void TakeDamage(float damage)
     {
         health -= damage;
+
+        healthBarScript.UpdateHealthBar(health, maxHealth);
+
         if (health <= 0)
         {
             Destroy(gameObject);
