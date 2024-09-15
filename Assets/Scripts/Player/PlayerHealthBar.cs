@@ -3,19 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthBarScript : MonoBehaviour
+
+public class PlayerHealthBar : MonoBehaviour
 {
     public Slider slider;
     public Camera cam;
+    public Transform orientation;
     public Transform target;
     public Vector3 offSet;
-
-    private void Awake()
-    {
-        //slider = GetComponent<Slider>();
-        cam = GameObject.Find("Player Camera").GetComponent<Camera>();
-        //target = transform;
-    }
 
     public void UpdateHealthBar(float currentValue, float maxValue)
     {
@@ -29,7 +24,14 @@ public class HealthBarScript : MonoBehaviour
 
     private void Update()
     {
-        transform.rotation = cam.transform.rotation;
-        transform.position = target.position + offSet;
+        /*
+        Vector3 camUp = new Vector3(0, -cam.transform.up.x, 0);
+
+        Vector3 healthBarPosition = orientation.position + (orientation.forward);
+        healthBarPosition += camUp;
+        healthBarPosition += -orientation.right / 2;
+        transform.rotation = orientation.rotation;
+        transform.position = healthBarPosition;
+        */
     }
 }

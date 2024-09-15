@@ -32,8 +32,11 @@ public class EnemyAI : MonoBehaviour
         {
             player = GameObject.Find("Player").transform;
         }
-   
-        fishKingdom = GameObject.Find("FishKingdom").transform;
+
+        if (GameObject.Find("FishKingdom") != null)
+        {
+            fishKingdom = GameObject.Find("FishKingdom").transform;
+        }
         healthBarScript = GetComponentInChildren<HealthBarScript>();
         agent = GetComponent<NavMeshAgent>();
         health = maxHealth;
@@ -41,16 +44,44 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
+        Collider[] buildingsInRange = Physics.OverlapSphere(transform.position, attackRange, whatIsBuilding);
+
+        if (buildingsInRange.Length > 0)
+        {
+            Transform closestBuilding = null;
+            float closestDistance = Mathf.Infinity;
+
+            foreach (Collider building in buildingsInRange) 
+            {
+                float distanceToBuilding = Vector3.Distance(transform.position, building.transform.position);
+
+                if (distanceToBuilding < closestDistance)
+                {
+                    closestDistance = distanceToBuilding;
+                    closestBuilding = building.gameObject.transform;
+                }
+
+                agent.SetDestination(closestBuilding.position);
+                Attacking(closestBuilding);
+                
+            }
+        } else if(!playerInSightRange && !playerInAttackRange) 
+        {
+            HeadToFishKingdom();
+        }
+
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
         fishKingdomInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsBuilding);
         playerInSightRangeNearBuilding = Physics.CheckSphere(transform.position, sightRangeNearBuilding, whatIsPlayer);
 
         //If player is outside of sight range
+        /*
         if (!playerInSightRange && !playerInAttackRange)
         {
             HeadToFishKingdom();
         }
+        */
         //If player is in sight but not close enough to attack
         if (playerInSightRange && !playerInAttackRange)
         {
@@ -62,16 +93,20 @@ public class EnemyAI : MonoBehaviour
             Attacking(player);
         }
         //If fishKingdom is in attack range but the player isen't in the sight range
+        /*
         if (fishKingdomInAttackRange && !playerInSightRange)
         {
             Attacking(fishKingdom);
         }
+        */
     }
 
     private void HeadToFishKingdom()
     {
-        agent.SetDestination(fishKingdom.position);
-
+        if(fishKingdom != null)
+        {
+            agent.SetDestination(fishKingdom.position);
+        }
         //transform.LookAt(fishKingdom);
     }
 

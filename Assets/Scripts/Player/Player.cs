@@ -7,11 +7,15 @@ public class Player : MonoBehaviour
     private Transform healthBar;
     public float health;
     public float maxHealth;
+    public Camera deathCam;
+    public Camera playerCam;
 
     // Start is called before the first frame update
     void Start()
     {
         healthBar = GameObject.Find("PlayerHealthBar").transform;
+       // deathCam = GameObject.Find("Death Cam");
+        deathCam.gameObject.SetActive(false);
     }
 
 
@@ -26,6 +30,8 @@ public class Player : MonoBehaviour
         {
             //gameObject.SetActive(false);
             Destroy(gameObject);
+            deathCam.gameObject.SetActive(true);
+            playerCam.gameObject.SetActive(false);
         }
     }
 }

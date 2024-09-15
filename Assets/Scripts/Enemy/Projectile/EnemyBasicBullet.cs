@@ -26,11 +26,10 @@ public class EnemyBasicBullet : MonoBehaviour
             }
         }
 
-        /* if (collision.gameObject.TryGetComponent<FishKingdom>(out FishKingdom component))
+         if (collision.gameObject.TryGetComponent<Base>(out Base component))
          {
             component.TakeDamage(damage);
             Destroy(gameObject, timeTillDeathAfterHit);
          }
-        */
     }
 }
