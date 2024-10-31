@@ -55,7 +55,7 @@ public class CamDeath : MonoBehaviour
             moveDirection.y = -verticalSpeed;
         }
         
-        Vector3 moveSpeed = speed * Time.deltaTime * moveDirection.normalized;
+        Vector3 moveSpeed = speed * Time.deltaTime * moveDirection;
 
         if (Input.GetKey(KeyCode.LeftShift))
         {

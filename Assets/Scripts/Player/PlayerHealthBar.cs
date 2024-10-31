@@ -16,7 +16,11 @@ public class PlayerHealthBar : MonoBehaviour
     {
         slider.value = currentValue / maxValue;
 
-        if (slider.value < 0.3f)
+        if (slider.value > 0.3f && slider.value < 0.5f)
+        {
+            slider.fillRect.GetComponent<Image>().color = Color.yellow;
+        }
+        else if (slider.value < 0.3f)
         {
             slider.fillRect.GetComponent<Image>().color = Color.red;
         }
