@@ -12,6 +12,11 @@ public class PlayerHealthBar : MonoBehaviour
     public Transform target;
     public Vector3 offSet;
 
+    /// <summary>
+    /// Moves the slider and changes the color depending on value
+    /// </summary>
+    /// <param name="currentValue">How much health the game object currently has</param>
+    /// <param name="maxValue">How much health the game object starts with</param>
     public void UpdateHealthBar(float currentValue, float maxValue)
     {
         slider.value = currentValue / maxValue;
@@ -24,18 +29,5 @@ public class PlayerHealthBar : MonoBehaviour
         {
             slider.fillRect.GetComponent<Image>().color = Color.red;
         }
-    }
-
-    private void Update()
-    {
-        /*
-        Vector3 camUp = new Vector3(0, -cam.transform.up.x, 0);
-
-        Vector3 healthBarPosition = orientation.position + (orientation.forward);
-        healthBarPosition += camUp;
-        healthBarPosition += -orientation.right / 2;
-        transform.rotation = orientation.rotation;
-        transform.position = healthBarPosition;
-        */
     }
 }
