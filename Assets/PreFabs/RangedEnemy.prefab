@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 6291295480408391886}
   - component: {fileID: 7119962669143036786}
   - component: {fileID: 5345904271931520768}
-  - component: {fileID: 8660524798402504376}
+  - component: {fileID: 1133635453396045313}
   m_Layer: 0
   m_Name: RangedEnemy
   m_TagString: Untagged
@@ -147,6 +147,7 @@ Transform:
   m_Children:
   - {fileID: 3524201312362402920}
   - {fileID: 6680871248973643391}
+  - {fileID: 1351209619312055099}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5141531368090304050
@@ -244,7 +245,7 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &8660524798402504376
+--- !u!114 &1133635453396045313
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -253,23 +254,60 @@ MonoBehaviour:
   m_GameObject: {fileID: 1143756752094828556}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36bf2cefed521f847af2668c03b8db3b, type: 3}
+  m_Script: {fileID: 11500000, guid: 0ede77cc5e11a244ea7b891f2dde59a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 1551029764769687920, guid: 0319a1b1bb837eb499c4560840bf4518, type: 3}
+  healthBarScript: {fileID: 8941173978250856697}
+  Waypoints: []
+  player: {fileID: 0}
+  fishKingdom: {fileID: 0}
   weapon: {fileID: 5840331874037749611}
-  whatIsPlayer:
+  SightRange: 20
+  maxAngle: 45
+  AttackRange: 10
+  attackCooldown: 1
+  PlayerLayer:
     serializedVersion: 2
     m_Bits: 128
-  whatIsBuilding:
+  obstacleMask:
     serializedVersion: 2
-    m_Bits: 512
-  timeBetweenAttacks: 1
-  sightRange: 20
-  attackRange: 10
-  sightRangeNearBuilding: 5
-  health: 5
-  maxHealth: 5
+    m_Bits: 0
+  currentState: 0
+  raycastOrigin: {fileID: 1351209619312055099}
+  alreadyAttacked: 0
+  health: 100
+  maxHealth: 100
+--- !u!1 &3848054618829087646
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1351209619312055099}
+  m_Layer: 0
+  m_Name: Face
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1351209619312055099
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3848054618829087646}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.6, z: 0.7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2741210651399224431}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4633644156499317108
 GameObject:
   m_ObjectHideFlags: 0
@@ -474,9 +512,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f16b9d829683a574fba0cfbc3124eee5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 4660880647093821158}
-  cam: {fileID: 0}
-  target: {fileID: 2741210651399224431}
   offSet: {x: 0, y: 1.2, z: 0}
 --- !u!1 &5840331874037749611
 GameObject:
@@ -504,7 +539,7 @@ Transform:
   m_GameObject: {fileID: 5840331874037749611}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.26, z: 0.535}
+  m_LocalPosition: {x: 0, y: -0.26, z: 0.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

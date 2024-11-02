@@ -1,127 +1,95 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class EnemyAI : MonoBehaviour
 {
-    Transform player;
-    Transform fishKingdom;
-    NavMeshAgent agent;
-    public GameObject projectile;
-    public GameObject weapon;
-    //Transform healthBar;
     public HealthBarScript healthBarScript;
-
-    public LayerMask whatIsPlayer;
-    public LayerMask whatIsBuilding;
-
-    //attacking
-    public float timeBetweenAttacks;
-    bool alreadyAttacked;
-
-    //states
-    public float sightRange, attackRange, sightRangeNearBuilding;
-    private bool playerInSightRange, playerInAttackRange, fishKingdomInSightRange, fishKingdomInAttackRange, playerInSightRangeNearBuilding;
-
+    public StateMachine StateMachine { get; private set; }
+    public NavMeshAgent Agent { get; private set; }
+    // public Animator Animator { get; private set; } // Not needed since we're not using animations
+    public Transform[] Waypoints;
+    public Transform player;
+    public Transform fishKingdom;
+    public GameObject weapon;
+    public float SightRange = 10f;
+    public float maxAngle = 45.0f;
+    public float AttackRange = 2f; // New attack range variable
+    public float attackCooldown = 1f;
+    public LayerMask PlayerLayer;
+    public LayerMask obstacleMask; // Assign this in the Inspector to include walls, terrain, etc.
+    public StateType currentState;
+    public Transform raycastOrigin;
+    public bool alreadyAttacked = false;
     public float health, maxHealth = 100f;
 
     void Start()
     {
-        if(GameObject.Find("Player") != null)
-        {
-            player = GameObject.Find("Player").transform;
-        }
-
+        Agent = GetComponent<NavMeshAgent>();
+        // Animator = GetComponent<Animator>(); // Commented out since we're not using animations
         if (GameObject.Find("FishKingdom") != null)
         {
             fishKingdom = GameObject.Find("FishKingdom").transform;
         }
-        healthBarScript = GetComponentInChildren<HealthBarScript>();
-        agent = GetComponent<NavMeshAgent>();
-        health = maxHealth;
+        if (GameObject.Find("Player") != null)
+        {
+            player = GameObject.Find("Player").transform;
+        }
+
+        StateMachine = new StateMachine();
+        StateMachine.AddState(new IdleState(this));
+        StateMachine.AddState(new PatrolState(this));
+        StateMachine.AddState(new ChaseState(this));
+        StateMachine.AddState(new AttackState(this));
+
+        StateMachine.TransitionToState(StateType.Idle);
     }
 
     void Update()
     {
-        Collider[] buildingsInRange = Physics.OverlapSphere(transform.position, attackRange, whatIsBuilding);
+        StateMachine.Update();
+        // Animator.SetFloat("CharacterSpeed", Agent.velocity.magnitude); //? Animation
+        //currentState = StateMachine.GetCurrentStateType();
+    }
 
-        if (buildingsInRange.Length > 0)
+    //* From what i can understand, the methods below are used by the states, so this class is more of a abstract class but with methods already filled out
+
+    public bool CanSeePlayer()
+    {
+        if (player == null)
         {
-            Transform closestBuilding = null;
-            float closestDistance = Mathf.Infinity;
+            return false;
+        }
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-            foreach (Collider building in buildingsInRange) 
+        if (distanceToPlayer <= SightRange)
+        {
+            // Direction from NPC to player
+            Vector3 directionToPlayer = (player.position - transform.position).normalized;
+            float angle = Mathf.Acos(Vector3.Dot(transform.forward, directionToPlayer));
+            if (angle < maxAngle)
             {
-                float distanceToBuilding = Vector3.Distance(transform.position, building.transform.position);
-
-                if (distanceToBuilding < closestDistance)
-                {
-                    closestDistance = distanceToBuilding;
-                    closestBuilding = building.gameObject.transform;
-                }
-
-                agent.SetDestination(closestBuilding.position);
-                Attacking(closestBuilding);
-                
+                // Perform Raycast to check if there's a clear line of sight
+                //if (!Physics.Raycast(raycastOrigin.position, directionToPlayer, SightRange))
+                //{
+                // No obstacles in the way
+                return true;
+                // }
             }
-        } else if(!playerInSightRange && !playerInAttackRange) 
-        {
-            HeadToFishKingdom();
         }
-
-        playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
-        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
-        fishKingdomInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsBuilding);
-        playerInSightRangeNearBuilding = Physics.CheckSphere(transform.position, sightRangeNearBuilding, whatIsPlayer);
-
-        //If player is outside of sight range
-        /*
-        if (!playerInSightRange && !playerInAttackRange)
-        {
-            HeadToFishKingdom();
-        }
-        */
-        //If player is in sight but not close enough to attack
-        if (playerInSightRange && !playerInAttackRange)
-        {
-            Chasing();
-        }
-        //If player is close enough to attack
-        if (playerInAttackRange && playerInSightRange)
-        {
-            Attacking(player);
-        }
-        //If fishKingdom is in attack range but the player isen't in the sight range
-        /*
-        if (fishKingdomInAttackRange && !playerInSightRange)
-        {
-            Attacking(fishKingdom);
-        }
-        */
+        return false;
     }
 
-    private void HeadToFishKingdom()
+    public bool IsPlayerInAttackRange()
     {
-        if(fishKingdom != null)
-        {
-            agent.SetDestination(fishKingdom.position);
-        }
-        //transform.LookAt(fishKingdom);
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        return distanceToPlayer <= AttackRange;
     }
-
-    private void Chasing()
+    public void Attack()
     {
-        agent.SetDestination(player.position);
-    }
-
-    private void Attacking(Transform thing)
-    {
-        //Stops moving?
-        agent.SetDestination(transform.position);
-
-        transform.LookAt(thing);
-
         if (!alreadyAttacked)
         {
             if (weapon.TryGetComponent<EnemyGun>(out EnemyGun GunComponemt))
@@ -129,14 +97,20 @@ public class EnemyAI : MonoBehaviour
                 GunComponemt.Shoot();
             }
             alreadyAttacked = true;
-            Invoke(nameof(ResetAttack), timeBetweenAttacks);
+            Invoke(nameof(ResetAttack), attackCooldown);
         }
     }
+
     private void ResetAttack()
     {
         alreadyAttacked = false;
     }
 
+
+    /// <summary>
+    /// Enemy Takes damage
+    /// </summary>
+    /// <param name="damage">How much damage the enemy is going to take</param>
     public void TakeDamage(float damage)
     {
         health -= damage;
