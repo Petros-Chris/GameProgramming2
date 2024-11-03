@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class AttackState : IState
+public class AttackPlayerState : IState
 {
     private EnemyAI aiController;
 
-    public StateType Type => StateType.Attack;
+    public StateType Type => StateType.AttackPlayer;
 
-    public AttackState(EnemyAI aiController)
+    public AttackPlayerState(EnemyAI aiController)
     {
         this.aiController = aiController;
     }
@@ -22,9 +22,13 @@ public class AttackState : IState
         // Check if the player is within attack range
         if (!aiController.CanSeePlayerWhileAttacking())
         {
-            // If the player moves away, transition back to ChaseState
+            Debug.Log("GET BACK HERE");
             aiController.StateMachine.TransitionToState(StateType.Chase);
         }
+        //? Maybe have a way to have the enemy turn slower so its possible to have the player dash out of the enemy fov, causing them to lose the player
+
+        //Perhaps i could change look based on raycast data (player, ally, etc)
+        aiController.transform.LookAt(aiController.player);
         aiController.Attack();
 
     }

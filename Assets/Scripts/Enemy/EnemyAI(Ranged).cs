@@ -11,16 +11,15 @@ public class EnemyAI : MonoBehaviour
     public StateMachine StateMachine { get; private set; }
     public NavMeshAgent Agent { get; private set; }
     // public Animator Animator { get; private set; } // Not needed since we're not using animations
-    public Transform[] Waypoints;
     public Transform player;
-    public Transform fishKingdom;
+    public Transform building;
     public GameObject weapon;
     public float SightRange = 20f;
     public float maxAngle = 45.0f;
-    public float AttackRange = 10f; // New attack range variable
+    public float AttackRange = 10f;
     public float attackCooldown = 1f;
     public LayerMask PlayerLayer;
-    public LayerMask obstacleMask; // Assign this in the Inspector to include walls, terrain, etc.
+    public LayerMask BuildingLayer;
     public StateType currentState;
     public Transform raycastOrigin;
     public bool alreadyAttacked = false;
@@ -30,20 +29,19 @@ public class EnemyAI : MonoBehaviour
     {
         Agent = GetComponent<NavMeshAgent>();
         // Animator = GetComponent<Animator>(); // Commented out since we're not using animations
-        if (GameObject.Find("FishKingdom") != null)
-        {
-            fishKingdom = GameObject.Find("FishKingdom").transform;
-        }
         if (GameObject.Find("Player") != null)
         {
             player = GameObject.Find("Player").transform;
         }
+        building = GetClosestBuilding();
+        Debug.Log("HIYA FROM START");
 
         StateMachine = new StateMachine();
         StateMachine.AddState(new IdleState(this));
         StateMachine.AddState(new PatrolState(this));
         StateMachine.AddState(new ChaseState(this));
-        StateMachine.AddState(new AttackState(this));
+        StateMachine.AddState(new AttackPlayerState(this));
+        StateMachine.AddState(new AttackBuildingState(this));
 
         StateMachine.TransitionToState(StateType.Idle);
     }
@@ -71,22 +69,21 @@ public class EnemyAI : MonoBehaviour
             Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
             float angle = Mathf.Acos(Vector3.Dot(transform.forward, directionToPlayer));
 
-            // Im not sure i understand this
             if (angle < maxAngle)
             {
-                Debug.DrawRay(raycastOrigin.position, directionToPlayer * SightRange, Color.red);
-
-                // // Perform Raycast to check if there's a clear line of sight
-                if (Physics.Raycast(raycastOrigin.position, directionToPlayer, SightRange, LayerMask.GetMask("whatIsPlayer")))
+                if (Physics.Raycast(raycastOrigin.position, directionToPlayer, out RaycastHit hit, SightRange))
                 {
-                    //No obstacles in the way
-                    return true;
+                    if (hit.transform.CompareTag("Player"))
+                    {
+                        //No obstacles in the way
+                        return true;
+                    }
+
                 }
             }
         }
         return false;
     }
-
     public bool CanSeePlayerWhileAttacking()
     {
         if (player == null)
@@ -100,28 +97,57 @@ public class EnemyAI : MonoBehaviour
         {
             // Direction from NPC to player
             Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
-            float angle = Mathf.Acos(Vector3.Dot(transform.forward, directionToPlayer));
 
-            // Im not sure i understand this
+            // Fov of enemy (was missing Rad2Deg)
+            float angle = Mathf.Acos(Vector3.Dot(transform.forward, directionToPlayer)) * Mathf.Rad2Deg;
+
             if (angle < maxAngle)
             {
-                Debug.DrawRay(raycastOrigin.position, directionToPlayer * AttackRange, Color.red);
-
-                // // Perform Raycast to check if there's a clear line of sight
-                if (Physics.Raycast(raycastOrigin.position, directionToPlayer, AttackRange, LayerMask.GetMask("whatIsPlayer")))
+                if (Physics.Raycast(raycastOrigin.position, directionToPlayer, out RaycastHit hit, AttackRange))
                 {
-                    //No obstacles in the way
-                    return true;
+                    if (hit.transform.CompareTag("Player"))
+                    {
+                        //No obstacles in the way
+                        return true;
+                    }
                 }
             }
         }
         return false;
     }
-
     public bool IsPlayerInAttackRange()
     {
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
         return distanceToPlayer <= AttackRange;
+    }
+    public bool IsBuildingInAttackRange()
+    {
+        if (building == null)
+        {
+            return false;
+        }
+        float distanceToBuilding = Vector3.Distance(transform.position, building.position);
+        return distanceToBuilding <= AttackRange;
+    }
+    public bool CanSeeBuilding()
+    {
+        if (building == null)
+        {
+            return false;
+        }
+        // Direction from NPC to building
+        Vector3 directionToBuilding = (building.transform.position - transform.position).normalized;
+
+        // Perform Raycast to check if there's a clear line of sight
+        if (Physics.Raycast(raycastOrigin.position, directionToBuilding, out RaycastHit hit, SightRange))
+        {
+            // Just so the enemy doesn't hit each other for no reason
+            if (!hit.transform.CompareTag("Enemy"))
+            {
+                return true;
+            }
+        }
+        return false;
     }
     public void Attack()
     {
@@ -135,12 +161,10 @@ public class EnemyAI : MonoBehaviour
             Invoke(nameof(ResetAttack), attackCooldown);
         }
     }
-
     private void ResetAttack()
     {
         alreadyAttacked = false;
     }
-
 
     /// <summary>
     /// Enemy Takes damage
@@ -156,5 +180,35 @@ public class EnemyAI : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    // Currently will get building closest to enemy,
+    // should probably have something that also checks if it is closer to fish kingdom
+    // So player doesn't lure a boss with towers (if he can place towers during round)
+    public Transform GetClosestBuilding()
+    {
+        Vector3 enemyPosition = transform.position;
+        Collider[] buildingsInRange = Physics.OverlapSphere(enemyPosition, 10000, BuildingLayer);
+
+        if (buildingsInRange.Length == 0)
+        {
+            Debug.Log("WOOHOO I DID IT");
+            return transform;
+        }
+
+        Transform closestBuilding = null;
+        float closestDistance = Mathf.Infinity;
+
+        foreach (Collider building in buildingsInRange)
+        {
+            float distanceToBuilding = Vector3.Distance(enemyPosition, building.transform.position);
+
+            if (distanceToBuilding < closestDistance)
+            {
+                closestDistance = distanceToBuilding;
+                closestBuilding = building.gameObject.transform;
+            }
+        }
+        return closestBuilding;
     }
 }

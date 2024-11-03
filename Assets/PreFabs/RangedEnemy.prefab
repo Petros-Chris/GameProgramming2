@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 1133635453396045313}
   m_Layer: 0
   m_Name: RangedEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -258,25 +258,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBarScript: {fileID: 8941173978250856697}
-  Waypoints: []
   player: {fileID: 0}
   fishKingdom: {fileID: 0}
+  building: {fileID: 0}
   weapon: {fileID: 5840331874037749611}
-  SightRange: 20
-  maxAngle: 5
+  SightRange: 15
+  maxAngle: 60
   AttackRange: 10
   attackCooldown: 1
   PlayerLayer:
     serializedVersion: 2
     m_Bits: 128
-  obstacleMask:
+  BuildingLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   currentState: 0
   raycastOrigin: {fileID: 1351209619312055099}
   alreadyAttacked: 0
-  health: 1
-  maxHealth: 100
+  health: 10
+  maxHealth: 10
 --- !u!1 &3848054618829087646
 GameObject:
   m_ObjectHideFlags: 0

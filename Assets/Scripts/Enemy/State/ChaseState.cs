@@ -19,7 +19,7 @@ public class ChaseState : IState
     {
         if (!aiController.CanSeePlayer())
         {
-            Debug.Log("I don't see you anymore :<");
+            Debug.Log("Oh well guess it's time to attack fish kingdom");
             aiController.StateMachine.TransitionToState(StateType.Patrol);
             return;
         }
@@ -27,7 +27,7 @@ public class ChaseState : IState
         if (aiController.IsPlayerInAttackRange())
         {
             Debug.Log("DIE");
-            aiController.StateMachine.TransitionToState(StateType.Attack);
+            aiController.StateMachine.TransitionToState(StateType.AttackPlayer);
             return;
         }
 

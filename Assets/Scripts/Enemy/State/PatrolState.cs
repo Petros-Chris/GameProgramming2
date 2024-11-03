@@ -13,7 +13,14 @@ public class PatrolState : IState
 
     public void Enter()
     {
-        HeadToFishKingdom();
+        // Appartely it's possible to get null here
+        if (aiController.building == null)
+        {
+            aiController.building = aiController.GetClosestBuilding();
+        }
+        aiController.Agent.destination = aiController.building.position;
+        Debug.Log("HIYA FROM ENTER IN PATROL");
+
     }
 
     public void Execute()
@@ -24,19 +31,23 @@ public class PatrolState : IState
             aiController.StateMachine.TransitionToState(StateType.Chase);
             return;
         }
+        if (aiController.IsBuildingInAttackRange())
+        {
+            Debug.Log("TIME TO DESTROY >:)");
+            aiController.StateMachine.TransitionToState(StateType.AttackBuilding);
+            return;
+        }
+        // Restarting the state, as the building got destroyed
+        // before they made it to the building to switch to attack state,
+        // Causing them to just stare at where the building used to be
+        if (aiController.building == null)
+        {
+            aiController.StateMachine.TransitionToState(StateType.Patrol);
+        }
     }
 
     public void Exit()
     {
         // Cleanup if necessary
-    }
-
-    private void HeadToFishKingdom()
-    {
-        if (aiController.fishKingdom != null)
-        {
-            aiController.Agent.destination = aiController.fishKingdom.position;
-        }
-        //transform.LookAt(fishKingdom);
     }
 }
