@@ -20,18 +20,10 @@ public class AttackState : IState
     public void Execute()
     {
         // Check if the player is within attack range
-        if (aiController.player != null)
+        if (!aiController.CanSeePlayerWhileAttacking())
         {
-            if (Vector3.Distance(aiController.transform.position, aiController.player.position) > aiController.AttackRange)
-            {
-                // If the player moves away, transition back to ChaseState
-                aiController.StateMachine.TransitionToState(StateType.Chase);
-                return;
-            }
-        }
-        else
-        {
-            aiController.StateMachine.TransitionToState(StateType.Patrol);
+            // If the player moves away, transition back to ChaseState
+            aiController.StateMachine.TransitionToState(StateType.Chase);
         }
         aiController.Attack();
 

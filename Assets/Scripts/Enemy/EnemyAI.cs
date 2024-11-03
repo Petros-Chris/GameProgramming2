@@ -15,9 +15,9 @@ public class EnemyAI : MonoBehaviour
     public Transform player;
     public Transform fishKingdom;
     public GameObject weapon;
-    public float SightRange = 10f;
+    public float SightRange = 20f;
     public float maxAngle = 45.0f;
-    public float AttackRange = 2f; // New attack range variable
+    public float AttackRange = 10f; // New attack range variable
     public float attackCooldown = 1f;
     public LayerMask PlayerLayer;
     public LayerMask obstacleMask; // Assign this in the Inspector to include walls, terrain, etc.
@@ -68,16 +68,51 @@ public class EnemyAI : MonoBehaviour
         if (distanceToPlayer <= SightRange)
         {
             // Direction from NPC to player
-            Vector3 directionToPlayer = (player.position - transform.position).normalized;
+            Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
             float angle = Mathf.Acos(Vector3.Dot(transform.forward, directionToPlayer));
+
+            // Im not sure i understand this
             if (angle < maxAngle)
             {
-                // Perform Raycast to check if there's a clear line of sight
-                //if (!Physics.Raycast(raycastOrigin.position, directionToPlayer, SightRange))
-                //{
-                // No obstacles in the way
-                return true;
-                // }
+                Debug.DrawRay(raycastOrigin.position, directionToPlayer * SightRange, Color.red);
+
+                // // Perform Raycast to check if there's a clear line of sight
+                if (Physics.Raycast(raycastOrigin.position, directionToPlayer, SightRange, LayerMask.GetMask("whatIsPlayer")))
+                {
+                    //No obstacles in the way
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public bool CanSeePlayerWhileAttacking()
+    {
+        if (player == null)
+        {
+            StateMachine.TransitionToState(StateType.Patrol);
+            return false;
+        }
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+
+        if (distanceToPlayer <= AttackRange)
+        {
+            // Direction from NPC to player
+            Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
+            float angle = Mathf.Acos(Vector3.Dot(transform.forward, directionToPlayer));
+
+            // Im not sure i understand this
+            if (angle < maxAngle)
+            {
+                Debug.DrawRay(raycastOrigin.position, directionToPlayer * AttackRange, Color.red);
+
+                // // Perform Raycast to check if there's a clear line of sight
+                if (Physics.Raycast(raycastOrigin.position, directionToPlayer, AttackRange, LayerMask.GetMask("whatIsPlayer")))
+                {
+                    //No obstacles in the way
+                    return true;
+                }
             }
         }
         return false;

@@ -263,7 +263,7 @@ MonoBehaviour:
   fishKingdom: {fileID: 0}
   weapon: {fileID: 5840331874037749611}
   SightRange: 20
-  maxAngle: 45
+  maxAngle: 5
   AttackRange: 10
   attackCooldown: 1
   PlayerLayer:
@@ -275,7 +275,7 @@ MonoBehaviour:
   currentState: 0
   raycastOrigin: {fileID: 1351209619312055099}
   alreadyAttacked: 0
-  health: 100
+  health: 1
   maxHealth: 100
 --- !u!1 &3848054618829087646
 GameObject:
@@ -302,7 +302,7 @@ Transform:
   m_GameObject: {fileID: 3848054618829087646}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.6, z: 0.7}
+  m_LocalPosition: {x: 0, y: 0.6, z: 0.521}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
