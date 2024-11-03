@@ -1383,8 +1383,8 @@ MonoBehaviour:
   whatIsEnemy:
     serializedVersion: 2
     m_Bits: 0
-  health: 10
-  maxHealth: 10
+  health: 100
+  maxHealth: 100
   attackRange: 0
 --- !u!65 &899340912
 BoxCollider:

@@ -25,6 +25,9 @@ public class EnemyAI : MonoBehaviour
     public bool alreadyAttacked = false;
     public float health, maxHealth = 100f;
 
+    // Might not have to be separate
+    float delayForSeeingBuilding = 0, delayForSeeingPlayer = 0;
+
     void Start()
     {
         Agent = GetComponent<NavMeshAgent>();
@@ -48,52 +51,23 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
-        StateMachine.Update();
+        StateMachine.Update(); //? Maybe some way to repair this after a script change
         // Animator.SetFloat("CharacterSpeed", Agent.velocity.magnitude); //? Animation
         //currentState = StateMachine.GetCurrentStateType();
     }
 
     //* From what i can understand, the methods below are used by the states, so this class is more of a abstract class but with methods already filled out
-
-    public bool CanSeePlayer()
+    public bool CanSeePlayer(float rangeMode)
     {
-        if (player == null)
-        {
-            return false;
-        }
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-
-        if (distanceToPlayer <= SightRange)
-        {
-            // Direction from NPC to player
-            Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
-            float angle = Mathf.Acos(Vector3.Dot(transform.forward, directionToPlayer));
-
-            if (angle < maxAngle)
-            {
-                if (Physics.Raycast(raycastOrigin.position, directionToPlayer, out RaycastHit hit, SightRange))
-                {
-                    if (hit.transform.CompareTag("Player"))
-                    {
-                        //No obstacles in the way
-                        return true;
-                    }
-
-                }
-            }
-        }
-        return false;
-    }
-    public bool CanSeePlayerWhileAttacking()
-    {
+        bool result = false;
         if (player == null)
         {
             StateMachine.TransitionToState(StateType.Patrol);
-            return false;
+            return result;
         }
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        if (distanceToPlayer <= AttackRange)
+        if (distanceToPlayer <= rangeMode)
         {
             // Direction from NPC to player
             Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
@@ -103,17 +77,28 @@ public class EnemyAI : MonoBehaviour
 
             if (angle < maxAngle)
             {
-                if (Physics.Raycast(raycastOrigin.position, directionToPlayer, out RaycastHit hit, AttackRange))
+                if (Physics.Raycast(raycastOrigin.position, directionToPlayer, out RaycastHit hit, rangeMode))
                 {
                     if (hit.transform.CompareTag("Player"))
                     {
-                        //No obstacles in the way
-                        return true;
+                        delayForSeeingPlayer += Time.deltaTime;
+                        if (delayForSeeingPlayer >= 0.5)
+                        {
+                            result = true;
+                        }
                     }
+                    else
+                    {
+                        delayForSeeingPlayer = 0;
+                    }
+                }
+                else
+                {
+                    delayForSeeingPlayer = 0;
                 }
             }
         }
-        return false;
+        return result;
     }
     public bool IsPlayerInAttackRange()
     {
@@ -131,9 +116,10 @@ public class EnemyAI : MonoBehaviour
     }
     public bool CanSeeBuilding()
     {
+        bool result = false;
         if (building == null)
         {
-            return false;
+            return result;
         }
         // Direction from NPC to building
         Vector3 directionToBuilding = (building.transform.position - transform.position).normalized;
@@ -141,13 +127,29 @@ public class EnemyAI : MonoBehaviour
         // Perform Raycast to check if there's a clear line of sight
         if (Physics.Raycast(raycastOrigin.position, directionToBuilding, out RaycastHit hit, SightRange))
         {
+
             // Just so the enemy doesn't hit each other for no reason
             if (!hit.transform.CompareTag("Enemy"))
             {
-                return true;
+                // Make it ai check multiple times if it is actually
+                // seeing the building consistantly before returning true
+                // solves the massive amount of switching, or atleast hopefully does 😭
+                delayForSeeingBuilding += Time.deltaTime;
+                if (delayForSeeingBuilding >= 0.5)
+                {
+                    result = true;
+                }
+            }
+            else
+            {
+                delayForSeeingBuilding = 0;
             }
         }
-        return false;
+        else
+        {
+            delayForSeeingBuilding = 0;
+        }
+        return result;
     }
     public void Attack()
     {

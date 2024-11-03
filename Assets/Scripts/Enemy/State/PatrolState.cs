@@ -19,19 +19,22 @@ public class PatrolState : IState
             aiController.building = aiController.GetClosestBuilding();
         }
         aiController.Agent.destination = aiController.building.position;
-        Debug.Log("HIYA FROM ENTER IN PATROL");
+        //Debug.Log("HIYA FROM ENTER IN PATROL");
 
     }
 
     public void Execute()
     {
-        if (aiController.CanSeePlayer())
+        //aiController.transform.LookAt(aiController.building);
+        if (aiController.CanSeePlayer(aiController.SightRange))
         {
             Debug.Log("I SEE YOU");
             aiController.StateMachine.TransitionToState(StateType.Chase);
             return;
         }
-        if (aiController.IsBuildingInAttackRange())
+        // CanSeeBuilding causing them to all walk forward dumbly 
+        // ? Maybe there some way to lock their position so others don't push them out causing them to look for building again?
+        if (aiController.IsBuildingInAttackRange() && aiController.CanSeeBuilding())
         {
             Debug.Log("TIME TO DESTROY >:)");
             aiController.StateMachine.TransitionToState(StateType.AttackBuilding);

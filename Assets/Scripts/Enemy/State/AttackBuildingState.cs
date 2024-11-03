@@ -17,19 +17,23 @@ public class AttackBuildingState : IState
 
     public void Execute()
     {
-        if (aiController.CanSeePlayerWhileAttacking())
+        if (aiController.CanSeePlayer(aiController.AttackRange))
         {
             Debug.Log("OH THERE YOU ARE");
             aiController.StateMachine.TransitionToState(StateType.AttackPlayer);
         }
 
+        // A lot of enemies will cause each other to cycle between
+        // patrol and attack building constantly, affecting fps a bit 
+        // Even so, it seems to change a looot, like 30 enemies caused at least 10k of switching in a few seconds
+        //! Cause is lookat, its causing werid behavior
+
         aiController.transform.LookAt(aiController.building);
-        if (aiController.CanSeeBuilding())
+        aiController.Attack();
+
+        if (!aiController.CanSeeBuilding())
         {
-            aiController.Attack();
-        }
-        else
-        {
+            // Its seeing and unseeing constantly for some reason
             aiController.StateMachine.TransitionToState(StateType.Patrol);
         }
 
