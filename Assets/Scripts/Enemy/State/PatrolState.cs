@@ -4,7 +4,7 @@ public class PatrolState : IState
 {
     private EnemyAI aiController;
 
-    public StateType Type => StateType.Patrol;
+    public StateType Type => StateType.HeadToTower;
 
     public PatrolState(EnemyAI aiController)
     {
@@ -34,7 +34,7 @@ public class PatrolState : IState
         }
         // CanSeeBuilding causing them to all walk forward dumbly 
         // ? Maybe there some way to lock their position so others don't push them out causing them to look for building again?
-        if (aiController.IsBuildingInAttackRange() && aiController.CanSeeBuilding())
+        if (aiController.IsBuildingInAttackRange()) //&& aiController.CanSeeBuilding())
         {
             Debug.Log("TIME TO DESTROY >:)");
             aiController.StateMachine.TransitionToState(StateType.AttackBuilding);
@@ -45,7 +45,7 @@ public class PatrolState : IState
         // Causing them to just stare at where the building used to be
         if (aiController.building == null)
         {
-            aiController.StateMachine.TransitionToState(StateType.Patrol);
+            aiController.StateMachine.TransitionToState(StateType.HeadToTower);
         }
     }
 

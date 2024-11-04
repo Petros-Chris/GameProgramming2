@@ -62,7 +62,7 @@ public class EnemyAI : MonoBehaviour
         bool result = false;
         if (player == null)
         {
-            StateMachine.TransitionToState(StateType.Patrol);
+            StateMachine.TransitionToState(StateType.HeadToTower);
             return result;
         }
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
@@ -99,6 +99,15 @@ public class EnemyAI : MonoBehaviour
             }
         }
         return result;
+    }
+    public bool IsPlayerInRange(float range)
+    {
+        if (player.position == null)
+        {
+            return false;
+        }
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        return distanceToPlayer <= range;
     }
     public bool IsPlayerInAttackRange()
     {

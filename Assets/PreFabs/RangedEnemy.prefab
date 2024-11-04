@@ -259,7 +259,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBarScript: {fileID: 8941173978250856697}
   player: {fileID: 0}
-  fishKingdom: {fileID: 0}
   building: {fileID: 0}
   weapon: {fileID: 5840331874037749611}
   SightRange: 15

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using UnityEngine;
 
 public class Settings : MonoBehaviour
@@ -7,6 +8,7 @@ public class Settings : MonoBehaviour
     public int vsyncOptions = 0;
     public int frameRate = 0;
     private int oldFrameRate = 0, oldVsyncOptions = 0;
+
     void Start()
     {
     }

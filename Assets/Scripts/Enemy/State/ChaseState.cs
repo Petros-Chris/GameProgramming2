@@ -17,10 +17,10 @@ public class ChaseState : IState
 
     public void Execute()
     {
-        if (!aiController.CanSeePlayer(aiController.SightRange))
+        if (!aiController.IsPlayerInRange(aiController.SightRange) && aiController.CanSeePlayer(aiController.SightRange))
         {
             Debug.Log("Oh well guess it's time to attack fish kingdom");
-            aiController.StateMachine.TransitionToState(StateType.Patrol);
+            aiController.StateMachine.TransitionToState(StateType.HeadToTower);
             return;
         }
 

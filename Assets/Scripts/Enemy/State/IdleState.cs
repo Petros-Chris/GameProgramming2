@@ -27,7 +27,7 @@ public class IdleState : IState
         //* After two seconds of doing nothing, it will switch to patrol mode
         if (idleTimer >= idleDuration)
         {
-            aiController.StateMachine.TransitionToState(StateType.Patrol);
+            aiController.StateMachine.TransitionToState(StateType.HeadToTower);
         }
     }
 

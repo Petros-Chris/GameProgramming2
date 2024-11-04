@@ -5,7 +5,7 @@ using UnityEngine;
 public enum StateType
 {
     Idle,
-    Patrol,
+    HeadToTower,
     Chase,
     AttackPlayer,
     AttackBuilding

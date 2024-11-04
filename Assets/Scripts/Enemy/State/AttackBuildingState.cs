@@ -23,6 +23,7 @@ public class AttackBuildingState : IState
             aiController.StateMachine.TransitionToState(StateType.AttackPlayer);
         }
 
+
         // A lot of enemies will cause each other to cycle between
         // patrol and attack building constantly, affecting fps a bit 
         // Even so, it seems to change a looot, like 30 enemies caused at least 10k of switching in a few seconds
@@ -31,10 +32,10 @@ public class AttackBuildingState : IState
         aiController.transform.LookAt(aiController.building);
         aiController.Attack();
 
-        if (!aiController.CanSeeBuilding())
+        if (!aiController.IsBuildingInAttackRange())//!aiController.CanSeeBuilding())
         {
             // Its seeing and unseeing constantly for some reason
-            aiController.StateMachine.TransitionToState(StateType.Patrol);
+            aiController.StateMachine.TransitionToState(StateType.HeadToTower);
         }
 
     }
