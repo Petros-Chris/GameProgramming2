@@ -26,11 +26,14 @@ public class PatrolState : IState
     public void Execute()
     {
         //aiController.transform.LookAt(aiController.building);
-        if (aiController.CanSeePlayer(aiController.SightRange))
+        if (aiController.player != null)
         {
-            Debug.Log("I SEE YOU");
-            aiController.StateMachine.TransitionToState(StateType.Chase);
-            return;
+            if (aiController.CanSeePlayer(aiController.SightRange))
+            {
+                Debug.Log("I SEE YOU");
+                aiController.StateMachine.TransitionToState(StateType.Chase);
+                return;
+            }
         }
         // CanSeeBuilding causing them to all walk forward dumbly 
         // ? Maybe there some way to lock their position so others don't push them out causing them to look for building again?

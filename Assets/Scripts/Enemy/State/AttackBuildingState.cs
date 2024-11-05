@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class AttackBuildingState : IState
 {
+
+    //! Player dying infront of enemy when enemy is next to building causes freak out
     private EnemyAI aiController;
 
     public StateType Type => StateType.AttackBuilding;
