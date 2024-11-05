@@ -16,20 +16,17 @@ public class EnemyBasicBullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.TryGetComponent<Player>(out Player playerComponent))
+        if (collision.gameObject.TryGetComponent<IDamageable>(out IDamageable component))
         {
             if (amountOfTimesDamageCanBeTrigged > 0)
             {
-                playerComponent.TakeDamage(damage);
+                component.TakeDamage(damage);
                 amountOfTimesDamageCanBeTrigged--;
                 Destroy(gameObject, timeTillDeathAfterHit);
             }
         }
-
-         if (collision.gameObject.TryGetComponent<Base>(out Base component))
-         {
-            component.TakeDamage(damage);
-            Destroy(gameObject, timeTillDeathAfterHit);
-         }
+        else{
+            Debug.Log("Failed!");
+        }
     }
 }

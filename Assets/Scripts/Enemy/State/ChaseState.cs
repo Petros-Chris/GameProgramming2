@@ -12,26 +12,37 @@ public class ChaseState : IState
 
     public void Enter()
     {
-        // No animations, so no need to set any animator parameters
     }
 
     public void Execute()
     {
-        if (!aiController.IsPlayerInRange(aiController.SightRange) && aiController.CanSeePlayer(aiController.SightRange))
+        // If person does not exist
+        if (aiController.ally == null)
         {
-            Debug.Log("Oh well guess it's time to attack fish kingdom");
             aiController.StateMachine.TransitionToState(StateType.HeadToTower);
             return;
         }
 
-        if (aiController.IsPlayerInAttackRange() && aiController.CanSeePlayer(aiController.SightRange))
+        aiController.transform.LookAt(aiController.ally);
+
+        // Slow down?
+        // I want it to change to who ever is closest
+        aiController.ally = aiController.GetClosestEnemy();
+        // If can not see person within sight
+        if (!aiController.IsEnemyInRange(aiController.SightRange))
         {
-            Debug.Log("DIE");
-            aiController.StateMachine.TransitionToState(StateType.AttackPlayer);
+            Debug.Log("I Dont see player in sight, going tower");
+            aiController.StateMachine.TransitionToState(StateType.HeadToTower);
             return;
         }
 
-        aiController.Agent.destination = aiController.player.position;
+        // If can see person within attack
+        if (aiController.IsEnemyInRange(aiController.AttackRange))
+        {
+            Debug.Log("Going to attack");
+            aiController.StateMachine.TransitionToState(StateType.AttackPlayer);
+        }
+        aiController.Agent.destination = aiController.ally.position;
     }
 
     public void Exit()

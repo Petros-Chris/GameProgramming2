@@ -19,27 +19,38 @@ public class AttackBuildingState : IState
 
     public void Execute()
     {
-        if (aiController.CanSeePlayer(aiController.AttackRange))
+        if (aiController.ally != null)
         {
-            Debug.Log("OH THERE YOU ARE");
-            aiController.StateMachine.TransitionToState(StateType.AttackPlayer);
+            if (aiController.IsEnemyInRange(aiController.SightRange))
+            {
+                Debug.Log("OH THERE YOU ARE");
+                aiController.StateMachine.TransitionToState(StateType.Chase);
+                return;
+            }
         }
+        
+        if (aiController.building == null)
+        {
+            aiController.StateMachine.TransitionToState(StateType.HeadToTower);
+            return; // This stops the current execute in its path
+        }
+        aiController.transform.LookAt(aiController.building);
 
+        // Makes them not shoot if theres something in the way
+        if (aiController.CanSeeBuilding())
+        {
+            aiController.Attack();
+            return;
+        }
 
         // A lot of enemies will cause each other to cycle between
         // patrol and attack building constantly, affecting fps a bit 
         // Even so, it seems to change a looot, like 30 enemies caused at least 10k of switching in a few seconds
-        //! Cause is lookat, its causing werid behavior
-
-        aiController.transform.LookAt(aiController.building);
-        aiController.Attack();
-
-        if (!aiController.IsBuildingInAttackRange())//!aiController.CanSeeBuilding())
+        if (!aiController.IsBuildingInRange(aiController.AttackRange))//!aiController.CanSeeBuilding())
         {
             // Its seeing and unseeing constantly for some reason
             aiController.StateMachine.TransitionToState(StateType.HeadToTower);
         }
-
     }
 
     public void Exit()

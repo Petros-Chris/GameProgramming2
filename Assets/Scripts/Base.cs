@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Base : MonoBehaviour
+public class Base : MonoBehaviour, IDamageable
 {
     private HealthBarScript healthBar;
     NavMeshAgent agent;

@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IdleState : IState
+public class IdleStateAlly : IStateAlly
 {
-    private EnemyAI aiController;
+    private AllyAI aiController;
     private float idleDuration = 2f;
     private float idleTimer;
 
-    public StateType Type => StateType.Idle;
+    public StateTypeAlly Type => StateTypeAlly.Idle;
 
-    public IdleState(EnemyAI aiController)
+    public IdleStateAlly(AllyAI aiController)
     {
         this.aiController = aiController;
     }
@@ -24,9 +24,11 @@ public class IdleState : IState
     public void Execute()
     {
         idleTimer += Time.deltaTime;
+        //* After two seconds of doing nothing, it will switch to patrol mode
         if (idleTimer >= idleDuration)
         {
-            aiController.StateMachine.TransitionToState(StateType.HeadToTower);
+            Debug.Log("Ally: Patrolling!");
+            aiController.StateMachine.TransitionToState(StateTypeAlly.Patrol);
         }
     }
 

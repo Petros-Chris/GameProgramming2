@@ -11,7 +11,7 @@ public class EnemyAI : MonoBehaviour
     public StateMachine StateMachine { get; private set; }
     public NavMeshAgent Agent { get; private set; }
     // public Animator Animator { get; private set; } // Not needed since we're not using animations
-    public Transform player;
+    public Transform ally;
     public Transform building;
     public GameObject weapon;
     public float SightRange = 20f;
@@ -19,6 +19,7 @@ public class EnemyAI : MonoBehaviour
     public float AttackRange = 10f;
     public float attackCooldown = 1f;
     public LayerMask PlayerLayer;
+    public LayerMask EnemyLayer;
     public LayerMask BuildingLayer;
     public StateType currentState;
     public Transform raycastOrigin;
@@ -32,16 +33,13 @@ public class EnemyAI : MonoBehaviour
     {
         Agent = GetComponent<NavMeshAgent>();
         // Animator = GetComponent<Animator>(); // Commented out since we're not using animations
-        if (GameObject.Find("Player") != null)
-        {
-            player = GameObject.Find("Player").transform;
-        }
         building = GetClosestBuilding();
+        ally = GetClosestEnemy();
         Debug.Log("HIYA FROM START");
 
         StateMachine = new StateMachine();
         StateMachine.AddState(new IdleState(this));
-        StateMachine.AddState(new PatrolState(this));
+        StateMachine.AddState(new HeadToBuildingState(this));
         StateMachine.AddState(new ChaseState(this));
         StateMachine.AddState(new AttackPlayerState(this));
         StateMachine.AddState(new AttackBuildingState(this));
@@ -56,21 +54,43 @@ public class EnemyAI : MonoBehaviour
         //currentState = StateMachine.GetCurrentStateType();
     }
 
-    //* From what i can understand, the methods below are used by the states, so this class is more of a abstract class but with methods already filled out
+    public Transform GetClosestEnemy()
+    {
+        Vector3 position = transform.position;
+        Collider[] enemiesInRange = Physics.OverlapSphere(position, 10000, EnemyLayer);
+        Debug.Log(enemiesInRange);
+
+        if (enemiesInRange.Length == 0)
+        {
+            Debug.Log("There are no more enemies");
+            return null;
+        }
+
+        Transform closestEnemy = null;
+        float closestDistance = Mathf.Infinity;
+
+        foreach (Collider enemy in enemiesInRange)
+        {
+            float distanceToEnemy = Vector3.Distance(position, enemy.transform.position);
+
+            if (distanceToEnemy < closestDistance)
+            {
+                closestDistance = distanceToEnemy;
+                closestEnemy = enemy.gameObject.transform;
+            }
+        }
+        return closestEnemy;
+    }
     public bool CanSeePlayer(float rangeMode)
     {
         bool result = false;
-        if (player == null)
-        {
-            StateMachine.TransitionToState(StateType.HeadToTower);
-            return result;
-        }
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+
+        float distanceToPlayer = Vector3.Distance(transform.position, ally.position);
 
         if (distanceToPlayer <= rangeMode)
         {
             // Direction from NPC to player
-            Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
+            Vector3 directionToPlayer = (ally.transform.position - transform.position).normalized;
 
             // Fov of enemy (was missing Rad2Deg)
             float angle = Mathf.Acos(Vector3.Dot(transform.forward, directionToPlayer)) * Mathf.Rad2Deg;
@@ -81,11 +101,7 @@ public class EnemyAI : MonoBehaviour
                 {
                     if (hit.transform.CompareTag("Player"))
                     {
-                        delayForSeeingPlayer += Time.deltaTime;
-                        if (delayForSeeingPlayer >= 0.5)
-                        {
-                            result = true;
-                        }
+                        result = true;
                     }
                     else
                     {
@@ -100,28 +116,21 @@ public class EnemyAI : MonoBehaviour
         }
         return result;
     }
-    public bool IsPlayerInRange(float range)
+    public bool IsEnemyInRange(float range)
     {
-        if (player.position == null)
-        {
-            return false;
-        }
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        float distanceToPlayer = Vector3.Distance(transform.position, ally.position);
         return distanceToPlayer <= range;
     }
     public bool IsPlayerInAttackRange()
     {
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        float distanceToPlayer = Vector3.Distance(transform.position, ally.position);
         return distanceToPlayer <= AttackRange;
     }
-    public bool IsBuildingInAttackRange()
+    public bool IsBuildingInRange(float range)
     {
-        if (building == null)
-        {
-            return false;
-        }
+        //Should it check if building is null first? 
         float distanceToBuilding = Vector3.Distance(transform.position, building.position);
-        return distanceToBuilding <= AttackRange;
+        return distanceToBuilding <= range;
     }
     public bool CanSeeBuilding()
     {

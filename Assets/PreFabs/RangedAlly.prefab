@@ -124,10 +124,10 @@ GameObject:
   - component: {fileID: 6291295480408391886}
   - component: {fileID: 7119962669143036786}
   - component: {fileID: 5345904271931520768}
-  - component: {fileID: 1133635453396045313}
-  m_Layer: 10
-  m_Name: RangedEnemy
-  m_TagString: Enemy
+  - component: {fileID: 5019655253482178388}
+  m_Layer: 11
+  m_Name: RangedAlly
+  m_TagString: Ally
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -178,7 +178,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8ee97e8a937145740837d7b9eb75ceec, type: 2}
+  - {fileID: 2100000, guid: 8a9605d47ade5154997f5dd6a62383e1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -245,7 +245,7 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &1133635453396045313
+--- !u!114 &5019655253482178388
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -254,31 +254,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1143756752094828556}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ede77cc5e11a244ea7b891f2dde59a8, type: 3}
+  m_Script: {fileID: 11500000, guid: 402a34aed38d8ef4dab646adbec884a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   healthBarScript: {fileID: 8941173978250856697}
-  ally: {fileID: 0}
-  building: {fileID: 0}
-  weapon: {fileID: 5840331874037749611}
-  SightRange: 20
-  maxAngle: 60
-  AttackRange: 10
-  attackCooldown: 1
-  PlayerLayer:
-    serializedVersion: 2
-    m_Bits: 128
+  enemy: {fileID: 0}
   EnemyLayer:
     serializedVersion: 2
-    m_Bits: 2048
-  BuildingLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  currentState: 0
+    m_Bits: 1024
   raycastOrigin: {fileID: 1351209619312055099}
+  weapon: {fileID: 5840331874037749611}
+  SightRange: 20
+  maxAngle: 45
+  AttackRange: 10
+  attackCooldown: 1
   alreadyAttacked: 0
-  health: 10
-  maxHealth: 10
+  health: 100
+  maxHealth: 100
 --- !u!1 &3848054618829087646
 GameObject:
   m_ObjectHideFlags: 0
@@ -559,7 +551,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35d3ed77be3c42b4da404baf320f341d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 1551029764769687920, guid: 0319a1b1bb837eb499c4560840bf4518, type: 3}
+  projectile: {fileID: 2776797659692589897, guid: 4f93e9dbfbeae67459f477aa620d3520, type: 3}
   ForwardVelocity: 700
   launchVelocity: 200
 --- !u!1 &6210910723542204523

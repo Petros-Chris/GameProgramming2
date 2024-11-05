@@ -14,21 +14,29 @@ public class AttackPlayerState : IState
     public void Enter()
     {
         //aiController.Animator.SetBool("isAttacking", true);
-        aiController.Agent.isStopped = true; // Stop the AI agent movement
+        aiController.Agent.isStopped = true;
     }
 
     public void Execute()
     {
-        // Check if the player is within attack range
-        if (!aiController.CanSeePlayer(aiController.AttackRange))
+        if (aiController.ally == null)
         {
-            Debug.Log("GET BACK HERE");
-            aiController.StateMachine.TransitionToState(StateType.Chase);
+            aiController.StateMachine.TransitionToState(StateType.HeadToTower);
+            return;
         }
-        //? Maybe have a way to have the enemy turn slower so its possible to have the player dash out of the enemy fov, causing them to lose the player
 
+        // Debug.Log(aiController.player.position);
+        // If person is not visible in attack range
+        if (!aiController.IsEnemyInRange(aiController.AttackRange))
+        {
+            Debug.Log("Im switching back to chase!");
+            aiController.StateMachine.TransitionToState(StateType.Chase);
+            return;
+        }
+
+        //? Maybe have a way to have the enemy turn slower so its possible to have the player dash out of the enemy fov, causing them to lose the player
         //Perhaps i could change look based on raycast data (player, ally)
-        aiController.transform.LookAt(aiController.player);
+        aiController.transform.LookAt(aiController.ally);
         aiController.Attack();
 
     }
@@ -36,7 +44,7 @@ public class AttackPlayerState : IState
     public void Exit()
     {
         //aiController.Animator.SetBool("isAttacking", false);
-        aiController.Agent.isStopped = false; // Resume the AI agent movement
+        aiController.Agent.isStopped = false;
     }
 }
 
