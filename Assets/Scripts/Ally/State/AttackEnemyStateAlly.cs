@@ -19,18 +19,23 @@ public class AttackEnemyState : IStateAlly
     public void Execute()
     {
         // Enemy doesn't exist
-        if (aiController.enemy == null) 
+        if (aiController.enemy != null)
+        {
+            // Enemy is not in attack range
+            if (!aiController.IsEnemyInRange(aiController.AttackRange))
+            {
+                aiController.StateMachine.TransitionToState(StateTypeAlly.Chase);
+                return;
+            }
+            aiController.transform.LookAt(aiController.enemy);
+            aiController.Attack();
+        }
+        else
         {
             aiController.StateMachine.TransitionToState(StateTypeAlly.Patrol);
         }
 
-        // Enemy is not in attack range
-        if (!aiController.IsEnemyInRange(aiController.AttackRange))
-        {
-            aiController.StateMachine.TransitionToState(StateTypeAlly.Chase);
-        }
-        aiController.transform.LookAt(aiController.enemy);
-        aiController.Attack();
+
     }
 
     public void Exit()

@@ -35,7 +35,6 @@ public class EnemyAI : MonoBehaviour
         // Animator = GetComponent<Animator>(); // Commented out since we're not using animations
         building = GetClosestBuilding();
         ally = GetClosestEnemy();
-        Debug.Log("HIYA FROM START");
 
         StateMachine = new StateMachine();
         StateMachine.AddState(new IdleState(this));
@@ -54,17 +53,11 @@ public class EnemyAI : MonoBehaviour
         //currentState = StateMachine.GetCurrentStateType();
     }
 
+    // THIS 100% WORKS, NO MORE FICKIMNG DOUBTIGNSA
     public Transform GetClosestEnemy()
     {
         Vector3 position = transform.position;
         Collider[] enemiesInRange = Physics.OverlapSphere(position, 10000, EnemyLayer);
-        Debug.Log(enemiesInRange);
-
-        if (enemiesInRange.Length == 0)
-        {
-            Debug.Log("There are no more enemies");
-            return null;
-        }
 
         Transform closestEnemy = null;
         float closestDistance = Mathf.Infinity;
@@ -80,6 +73,7 @@ public class EnemyAI : MonoBehaviour
             }
         }
         return closestEnemy;
+
     }
     public bool CanSeePlayer(float rangeMode)
     {
@@ -212,7 +206,6 @@ public class EnemyAI : MonoBehaviour
 
         if (buildingsInRange.Length == 0)
         {
-            Debug.Log("WOOHOO I DID IT");
             return transform;
         }
 

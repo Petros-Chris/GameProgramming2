@@ -23,7 +23,6 @@ public class AttackBuildingState : IState
         {
             if (aiController.IsEnemyInRange(aiController.SightRange))
             {
-                Debug.Log("OH THERE YOU ARE");
                 aiController.StateMachine.TransitionToState(StateType.Chase);
                 return;
             }

@@ -29,7 +29,6 @@ public class AttackPlayerState : IState
         // If person is not visible in attack range
         if (!aiController.IsEnemyInRange(aiController.AttackRange))
         {
-            Debug.Log("Im switching back to chase!");
             aiController.StateMachine.TransitionToState(StateType.Chase);
             return;
         }

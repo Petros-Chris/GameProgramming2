@@ -29,7 +29,6 @@ public class HeadToBuildingState : IState
         {
             if (aiController.IsEnemyInRange(aiController.SightRange))
             {
-                Debug.Log("I SEE YOU");
                 aiController.StateMachine.TransitionToState(StateType.Chase);
                 return;
             }

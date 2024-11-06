@@ -12,25 +12,25 @@ public class ChaseStateAlly : IStateAlly
 
     public void Enter()
     {
-        Debug.Log("Ally: Chasing Enemy!");
     }
 
     public void Execute()
     {
         // Enemy doesn't exist
-        if (aiController.enemy == null)
+        if (aiController.enemy != null)
         {
-            Debug.Log("Ally: Enemy Gone!");
+            // Enemy is in attack range
+            if (aiController.IsEnemyInRange(aiController.AttackRange))
+            {
+                aiController.StateMachine.TransitionToState(StateTypeAlly.AttackEnemy);
+                return;
+            }
+            aiController.Agent.destination = aiController.enemy.position;
+        }
+        else
+        {
             aiController.StateMachine.TransitionToState(StateTypeAlly.Patrol);
         }
-
-        // Enemy is in attack range
-        if (aiController.IsEnemyInRange(aiController.AttackRange))
-        {
-            Debug.Log("Ally: Engaging In Combat!");
-            aiController.StateMachine.TransitionToState(StateTypeAlly.AttackEnemy);
-        }
-        aiController.Agent.destination = aiController.enemy.position;
     }
 
     public void Exit()

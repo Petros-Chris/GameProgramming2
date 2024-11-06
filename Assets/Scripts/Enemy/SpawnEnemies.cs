@@ -10,7 +10,7 @@ public class SpawnEnemies : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(SpawnKey))
+        if (Input.GetKeyDown(SpawnKey))
         {
             GameObject enemy = Instantiate(Enemy, transform.position, transform.rotation);
         }

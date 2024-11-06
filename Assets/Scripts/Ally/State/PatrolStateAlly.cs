@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class PatrolStateAlly : IStateAlly
 {
@@ -13,19 +14,39 @@ public class PatrolStateAlly : IStateAlly
 
     public void Enter()
     {
-
-        aiController.enemy = aiController.GetClosestEnemy();
     }
 
     public void Execute()
     {
-        Debug.Log("Ally: Going Chase!");
-        aiController.StateMachine.TransitionToState(StateTypeAlly.Chase);
+        // Somehow make this not run as often
+        aiController.enemy = aiController.GetClosestEnemy();
 
+        if (aiController.enemy != null)
+        {
+            // Enemy in sight range
+            if (aiController.IsEnemyInRange(aiController.SightRange)) // Can see Enemy (sight range)
+            {
+                aiController.StateMachine.TransitionToState(StateTypeAlly.Chase);
+                return;
+            }
+        }
+
+        // Ally done current path
+        if (!aiController.Agent.pathPending && aiController.Agent.remainingDistance <= aiController.Agent.stoppingDistance)
+        {
+            GenerateAndHeadToNewPoint();
+        }
     }
 
     public void Exit()
     {
-        // Cleanup if necessary
+    }
+
+    private void GenerateAndHeadToNewPoint()
+    {
+        Vector3 point = new Vector3(Random.Range(8, 17), 1, Random.Range(0, -12));
+        aiController.Agent.destination = point;
+        Debug.Log("I was called");
     }
 }
+

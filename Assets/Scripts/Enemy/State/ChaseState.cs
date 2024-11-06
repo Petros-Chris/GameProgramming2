@@ -31,7 +31,6 @@ public class ChaseState : IState
         // If can not see person within sight
         if (!aiController.IsEnemyInRange(aiController.SightRange))
         {
-            Debug.Log("I Dont see player in sight, going tower");
             aiController.StateMachine.TransitionToState(StateType.HeadToTower);
             return;
         }
@@ -39,7 +38,6 @@ public class ChaseState : IState
         // If can see person within attack
         if (aiController.IsEnemyInRange(aiController.AttackRange))
         {
-            Debug.Log("Going to attack");
             aiController.StateMachine.TransitionToState(StateType.AttackPlayer);
         }
         aiController.Agent.destination = aiController.ally.position;

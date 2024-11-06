@@ -10,7 +10,7 @@ public class SpawnAlly : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(SpawnKey))
+        if (Input.GetKeyDown(SpawnKey))
         {
             GameObject ally = Instantiate(Ally, transform.position, transform.rotation);
         }

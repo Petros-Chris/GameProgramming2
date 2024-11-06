@@ -46,6 +46,32 @@ public class AllyAI : MonoBehaviour, IDamageable
         //currentState = StateMachine.GetCurrentStateType();
     }
 
+    public Transform GetClosestEnemy()
+    {
+        Vector3 position = transform.position;
+        Collider[] enemiesInRange = Physics.OverlapSphere(position, 10000, EnemyLayer);
+
+        if (enemiesInRange.Length == 0)
+        {
+            return null;
+        }
+
+        Transform closestEnemy = null;
+        float closestDistance = Mathf.Infinity;
+
+        foreach (Collider enemy in enemiesInRange)
+        {
+            float distanceToEnemy = Vector3.Distance(position, enemy.transform.position);
+
+            if (distanceToEnemy < closestDistance)
+            {
+                closestDistance = distanceToEnemy;
+                closestEnemy = enemy.gameObject.transform;
+            }
+        }
+        return closestEnemy;
+    }
+
     public bool CanSeeEnemy(float rangeMode)
     {
         bool result = false;
@@ -83,33 +109,7 @@ public class AllyAI : MonoBehaviour, IDamageable
         }
         return result;
     }
-    public Transform GetClosestEnemy()
-    {
-        Vector3 position = transform.position;
-        Collider[] enemiesInRange = Physics.OverlapSphere(position, 10000, EnemyLayer);
-        Debug.Log(enemiesInRange);
 
-        if (enemiesInRange.Length == 0)
-        {
-            Debug.Log("There are no more enemies");
-            return null;
-        }
-
-        Transform closestEnemy = null;
-        float closestDistance = Mathf.Infinity;
-
-        foreach (Collider enemy in enemiesInRange)
-        {
-            float distanceToEnemy = Vector3.Distance(position, enemy.transform.position);
-
-            if (distanceToEnemy < closestDistance)
-            {
-                closestDistance = distanceToEnemy;
-                closestEnemy = enemy.gameObject.transform;
-            }
-        }
-        return closestEnemy;
-    }
     public bool IsEnemyInRange(float range)
     {
         float distanceToEnemy = Vector3.Distance(transform.position, enemy.position);

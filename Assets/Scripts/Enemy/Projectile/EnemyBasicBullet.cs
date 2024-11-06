@@ -25,8 +25,5 @@ public class EnemyBasicBullet : MonoBehaviour
                 Destroy(gameObject, timeTillDeathAfterHit);
             }
         }
-        else{
-            Debug.Log("Failed!");
-        }
     }
 }
