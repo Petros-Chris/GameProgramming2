@@ -27,7 +27,7 @@ public class HeadToBuildingState : IState
 
         if (aiController.ally != null)
         {
-            if (aiController.IsEnemyInRange(aiController.SightRange))
+            if (aiController.CanSeePlayer(aiController.SightRange))
             {
                 aiController.StateMachine.TransitionToState(StateType.Chase);
                 return;

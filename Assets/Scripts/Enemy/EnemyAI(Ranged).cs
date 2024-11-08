@@ -18,16 +18,12 @@ public class EnemyAI : MonoBehaviour
     public float maxAngle = 45.0f;
     public float AttackRange = 10f;
     public float attackCooldown = 1f;
-    public LayerMask PlayerLayer;
     public LayerMask EnemyLayer;
     public LayerMask BuildingLayer;
     public StateType currentState;
     public Transform raycastOrigin;
     public bool alreadyAttacked = false;
     public float health, maxHealth = 100f;
-
-    // Might not have to be separate
-    float delayForSeeingBuilding = 0, delayForSeeingPlayer = 0;
 
     void Start()
     {
@@ -37,23 +33,28 @@ public class EnemyAI : MonoBehaviour
         ally = GetClosestEnemy();
 
         StateMachine = new StateMachine();
-        StateMachine.AddState(new IdleState(this));
         StateMachine.AddState(new HeadToBuildingState(this));
         StateMachine.AddState(new ChaseState(this));
         StateMachine.AddState(new AttackPlayerState(this));
         StateMachine.AddState(new AttackBuildingState(this));
 
-        StateMachine.TransitionToState(StateType.Idle);
+        StateMachine.TransitionToState(StateType.HeadToTower);
+        // InvokeRepeating("UpdateStateMachine",0,0.4f);
     }
-
+    //slep
     void Update()
     {
-        StateMachine.Update(); //? Maybe some way to repair this after a script change
         // Animator.SetFloat("CharacterSpeed", Agent.velocity.magnitude); //? Animation
-        //currentState = StateMachine.GetCurrentStateType();
+
+        StateMachine.Update();
+        currentState = StateMachine.GetCurrentStateType();
     }
 
-    // THIS 100% WORKS, NO MORE FICKIMNG DOUBTIGNSA
+    void UpdateStateMachine()
+    {
+        StateMachine.Update();
+    }
+
     public Transform GetClosestEnemy()
     {
         Vector3 position = transform.position;
@@ -73,12 +74,40 @@ public class EnemyAI : MonoBehaviour
             }
         }
         return closestEnemy;
-
     }
+
+    // Currently will get building closest to enemy,
+    // should probably have something that also checks if it is closer to fish kingdom
+    // So player doesn't lure a boss with towers (if he can place towers during round)
+    public Transform GetClosestBuilding()
+    {
+        Vector3 enemyPosition = transform.position;
+        Collider[] buildingsInRange = Physics.OverlapSphere(enemyPosition, 10000, BuildingLayer);
+
+        if (buildingsInRange.Length == 0)
+        {
+            return transform;
+        }
+
+        Transform closestBuilding = null;
+        float closestDistance = Mathf.Infinity;
+
+        foreach (Collider building in buildingsInRange)
+        {
+            float distanceToBuilding = Vector3.Distance(enemyPosition, building.transform.position);
+
+            if (distanceToBuilding < closestDistance)
+            {
+                closestDistance = distanceToBuilding;
+                closestBuilding = building.gameObject.transform;
+            }
+        }
+        return closestBuilding;
+    }
+    
     public bool CanSeePlayer(float rangeMode)
     {
         bool result = false;
-
         float distanceToPlayer = Vector3.Distance(transform.position, ally.position);
 
         if (distanceToPlayer <= rangeMode)
@@ -87,7 +116,7 @@ public class EnemyAI : MonoBehaviour
             Vector3 directionToPlayer = (ally.transform.position - transform.position).normalized;
 
             // Fov of enemy (was missing Rad2Deg)
-            float angle = Mathf.Acos(Vector3.Dot(transform.forward, directionToPlayer)) * Mathf.Rad2Deg;
+            float angle = Vector3.Angle(transform.forward, directionToPlayer);
 
             if (angle < maxAngle)
             {
@@ -97,35 +126,12 @@ public class EnemyAI : MonoBehaviour
                     {
                         result = true;
                     }
-                    else
-                    {
-                        delayForSeeingPlayer = 0;
-                    }
-                }
-                else
-                {
-                    delayForSeeingPlayer = 0;
                 }
             }
         }
         return result;
     }
-    public bool IsEnemyInRange(float range)
-    {
-        float distanceToPlayer = Vector3.Distance(transform.position, ally.position);
-        return distanceToPlayer <= range;
-    }
-    public bool IsPlayerInAttackRange()
-    {
-        float distanceToPlayer = Vector3.Distance(transform.position, ally.position);
-        return distanceToPlayer <= AttackRange;
-    }
-    public bool IsBuildingInRange(float range)
-    {
-        //Should it check if building is null first? 
-        float distanceToBuilding = Vector3.Distance(transform.position, building.position);
-        return distanceToBuilding <= range;
-    }
+
     public bool CanSeeBuilding()
     {
         bool result = false;
@@ -139,30 +145,33 @@ public class EnemyAI : MonoBehaviour
         // Perform Raycast to check if there's a clear line of sight
         if (Physics.Raycast(raycastOrigin.position, directionToBuilding, out RaycastHit hit, SightRange))
         {
-
             // Just so the enemy doesn't hit each other for no reason
             if (!hit.transform.CompareTag("Enemy"))
             {
-                // Make it ai check multiple times if it is actually
-                // seeing the building consistantly before returning true
-                // solves the massive amount of switching, or atleast hopefully does 😭
-                delayForSeeingBuilding += Time.deltaTime;
-                if (delayForSeeingBuilding >= 0.5)
-                {
-                    result = true;
-                }
+                result = true;
             }
-            else
-            {
-                delayForSeeingBuilding = 0;
-            }
-        }
-        else
-        {
-            delayForSeeingBuilding = 0;
         }
         return result;
     }
+
+    public bool IsEnemyInRange(float range)
+    {
+        float distanceToPlayer = Vector3.Distance(transform.position, ally.position);
+        return distanceToPlayer <= range;
+    }
+
+    public bool IsPlayerInAttackRange()
+    {
+        float distanceToPlayer = Vector3.Distance(transform.position, ally.position);
+        return distanceToPlayer <= AttackRange;
+    }
+
+    public bool IsBuildingInRange(float range)
+    {
+        float distanceToBuilding = Vector3.Distance(transform.position, building.position);
+        return distanceToBuilding <= range;
+    }
+
     public void Attack()
     {
         if (!alreadyAttacked)
@@ -194,34 +203,5 @@ public class EnemyAI : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-
-    // Currently will get building closest to enemy,
-    // should probably have something that also checks if it is closer to fish kingdom
-    // So player doesn't lure a boss with towers (if he can place towers during round)
-    public Transform GetClosestBuilding()
-    {
-        Vector3 enemyPosition = transform.position;
-        Collider[] buildingsInRange = Physics.OverlapSphere(enemyPosition, 10000, BuildingLayer);
-
-        if (buildingsInRange.Length == 0)
-        {
-            return transform;
-        }
-
-        Transform closestBuilding = null;
-        float closestDistance = Mathf.Infinity;
-
-        foreach (Collider building in buildingsInRange)
-        {
-            float distanceToBuilding = Vector3.Distance(enemyPosition, building.transform.position);
-
-            if (distanceToBuilding < closestDistance)
-            {
-                closestDistance = distanceToBuilding;
-                closestBuilding = building.gameObject.transform;
-            }
-        }
-        return closestBuilding;
     }
 }

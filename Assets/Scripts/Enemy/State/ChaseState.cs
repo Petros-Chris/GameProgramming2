@@ -25,18 +25,17 @@ public class ChaseState : IState
 
         aiController.transform.LookAt(aiController.ally);
 
-        // Slow down?
-        // I want it to change to who ever is closest
         aiController.ally = aiController.GetClosestEnemy();
+
         // If can not see person within sight
-        if (!aiController.IsEnemyInRange(aiController.SightRange))
+        if (!aiController.CanSeePlayer(aiController.SightRange))//IsEnemyInRange(aiController.SightRange))
         {
             aiController.StateMachine.TransitionToState(StateType.HeadToTower);
             return;
         }
 
         // If can see person within attack
-        if (aiController.IsEnemyInRange(aiController.AttackRange))
+        if (aiController.CanSeePlayer(aiController.AttackRange))//IsEnemyInRange(aiController.AttackRange))
         {
             aiController.StateMachine.TransitionToState(StateType.AttackPlayer);
         }

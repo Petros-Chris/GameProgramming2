@@ -12,24 +12,16 @@ public class Base : MonoBehaviour, IDamageable
     public float maxHealth;
     public float attackRange;
 
+    public GameObject bulletToIgnore;
+
     void Start()
     {
         healthBar = gameObject.GetComponentInChildren<HealthBarScript>();
+        
     }
 
     private void Update()
     {
-        Collider[] enemiesInRange = Physics.OverlapSphere(transform.position, attackRange, whatIsEnemy);
-
-        if (enemiesInRange.Length > 0)
-        {
-
-            foreach (Collider enemy in enemiesInRange)
-            {
-              //Attacking(enemy);
-
-            }
-        }
     }
 
     public void TakeDamage(float damage)

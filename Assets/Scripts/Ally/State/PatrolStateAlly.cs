@@ -46,7 +46,6 @@ public class PatrolStateAlly : IStateAlly
     {
         Vector3 point = new Vector3(Random.Range(8, 17), 1, Random.Range(0, -12));
         aiController.Agent.destination = point;
-        Debug.Log("I was called");
     }
 }
 

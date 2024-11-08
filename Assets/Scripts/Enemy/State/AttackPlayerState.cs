@@ -27,14 +27,13 @@ public class AttackPlayerState : IState
 
         // Debug.Log(aiController.player.position);
         // If person is not visible in attack range
-        if (!aiController.IsEnemyInRange(aiController.AttackRange))
+        if (!aiController.CanSeePlayer(aiController.AttackRange))//IsEnemyInRange(aiController.AttackRange))
         {
             aiController.StateMachine.TransitionToState(StateType.Chase);
             return;
         }
 
         //? Maybe have a way to have the enemy turn slower so its possible to have the player dash out of the enemy fov, causing them to lose the player
-        //Perhaps i could change look based on raycast data (player, ally)
         aiController.transform.LookAt(aiController.ally);
         aiController.Attack();
 

@@ -7,9 +7,9 @@ using UnityEngine.UIElements;
 public class AllyAI : MonoBehaviour, IDamageable
 {
     //Little thing at the front that will look at you and shoot at you (rotates around building)
-    public StateMachineAlly StateMachine { get; private set; }
+    public StateMachineAlly StateMachine { get; set; }
     public HealthBarScript healthBarScript;
-    public NavMeshAgent Agent { get; private set; }
+    public NavMeshAgent Agent { get; set; }
     public Transform enemy;
     public LayerMask EnemyLayer;
     public Transform raycastOrigin;
@@ -21,14 +21,9 @@ public class AllyAI : MonoBehaviour, IDamageable
     public bool alreadyAttacked = false;
     public float health, maxHealth = 100f;
 
-
-    // Might not have to be separate
-    float delayForSeeingEnemy = 0;
-
     void Start()
     {
         Agent = GetComponent<NavMeshAgent>();
-        Debug.Log("Ally: HIYA FROM START");
 
         StateMachine = new StateMachineAlly();
         StateMachine.AddState(new IdleStateAlly(this));
@@ -91,20 +86,8 @@ public class AllyAI : MonoBehaviour, IDamageable
             {
                 if (hit.transform.CompareTag("Enemy"))
                 {
-                    delayForSeeingEnemy += Time.deltaTime;
-                    if (delayForSeeingEnemy >= 0.5)
-                    {
-                        result = true;
-                    }
+                    result = true;
                 }
-                else
-                {
-                    delayForSeeingEnemy = 0;
-                }
-            }
-            else
-            {
-                delayForSeeingEnemy = 0;
             }
         }
         return result;

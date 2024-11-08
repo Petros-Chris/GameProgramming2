@@ -5,7 +5,7 @@ using UnityEngine;
 public class IdleState : IState
 {
     private EnemyAI aiController;
-    private float idleDuration = 2f;
+    private float idleDuration = 1f;
     private float idleTimer;
 
     public StateType Type => StateType.Idle;

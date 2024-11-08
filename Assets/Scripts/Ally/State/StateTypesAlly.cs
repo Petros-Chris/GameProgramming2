@@ -7,5 +7,6 @@ public enum StateTypeAlly
     Idle,
     Patrol,
     Chase,
-    AttackEnemy
+    AttackEnemy,
+    AttackEnemyFromTower
 }

@@ -27,7 +27,6 @@ public class IdleStateAlly : IStateAlly
         //* After two seconds of doing nothing, it will switch to patrol mode
         if (idleTimer >= idleDuration)
         {
-            Debug.Log("Ally: Patrolling!");
             aiController.StateMachine.TransitionToState(StateTypeAlly.Patrol);
         }
     }
