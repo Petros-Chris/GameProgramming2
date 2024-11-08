@@ -12,6 +12,9 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce;
     public float jumpCooldown;
     public float airMultiplier;
+    public int maxJumps = 2;
+
+    private int jumpCount;
     bool readyToJump;
     public KeyCode jumpKey = KeyCode.Space;
     public KeyCode Attack = KeyCode.H;
@@ -28,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         readyToJump = true;
+        jumpCount = maxJumps;
     }
 
     private void Update()
@@ -44,13 +48,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void isGrounded()
     {
-        //Checks if the player is on the ground
+        // Checks if the player is on the ground
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
 
-        //Changes how the movement feels depending on if it is flying
+        // Changes how the movement feels depending on if it is flying
         if (grounded)
         {
             rb.drag = groundDrag;
+            jumpCount = maxJumps; // Reset jump count when grounded
         }
         else
         {
@@ -63,15 +68,18 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     private void MyInput()
     {
-        //Get inputs
+        // Get inputs
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetKeyDown(jumpKey) && readyToJump && grounded)
+        // Jumping input with double-jump logic
+        if (Input.GetKeyDown(jumpKey) && readyToJump && jumpCount > 0)
         {
             readyToJump = false;
             Jump();
-            //When the cooldown has been reached, it allows the user to jump again
+            jumpCount--; // Decrease jump count on each jump
+
+            // When the cooldown has been reached, it allows the user to jump again
             Invoke(nameof(ResetJump), jumpCooldown);
         }
     }
@@ -80,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
     {
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
-        //Changes player physics while off the ground
+        // Changes player physics while off the ground
         if (grounded)
         {
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
