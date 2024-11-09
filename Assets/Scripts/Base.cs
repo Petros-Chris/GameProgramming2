@@ -8,28 +8,17 @@ using UnityEngine.SceneManagement;
 public class Base : MonoBehaviour, IDamageable
 {
     private HealthBarScript healthBar;
-    NavMeshAgent agent;
-    public LayerMask whatIsEnemy;
     public float health;
     public float maxHealth;
-    public float attackRange;
-
-    public GameObject bulletToIgnore;
 
     void Start()
     {
         healthBar = gameObject.GetComponentInChildren<HealthBarScript>();
-
-    }
-
-    private void Update()
-    {
     }
 
     public void TakeDamage(float damage)
     {
         health -= damage;
-
 
         healthBar.UpdateHealthBar(health, maxHealth);
 
@@ -41,11 +30,16 @@ public class Base : MonoBehaviour, IDamageable
     public void OnDestroy()
     {
         // Will probably change later on
-        if (gameObject.CompareTag("Kingdom"))
+        if (!MenuController.isSceneChanging && gameObject.CompareTag("Kingdom"))
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            MenuController.isSceneChanging = false;
+        }
+        else
+        {
+            MenuController.isSceneChanging = false;
         }
     }
 }

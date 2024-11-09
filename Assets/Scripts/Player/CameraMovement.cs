@@ -18,6 +18,12 @@ public class CameraMovement : MonoBehaviour
 
     private void Update()
     {
+        // Locks camera in first person
+        if (GameMenu.isPaused)
+        {
+            return;
+        }
+
         float mouseXAxis = Input.GetAxisRaw("Mouse X") * Time.fixedDeltaTime * sensX;
         float mouseYAxis = Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * sensY;
 
@@ -27,7 +33,7 @@ public class CameraMovement : MonoBehaviour
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
         transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
-        if(orientation != null)
+        if (orientation != null)
         {
             orientation.rotation = Quaternion.Euler(0, yRotation, 0);
         }

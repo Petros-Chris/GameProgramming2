@@ -9,6 +9,12 @@ public class Gun : MonoBehaviour
 
     void Update()
     {
+        // Stops player from shooting
+        if (GameMenu.isPaused)
+        {
+            return;
+        }
+        
         if (Input.GetButtonDown("Fire1"))
         {
             GameObject ball = Instantiate(projectile, transform.position, transform.rotation);

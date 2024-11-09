@@ -35,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void Update()
-    {
+    {        
         MyInput();
         SpeedControl();
         isGrounded();

@@ -1,33 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.AI.Navigation;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class Settings : MonoBehaviour
 {
     public int vsyncOptions = 0;
     public int frameRate = 0;
-    private int oldFrameRate = 0, oldVsyncOptions = 0;
+    public int oldVsyncOptions = 0;
+    public Slider slider;
+    public TextMeshProUGUI fpsNumber;
 
     void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
     {
         ChangeFrameRate();
         ChangeVsync();
     }
-    //? Interestingly, even at 1 fps, it consumes the same amount of resources as with no limit
-    void ChangeFrameRate()
+
+    public void ChangeFrameRate()
     {
-        if (frameRate != oldFrameRate)
+        frameRate = (int)slider.value;
+
+        if (slider.value == 9)
         {
+            fpsNumber.text = "Unlimited";
+            Application.targetFrameRate = 0;
+        }
+        else
+        {
+            fpsNumber.text = frameRate.ToString();
             Application.targetFrameRate = frameRate;
-            oldFrameRate = frameRate;
         }
     }
+
     //Doesn't seem to change anything
     void ChangeVsync()
     {

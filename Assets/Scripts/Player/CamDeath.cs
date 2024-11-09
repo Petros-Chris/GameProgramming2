@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class CamDeath : MonoBehaviour
-{    
+{
     float xRotation;
     float yRotation;
     Vector3 moveDirection;
@@ -23,6 +23,12 @@ public class CamDeath : MonoBehaviour
 
     private void Update()
     {
+        // Locks camera in out person
+        if (GameMenu.isPaused)
+        {
+            return;
+        }
+
         CameraRotation();
         CameraMovement();
     }
@@ -31,7 +37,7 @@ public class CamDeath : MonoBehaviour
     {
         float mouseXAxis = Input.GetAxisRaw("Mouse X") * Time.fixedDeltaTime * sensX;
         float mouseYAxis = Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * sensY;
-        
+
         yRotation += mouseXAxis;
         xRotation -= mouseYAxis;
         xRotation = Mathf.Clamp(xRotation, -90, 90);
@@ -54,7 +60,7 @@ public class CamDeath : MonoBehaviour
         {
             moveDirection.y = -verticalSpeed;
         }
-        
+
         Vector3 moveSpeed = speed * Time.deltaTime * moveDirection;
 
         if (Input.GetKey(KeyCode.LeftShift))
