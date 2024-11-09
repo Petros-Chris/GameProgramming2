@@ -26,25 +26,24 @@ public class AllyAI : MonoBehaviour, IDamageable
         Agent = GetComponent<NavMeshAgent>();
 
         StateMachine = new StateMachineAlly();
-        StateMachine.AddState(new IdleStateAlly(this));
         StateMachine.AddState(new PatrolStateAlly(this));
         StateMachine.AddState(new ChaseStateAlly(this));
         StateMachine.AddState(new AttackEnemyState(this));
 
-        StateMachine.TransitionToState(StateTypeAlly.Idle);
+        StateMachine.TransitionToState(StateTypeAlly.Patrol);
     }
 
     void Update()
     {
         StateMachine.Update(); //? Maybe some way to repair this after a script change
-        // Animator.SetFloat("CharacterSpeed", Agent.velocity.magnitude); //? Animation
+        // Animator.SetFloat("CharacterSpeed", Agent.velocity.magnitude);
         //currentState = StateMachine.GetCurrentStateType();
     }
 
     public Transform GetClosestEnemy()
     {
         Vector3 position = transform.position;
-        Collider[] enemiesInRange = Physics.OverlapSphere(position, 10000, EnemyLayer);
+        Collider[] enemiesInRange = Physics.OverlapSphere(position, AttackRange, EnemyLayer);
 
         if (enemiesInRange.Length == 0)
         {
@@ -67,26 +66,38 @@ public class AllyAI : MonoBehaviour, IDamageable
         return closestEnemy;
     }
 
+    public void LookAt(Transform thing)
+    {
+        Vector3 direction = (thing.position - transform.position).normalized;
+
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+
+        transform.rotation = Quaternion.Slerp(
+        transform.rotation,
+        targetRotation,
+        Time.deltaTime * 2.0f
+        );
+    }
+
     public bool CanSeeEnemy(float rangeMode)
     {
         bool result = false;
-        if (enemy == null)
-        {
-            StateMachine.TransitionToState(StateTypeAlly.Patrol);
-            return result;
-        }
         float distanceToEnemy = Vector3.Distance(transform.position, enemy.position);
 
         if (distanceToEnemy <= rangeMode)
         {
-            // Direction from ally to enemy
             Vector3 directionToEnemy = (enemy.transform.position - transform.position).normalized;
 
-            if (Physics.Raycast(raycastOrigin.position, directionToEnemy, out RaycastHit hit, rangeMode))
+            float angle = Vector3.Angle(transform.forward, directionToEnemy);
+
+            if (angle < maxAngle)
             {
-                if (hit.transform.CompareTag("Enemy"))
+                if (Physics.Raycast(raycastOrigin.position, directionToEnemy, out RaycastHit hit, rangeMode))
                 {
-                    result = true;
+                    if (hit.transform.CompareTag("Enemy"))
+                    {
+                        result = true;
+                    }
                 }
             }
         }

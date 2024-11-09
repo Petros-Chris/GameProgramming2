@@ -23,19 +23,19 @@ public class ChaseState : IState
             return;
         }
 
-        aiController.transform.LookAt(aiController.ally);
+        aiController.LookAt(aiController.ally);
 
         aiController.ally = aiController.GetClosestEnemy();
 
         // If can not see person within sight
-        if (!aiController.CanSeePlayer(aiController.SightRange))//IsEnemyInRange(aiController.SightRange))
+        if (!aiController.CanSeeEnemy(aiController.SightRange))//IsEnemyInRange(aiController.SightRange))
         {
             aiController.StateMachine.TransitionToState(StateType.HeadToTower);
             return;
         }
 
         // If can see person within attack
-        if (aiController.CanSeePlayer(aiController.AttackRange))//IsEnemyInRange(aiController.AttackRange))
+        if (aiController.CanSeeEnemy(aiController.AttackRange))//IsEnemyInRange(aiController.AttackRange))
         {
             aiController.StateMachine.TransitionToState(StateType.AttackPlayer);
         }

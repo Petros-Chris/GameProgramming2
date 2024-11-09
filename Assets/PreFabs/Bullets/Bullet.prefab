@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6375395690724797003}
   - component: {fileID: -8760730174578971957}
   - component: {fileID: -1827783743265687925}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -149,3 +149,4 @@ MonoBehaviour:
   timeTillDeath: 7
   timeTillDeathAfterHit: 0.2
   damage: 1
+  amountOfTimesDamageCanBeTrigged: 1

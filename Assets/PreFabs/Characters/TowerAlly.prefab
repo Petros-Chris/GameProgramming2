@@ -61,7 +61,7 @@ GameObject:
   - component: {fileID: 6342691682107053278}
   - component: {fileID: 1466444397319124930}
   - component: {fileID: 2288207453913221516}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: TowerAlly
   m_TagString: Ally
   m_Icon: {fileID: 0}

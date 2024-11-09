@@ -24,7 +24,7 @@ public class PatrolStateAlly : IStateAlly
         if (aiController.enemy != null)
         {
             // Enemy in sight range
-            if (aiController.IsEnemyInRange(aiController.SightRange)) // Can see Enemy (sight range)
+            if (aiController.CanSeeEnemy(aiController.SightRange))
             {
                 aiController.StateMachine.TransitionToState(StateTypeAlly.Chase);
                 return;

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7606325191907860607}
   - component: {fileID: 4994516429797978867}
   - component: {fileID: 5603859650767114476}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: TowerBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}

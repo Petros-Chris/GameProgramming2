@@ -20,7 +20,7 @@ public class ChaseStateAlly : IStateAlly
         if (aiController.enemy != null)
         {
             // Enemy is in attack range
-            if (aiController.IsEnemyInRange(aiController.AttackRange))
+            if (aiController.CanSeeEnemy(aiController.AttackRange))
             {
                 aiController.StateMachine.TransitionToState(StateTypeAlly.AttackEnemy);
                 return;

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public enum StateTypeAlly
 {
-    Idle,
     Patrol,
     Chase,
     AttackEnemy,

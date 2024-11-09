@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class HeadToBuildingState : IState
+public class HeadToTowerState : IState
 {
     private EnemyAI aiController;
 
     public StateType Type => StateType.HeadToTower;
 
-    public HeadToBuildingState(EnemyAI aiController)
+    public HeadToTowerState(EnemyAI aiController)
     {
         this.aiController = aiController;
     }
@@ -27,7 +27,7 @@ public class HeadToBuildingState : IState
 
         if (aiController.ally != null)
         {
-            if (aiController.CanSeePlayer(aiController.SightRange))
+            if (aiController.CanSeeEnemy(aiController.SightRange))
             {
                 aiController.StateMachine.TransitionToState(StateType.Chase);
                 return;

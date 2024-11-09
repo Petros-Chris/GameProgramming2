@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4126326892843517179}
   - component: {fileID: 626684677742537732}
   - component: {fileID: 6190406565226462675}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: EnemyBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,6 +120,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeTillDeath: 7
+  timeTillDeathAfterHit: 0.5
+  damage: 1
+  amountOfTimesDamageCanBeTrigged: 1
 --- !u!54 &6190406565226462675
 Rigidbody:
   m_ObjectHideFlags: 0

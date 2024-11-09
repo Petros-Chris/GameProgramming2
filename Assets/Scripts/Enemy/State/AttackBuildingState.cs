@@ -17,9 +17,11 @@ public class AttackBuildingState : IState
 
     public void Execute()
     {
+        aiController.ally = aiController.GetClosestEnemy();
+        
         if (aiController.ally != null)
         {
-            if (aiController.CanSeePlayer(aiController.SightRange))
+            if (aiController.CanSeeEnemy(aiController.SightRange))
             {
                 aiController.StateMachine.TransitionToState(StateType.Chase);
                 return;
@@ -31,8 +33,8 @@ public class AttackBuildingState : IState
             aiController.StateMachine.TransitionToState(StateType.HeadToTower);
             return; // This stops the current execute in its path
         }
-        //aiController.transform.rotation = Quaternion.Slerp(aiController.transform.rotation, aiController.building.transform.rotation, 0.5f);
-        aiController.transform.LookAt(aiController.building);
+
+        aiController.LookAt(aiController.building);
 
         // Makes them not shoot if theres something in the way
         if (aiController.CanSeeBuilding())

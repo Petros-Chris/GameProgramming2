@@ -20,9 +20,9 @@ TagManager:
   - whatIsBuilding
   - whatIsEnemy
   - whatIsAlly
-  - 
-  - 
-  - 
+  - towerBullet
+  - enemyBullet
+  - allyBullet
   - 
   - 
   - 

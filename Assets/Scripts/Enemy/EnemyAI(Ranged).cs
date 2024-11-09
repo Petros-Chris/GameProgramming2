@@ -33,7 +33,7 @@ public class EnemyAI : MonoBehaviour
         ally = GetClosestEnemy();
 
         StateMachine = new StateMachine();
-        StateMachine.AddState(new HeadToBuildingState(this));
+        StateMachine.AddState(new HeadToTowerState(this));
         StateMachine.AddState(new ChaseState(this));
         StateMachine.AddState(new AttackPlayerState(this));
         StateMachine.AddState(new AttackBuildingState(this));
@@ -76,6 +76,19 @@ public class EnemyAI : MonoBehaviour
         return closestEnemy;
     }
 
+    public void LookAt(Transform thing)
+    {
+        Vector3 direction = (thing.position - transform.position).normalized;
+
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+
+        transform.rotation = Quaternion.Slerp(
+        transform.rotation,
+        targetRotation,
+        Time.deltaTime * 2.0f
+        );
+    }
+
     // Currently will get building closest to enemy,
     // should probably have something that also checks if it is closer to fish kingdom
     // So player doesn't lure a boss with towers (if he can place towers during round)
@@ -104,8 +117,8 @@ public class EnemyAI : MonoBehaviour
         }
         return closestBuilding;
     }
-    
-    public bool CanSeePlayer(float rangeMode)
+
+    public bool CanSeeEnemy(float rangeMode)
     {
         bool result = false;
         float distanceToPlayer = Vector3.Distance(transform.position, ally.position);
@@ -113,16 +126,15 @@ public class EnemyAI : MonoBehaviour
         if (distanceToPlayer <= rangeMode)
         {
             // Direction from NPC to player
-            Vector3 directionToPlayer = (ally.transform.position - transform.position).normalized;
+            Vector3 directionToEnemy = (ally.transform.position - transform.position).normalized;
 
-            // Fov of enemy (was missing Rad2Deg)
-            float angle = Vector3.Angle(transform.forward, directionToPlayer);
+            float angle = Vector3.Angle(transform.forward, directionToEnemy);
 
             if (angle < maxAngle)
             {
-                if (Physics.Raycast(raycastOrigin.position, directionToPlayer, out RaycastHit hit, rangeMode))
+                if (Physics.Raycast(raycastOrigin.position, directionToEnemy, out RaycastHit hit, rangeMode))
                 {
-                    if (hit.transform.CompareTag("Player"))
+                    if (hit.transform.CompareTag("Player") || hit.transform.CompareTag("Ally"))
                     {
                         result = true;
                     }
