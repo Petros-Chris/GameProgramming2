@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Ally
+  - Kingdom
   layers:
   - Default
   - TransparentFX

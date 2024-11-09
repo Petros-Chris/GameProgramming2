@@ -7,7 +7,12 @@ public class MenuController : MonoBehaviour
 {
     public void StartGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); // Replace with your scene name
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+    
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(0);
     }
 
     public void ExitGame()

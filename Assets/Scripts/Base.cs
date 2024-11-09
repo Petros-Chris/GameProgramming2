@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class Base : MonoBehaviour, IDamageable
 {
@@ -17,7 +19,7 @@ public class Base : MonoBehaviour, IDamageable
     void Start()
     {
         healthBar = gameObject.GetComponentInChildren<HealthBarScript>();
-        
+
     }
 
     private void Update()
@@ -27,7 +29,7 @@ public class Base : MonoBehaviour, IDamageable
     public void TakeDamage(float damage)
     {
         health -= damage;
-       
+
 
         healthBar.UpdateHealthBar(health, maxHealth);
 
@@ -36,24 +38,14 @@ public class Base : MonoBehaviour, IDamageable
             Destroy(gameObject);
         }
     }
-    // for main base to be able to attack back (if we want that)
-    /*
-    private void Attacking(Transform thing)
+    public void OnDestroy()
     {
-            if (!alreadyAttacked)
-            {
-                if (weapon.TryGetComponent<EnemyGun>(out EnemyGun GunComponemt))
-                {
-                    GunComponemt.Shoot();
-                }
-                alreadyAttacked = true;
-                Invoke(nameof(ResetAttack), timeBetweenAttacks);
-            }
+        // Will probably change later on
+        if (gameObject.CompareTag("Kingdom"))
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
-    private void ResetAttack()
-    {
-        alreadyAttacked = false;
     }
-    */
-
 }
