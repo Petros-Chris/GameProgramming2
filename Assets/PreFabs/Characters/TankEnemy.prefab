@@ -126,7 +126,7 @@ GameObject:
   - component: {fileID: 5345904271931520768}
   - component: {fileID: 1133635453396045313}
   m_Layer: 10
-  m_Name: RangedEnemy
+  m_Name: TankEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -233,7 +233,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 2
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -274,8 +274,8 @@ MonoBehaviour:
   currentState: 0
   raycastOrigin: {fileID: 1351209619312055099}
   alreadyAttacked: 0
-  health: 100
-  maxHealth: 100
+  health: 250
+  maxHealth: 250
 --- !u!1 &3848054618829087646
 GameObject:
   m_ObjectHideFlags: 0

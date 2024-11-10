@@ -148,6 +148,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeTillDeath: 7
   timeTillDeathAfterHit: 0.5
-  damage: 1
+  damage: 20
   amountOfTimesDamageCanBeTrigged: 1
-  buildingToIgnore: {fileID: 0}

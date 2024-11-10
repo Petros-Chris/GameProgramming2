@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameMenu : MonoBehaviour
 {
     public static bool isPaused = false;
+    public static bool isSubMenuOpen = false;
     public GameObject gameMenu;
     public GameObject settingMenu;
 
@@ -12,10 +13,16 @@ public class GameMenu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            if (isSubMenuOpen)
+            {
+                CloseSetting();
+            }
+
             if (isPaused)
             {
                 ResumeGameWithGUI();
             }
+
             else
             {
                 PauseGame();
@@ -44,6 +51,7 @@ public class GameMenu : MonoBehaviour
 
         gameMenu.SetActive(false);
     }
+
     public static void ResumeGame()
     {
         Time.timeScale = 1;
@@ -57,11 +65,13 @@ public class GameMenu : MonoBehaviour
     {
         gameMenu.SetActive(false);
         settingMenu.SetActive(true);
+        isSubMenuOpen = true;
     }
 
     public void CloseSetting()
     {
         settingMenu.SetActive(false);
         gameMenu.SetActive(true);
+        isSubMenuOpen = false;
     }
 }
