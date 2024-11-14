@@ -15,6 +15,8 @@ public class CamDeath : MonoBehaviour
     public float speed = 10.0f;
     public float sprintSpeedMultiplier = 2.0f;
 
+    public Camera cam;
+
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;

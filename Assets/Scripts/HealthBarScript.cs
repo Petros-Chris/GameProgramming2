@@ -50,10 +50,18 @@ public class HealthBarScript : MonoBehaviour
             //Changes the camera the health bar is assigned to if it ends up getting destroyed
             if (GameObject.Find("Player Camera") == null)
             {
-                whatCamItOn = GameObject.Find("Death Cam");
-                cam = whatCamItOn.GetComponent<Camera>();
-                camChanged = true;
-                Debug.Log("Camera changed :>");
+                if (GameObject.Find("Death Cam") != null)
+                {
+                    whatCamItOn = GameObject.Find("Death Cam");
+                    cam = whatCamItOn.GetComponent<Camera>();
+                    camChanged = true;
+                }
+                else if (GameObject.Find("BuildCamera") != null)
+                {
+                    whatCamItOn = GameObject.Find("BuildCamera");
+                    cam = whatCamItOn.GetComponent<Camera>();
+                    camChanged = true;
+                }
             }
         }
         if (camChanged == true)

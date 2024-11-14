@@ -37,7 +37,6 @@ public class AttackPlayerState : IState
 
         aiController.LookAt(aiController.ally);
         aiController.Attack();
-
     }
 
     public void Exit()

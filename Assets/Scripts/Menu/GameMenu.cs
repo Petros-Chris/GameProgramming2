@@ -9,6 +9,8 @@ public class GameMenu : MonoBehaviour
     public GameObject gameMenu;
     public GameObject settingMenu;
 
+    public static bool playerFrozen;
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
