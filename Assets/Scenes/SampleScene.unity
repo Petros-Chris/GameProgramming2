@@ -1879,13 +1879,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffc0cbbe0fedd4044be20a644a109ef5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  whatIsEnemy:
-    serializedVersion: 2
-    m_Bits: 0
   health: 100
   maxHealth: 100
-  attackRange: 0
-  bulletToIgnore: {fileID: 3899376781402548592, guid: 70a03fb07882a8c4d8c8ed1570184c5d, type: 3}
 --- !u!1 &637219262
 GameObject:
   m_ObjectHideFlags: 0
@@ -2339,13 +2334,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffc0cbbe0fedd4044be20a644a109ef5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  whatIsEnemy:
-    serializedVersion: 2
-    m_Bits: 0
   health: 100
   maxHealth: 100
-  attackRange: 0
-  bulletToIgnore: {fileID: 3899376781402548592, guid: 70a03fb07882a8c4d8c8ed1570184c5d, type: 3}
 --- !u!65 &899340912
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5791,6 +5781,30 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 819319443205666323, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 819319443205666323, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 819319443205666323, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 819319443205666323, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 819319443205666323, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 819319443205666323, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1092436262760843725, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.5544662
@@ -5831,9 +5845,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1271174975140386963, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 3307343707736240020, guid: 3b84e2952acf8cb4b97920617cc9349d, type: 3}
     - target: {fileID: 1366871249201615563, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
       propertyPath: m_Constraints
       value: 112
+      objectReference: {fileID: 0}
+    - target: {fileID: 1615271297058868322, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.556
+      objectReference: {fileID: 0}
+    - target: {fileID: 1615271297058868322, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.559
       objectReference: {fileID: 0}
     - target: {fileID: 4156061649824579145, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
       propertyPath: m_Enabled
@@ -5851,6 +5877,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1263068843}
+    - target: {fileID: 6182774297572244595, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7bb2f5ab151b4564e94d213f390223b2, type: 2}
     - target: {fileID: 6762700773930605929, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -5875,6 +5905,10 @@ PrefabInstance:
       propertyPath: playerCam
       value: 
       objectReference: {fileID: 1263068843}
+    - target: {fileID: 8318743889850480823, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
+      propertyPath: projectile
+      value: 
+      objectReference: {fileID: 2776797659692589897, guid: bd15e1e36d6e2e242bedca504822be58, type: 3}
     - target: {fileID: 9064120584290571093, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
       propertyPath: cam
       value: 
