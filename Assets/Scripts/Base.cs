@@ -34,10 +34,10 @@ public class Base : MonoBehaviour, IDamageable
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             MenuController.isSceneChanging = false;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
-        else
+        else if (gameObject.CompareTag("Kingdom"))
         {
             MenuController.isSceneChanging = false;
         }

@@ -8,8 +8,8 @@ using UnityEngine.SceneManagement;
 public class EnemyAI : MonoBehaviour
 {
     public HealthBarScript healthBarScript;
-    public StateMachine StateMachine { get; private set; }
-    public NavMeshAgent Agent { get; private set; }
+    public StateMachine StateMachine { get; set; }
+    public NavMeshAgent Agent { get; set; }
     // public Animator Animator { get; private set; } // Not needed since we're not using animations
     public Transform ally;
     public Transform building;
@@ -192,11 +192,15 @@ public class EnemyAI : MonoBehaviour
             {
                 GunComponemt.Shoot();
             }
+            else if (weapon.TryGetComponent<EnemyMeleeWeapon>(out EnemyMeleeWeapon meleeWeapon))
+            {
+                meleeWeapon.Stab(AttackRange);
+            }
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), attackCooldown);
         }
     }
-    private void ResetAttack()
+    public void ResetAttack()
     {
         alreadyAttacked = false;
     }

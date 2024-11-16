@@ -1,4 +1,4 @@
-using UnityEngine;
+
 
 public class AttackEnemyTowerState : IStateAlly
 {
@@ -11,9 +11,7 @@ public class AttackEnemyTowerState : IStateAlly
         this.aiController = aiController;
     }
 
-    public void Enter()
-    {
-    }
+    public void Enter() { }
 
     public void Execute()
     {
@@ -22,7 +20,6 @@ public class AttackEnemyTowerState : IStateAlly
         {
             aiController.transform.LookAt(aiController.enemy);
             aiController.Attack();
-
         }
         else
         {
@@ -30,8 +27,6 @@ public class AttackEnemyTowerState : IStateAlly
         }
     }
 
-    public void Exit()
-    {
-    }
+    public void Exit() { }
 }
 

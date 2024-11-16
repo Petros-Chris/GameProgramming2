@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,9 +8,14 @@ public class Settings : MonoBehaviour
 {
     public int vsyncOptions = 0;
     public int frameRate = 0;
-    public int oldVsyncOptions = 0;
-    public Slider slider;
+    public Slider fpsSlider;
     public TextMeshProUGUI fpsNumber;
+    public GameObject fpsDisplay;
+    // Slider
+    public Slider vsyncSlider;
+    public TextMeshProUGUI vsyncNumber;
+
+    bool toggleCount;
 
     void Start()
     {
@@ -19,9 +25,16 @@ public class Settings : MonoBehaviour
 
     public void ChangeFrameRate()
     {
-        frameRate = (int)slider.value;
+        frameRate = (int)fpsSlider.value;
 
-        if (slider.value == 9)
+        if (vsyncOptions != 0)
+        {
+            vsyncNumber.text = "Off";
+            QualitySettings.vSyncCount = 0;
+            vsyncSlider.value = 0;
+        }
+
+        if (fpsSlider.value == 9)
         {
             fpsNumber.text = "Unlimited";
             Application.targetFrameRate = 0;
@@ -34,12 +47,58 @@ public class Settings : MonoBehaviour
     }
 
     //Doesn't seem to change anything
-    void ChangeVsync()
+    public void ChangeVsync()
     {
-        if (vsyncOptions != oldVsyncOptions)
+        vsyncOptions = (int)vsyncSlider.value;
+
+        if (frameRate != 0)
         {
-            QualitySettings.vSyncCount = vsyncOptions;
-            oldVsyncOptions = vsyncOptions;
+            fpsNumber.text = "Unlimited";
+            Application.targetFrameRate = 0;
+            fpsSlider.value = 0;
         }
+
+        switch (vsyncOptions)
+        {
+            case 0:
+                QualitySettings.vSyncCount = 0;
+                vsyncNumber.text = "Off";
+                break;
+            case 1:
+                QualitySettings.vSyncCount = 1;
+                vsyncNumber.text = "Refresh Rate";
+                break;
+            case 2:
+                QualitySettings.vSyncCount = 2;
+                vsyncNumber.text = "1/2 Refresh Rate";
+                break;
+            case 3:
+                QualitySettings.vSyncCount = 3;
+                vsyncNumber.text = "1/3 Refresh Rate";
+                break;
+            case 4:
+                QualitySettings.vSyncCount = 4;
+                vsyncNumber.text = "1/4 Refresh Rate";
+                break;
+        }
+    }
+
+    //TODO: Get it to see the isOn in the toggle itself
+    public void DisplayFps(bool isOn)
+    {
+        toggleCount = !toggleCount;
+        fpsDisplay.SetActive(toggleCount);
+    }
+
+    //TODO: Get it to see the isOn in the toggle itself
+    //! Permanently changed the game resolution to 16:9?
+    public void ToggleScreen()
+    {
+        Screen.fullScreen = !Screen.fullScreen;
+    }
+
+    public void ChangeScreenResoultion()
+    {
+        Screen.SetResolution(640, 480, Screen.fullScreen);
     }
 }

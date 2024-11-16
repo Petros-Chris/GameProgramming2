@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     private int jumpCount;
     bool readyToJump;
     public KeyCode jumpKey = KeyCode.Space;
-    public KeyCode Attack = KeyCode.H;
+    public KeyCode switchToBuildMode = KeyCode.M;
     public float playerHeight;
     public LayerMask whatIsGround;
     bool grounded;
@@ -26,6 +26,8 @@ public class PlayerMovement : MonoBehaviour
     float verticalInput;
     Vector3 moveDirection;
     Rigidbody rb;
+    public Camera buildCam;
+    public Camera playerCam;
 
     private void Start()
     {
@@ -35,10 +37,20 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void Update()
-    {        
-        MyInput();
-        SpeedControl();
-        isGrounded();
+    {
+        if (Input.GetKeyDown(switchToBuildMode))
+        {
+            GameMenu.playerFrozen = true;
+            playerCam.gameObject.SetActive(false);
+            buildCam.gameObject.SetActive(true);
+        }
+
+        if (!GameMenu.playerFrozen)
+        {
+            MyInput();
+            SpeedControl();
+            isGrounded();
+        }
     }
 
     private void FixedUpdate()

@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class SpawnEnemies : MonoBehaviour
 {
-    public GameObject Enemy;
+    public GameObject defaultEnemy;
+    public GameObject fastEnemy;
+    public GameObject tankEnemy;
     public KeyCode SpawnKey = KeyCode.E;
 
     // Update is called once per frame
@@ -12,7 +14,13 @@ public class SpawnEnemies : MonoBehaviour
     {
         if (Input.GetKeyDown(SpawnKey))
         {
-            GameObject enemy = Instantiate(Enemy, transform.position, transform.rotation);
+            for (int i = 0; i < 5; i++)
+            {
+                Instantiate(defaultEnemy, transform.position, transform.rotation);
+                Instantiate(fastEnemy, transform.position, transform.rotation);
+                Instantiate(fastEnemy, transform.position, transform.rotation);
+            }
+
         }
     }
 }

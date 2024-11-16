@@ -35,10 +35,8 @@ public class AttackPlayerState : IState
             return;
         }
 
-        //? Maybe have a way to have the enemy turn slower so its possible to have the player dash out of the enemy fov, causing them to lose the player
         aiController.LookAt(aiController.ally);
         aiController.Attack();
-
     }
 
     public void Exit()
