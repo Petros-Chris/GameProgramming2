@@ -8,19 +8,18 @@ public class CamDeath : MonoBehaviour
     float xRotation;
     float yRotation;
     Vector3 moveDirection;
-
     public float sensX;
     public float sensY;
     public float verticalSpeed = 5.0f;
     public float speed = 10.0f;
     public float sprintSpeedMultiplier = 2.0f;
-
-    public Camera cam;
+    public int respawnTimer = 10;
 
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        //StartCoroutine(RespawnPlayer());
     }
 
     private void Update()
@@ -33,6 +32,13 @@ public class CamDeath : MonoBehaviour
 
         CameraRotation();
         CameraMovement();
+    }
+
+    public IEnumerator RespawnPlayer()
+    {
+        yield return new WaitForSeconds(respawnTimer);
+        ComponentManager.deathCam.gameObject.SetActive(false);
+        ComponentManager.playerCam.gameObject.SetActive(true);
     }
 
     private void CameraRotation()

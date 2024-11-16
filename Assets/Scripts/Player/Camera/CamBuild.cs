@@ -4,20 +4,13 @@ using UnityEngine;
 
 public class CamBuild : MonoBehaviour
 {
-    float xRotation;
     float yRotation;
     Vector3 moveDirection;
-
     public float sensX;
     public float sensY;
     public float verticalSpeed = 5.0f;
     public float speed = 10.0f;
     public float sprintSpeedMultiplier = 2.0f;
-
-
-    public Camera buildCam;
-    public Camera playerCam;
-    public KeyCode switchToBuildMode = KeyCode.M;
 
     private void Start()
     {
@@ -36,18 +29,12 @@ public class CamBuild : MonoBehaviour
         CameraRotation();
         CameraMovement();
 
-        if (Input.GetKeyDown(switchToBuildMode))
-        {
-            GameMenu.playerFrozen = false;
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            buildCam.gameObject.SetActive(false);
-            playerCam.gameObject.SetActive(true);
-        }
+        ComponentManager.ToggleBuildPlayerMode();
     }
 
     private void CameraRotation()
     {
+        // Locks mouse and allows rotation when right click is held
         if (Input.GetMouseButton(1))
         {
             if (Cursor.lockState == CursorLockMode.None)
@@ -60,6 +47,7 @@ public class CamBuild : MonoBehaviour
             yRotation += mouseXAxis;
             transform.localRotation = Quaternion.Euler(65, yRotation, 0);
         }
+        // Releases Mouse when right click is not held
         else if (Cursor.lockState == CursorLockMode.Locked)
         {
             Cursor.lockState = CursorLockMode.None;

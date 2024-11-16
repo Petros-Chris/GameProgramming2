@@ -8,7 +8,6 @@ public class GameMenu : MonoBehaviour
     public static bool isSubMenuOpen = false;
     public GameObject gameMenu;
     public GameObject settingMenu;
-
     public static bool playerFrozen;
 
     void Update()

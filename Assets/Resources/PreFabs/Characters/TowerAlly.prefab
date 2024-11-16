@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35d3ed77be3c42b4da404baf320f341d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 2776797659692589897, guid: 4f93e9dbfbeae67459f477aa620d3520, type: 3}
+  projectile: {fileID: 3899376781402548592, guid: 70a03fb07882a8c4d8c8ed1570184c5d, type: 3}
   ForwardVelocity: 700
   launchVelocity: 200
 --- !u!1 &4156456685068592667
@@ -59,7 +59,6 @@ GameObject:
   - component: {fileID: 3809744617785620853}
   - component: {fileID: 6157202527603182394}
   - component: {fileID: 6342691682107053278}
-  - component: {fileID: 1466444397319124930}
   - component: {fileID: 2288207453913221516}
   m_Layer: 0
   m_Name: TowerAlly
@@ -78,7 +77,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 14.409665, y: 4.04, z: -9.621058}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.33333334, y: 0.2, z: 0.33333334}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7161832787332771696}
@@ -100,7 +99,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4156456685068592667}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -158,28 +157,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!195 &1466444397319124930
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4156456685068592667}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 2
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 1
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!114 &2288207453913221516
 MonoBehaviour:
   m_ObjectHideFlags: 0

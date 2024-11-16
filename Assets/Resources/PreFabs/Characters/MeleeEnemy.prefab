@@ -329,7 +329,7 @@ MonoBehaviour:
   weapon: {fileID: 6905842804339835639}
   SightRange: 20
   maxAngle: 45
-  AttackRange: 2
+  AttackRange: 4
   attackCooldown: 1
   EnemyLayer:
     serializedVersion: 2
@@ -340,8 +340,8 @@ MonoBehaviour:
   currentState: 0
   raycastOrigin: {fileID: 2142497175396887917}
   alreadyAttacked: 0
-  health: 100
-  maxHealth: 100
+  health: 1000
+  maxHealth: 1000
 --- !u!1 &2219683641565180389
 GameObject:
   m_ObjectHideFlags: 0
