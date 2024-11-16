@@ -11,9 +11,16 @@ public class ComponentManager : MonoBehaviour
     public static Camera playerCam;
     public static Camera deathCam;
     public static KeyCode switchModes = KeyCode.M;
+    public static GameObject defaultEnemy;
+    public static GameObject fastEnemy;
+    public static GameObject tankEnemy;
 
     void Start()
     {
+        fastEnemy = Resources.Load<GameObject>("PreFabs/Characters/Enemies/FastEnemy");
+        defaultEnemy = Resources.Load<GameObject>("PreFabs/Characters/Enemies/RangedEnemy");
+        tankEnemy = Resources.Load<GameObject>("PreFabs/Characters/Enemies/TankEnemy");
+
         Camera[] cameras = FindObjectsOfType<Camera>(true);
         foreach (var camera in cameras)
         {
