@@ -49,6 +49,7 @@ public class WaveSystem : MonoBehaviour
         // just have a math.random function to make enemies spawn at different spawnpoints nicely
         Vector3 pos = new Vector3(-20, 0.5f, 0);
 
+        // TODO: add a delay for each spawn to prevent massive rush
         Instantiate(ComponentManager.defaultEnemy, pos, Quaternion.identity);
         Instantiate(ComponentManager.tankEnemy, pos, Quaternion.identity);
         Instantiate(ComponentManager.fastEnemy, pos, Quaternion.identity);

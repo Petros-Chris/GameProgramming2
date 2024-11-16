@@ -10,6 +10,10 @@ public class BuildController : MonoBehaviour
     public GameObject tower;
     public KeyCode spawnMultiple = KeyCode.RightShift;
     private Button button;
+
+    public GameObject outline;
+
+    private bool shouldOutline;
     //public NavMeshSurface navMeshSurface;
 
     private IEnumerator SpawnTowerRoutine()
@@ -27,6 +31,37 @@ public class BuildController : MonoBehaviour
         HighlightButton(false);
     }
 
+    private IEnumerator TowerOutline()
+    {
+        while (shouldOutline && !Input.GetKeyDown(KeyCode.Q))//Cancel Key
+        {
+            Ray ray = ComponentManager.buildCam.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                outline.transform.position = hit.point;
+            }
+
+            yield return null;
+        }
+        // Setting the outline out of bounds
+        outline.transform.position = new Vector3(0, -1000, 0);
+    }
+
+    public void Selected()
+    {
+        button = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
+        string towerName = button.name.Replace("Btn", "");
+        tower = Resources.Load<GameObject>("Prefabs/Buildings/" + towerName);
+
+        shouldOutline = true;
+        // setting the size of outline a little bigger than tower
+        Vector3 outlineSize = new Vector3(tower.transform.localScale.x + 1, 0.01f, tower.transform.localScale.z + 1);
+        outline.transform.localScale = outlineSize;
+        StartCoroutine(TowerOutline());
+    }
+
     private void HighlightButton(bool isActive)
     {
         ColorBlock colors = button.colors;
@@ -42,7 +77,6 @@ public class BuildController : MonoBehaviour
         RaycastHit hit;
 
         //TODO: Need to stop tower from being placed anywhere
-        //TODO: Outline to show tower before its placed?
         //TODO: Stop place if no money?
         if (Physics.Raycast(ray, out hit))
         {
@@ -56,10 +90,6 @@ public class BuildController : MonoBehaviour
 
     public void DeSelect()
     {
-        button = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
-        string towerName = button.name.Replace("Btn", "");
-        tower = Resources.Load<GameObject>("Prefabs/Buildings/" + towerName);
-
         if (Input.GetKey(spawnMultiple) && Input.GetMouseButtonDown(0))
         {
             StartCoroutine(SpawnTowerRoutine());
@@ -68,5 +98,6 @@ public class BuildController : MonoBehaviour
         {
             SpawnTowerAtMouse();
         }
+        shouldOutline = false;
     }
 }
