@@ -1,11 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WaveSystem : MonoBehaviour
 {
     public LayerMask EnemyLayer;
     bool wait = false;
+    float timer;
+    public Slider skipIntermissionSlider;
+    Coroutine intermissionCoroutine;
+    Coroutine waveCoroutine;
+
+    bool allEnemiesSpawned;
 
     void Start()
     {
@@ -14,31 +22,63 @@ public class WaveSystem : MonoBehaviour
 
     void Update()
     {
+        if (allEnemiesSpawned && waveCoroutine == null)
+        {
+            //waveCoroutine = StartCoroutine(ShowNextWaveSlider());
+        }
+
         // To make sure this aint happening twice
         if (!wait)
         {
-            //? Or maybe we combine all of them to have a auto timer for wave, a button if you don't want to wait, and a key if you don't want to press the button via mouse
             if (!EnemiesLeft())
             {
-                StartCoroutine(IntermissionToNextWave());
-            }
-            // If we want to press a key to start the next round
-            if (Input.GetKeyDown(KeyCode.P))
-            {
+                if (waveCoroutine != null)
+                {
+                    StopCoroutine(waveCoroutine); // As round has already ended, not needed anymore
+                }
 
+                intermissionCoroutine = StartCoroutine(IntermissionToNextWave());
+                if (ComponentManager.playerCam.gameObject.activeSelf)
+                {
+                    StartCoroutine(DisplayIntermissionSlider());
+                }
             }
         }
     }
 
-    // If we want to press a gui to start next wave
-    // Gui should only appear when current round has ended
-    public void StartNextWave()
+    private IEnumerator DisplayIntermissionSlider()
     {
-        // For Button...
-        if (Input.GetMouseButtonDown(0))
+        skipIntermissionSlider.gameObject.SetActive(true);
+        while (wait)
         {
-            BeginWave();
+            while (Input.GetKey(KeyCode.L))
+            {
+                timer += Time.deltaTime;
+                skipIntermissionSlider.value = timer;
+                if (timer >= 4)
+                {
+                    BeginWave();
+                    StopCoroutine(intermissionCoroutine);
+                    timer = 0;
+                    skipIntermissionSlider.value = 0;
+                    wait = false;
+
+                    break;
+                }
+                yield return null;
+            }
+
+            while (!Input.GetKey(KeyCode.L) && timer >= 0)
+            {
+                timer -= Time.deltaTime;
+                skipIntermissionSlider.value = timer;
+                yield return null;
+            }
+            yield return null;
         }
+        timer = 0;
+        skipIntermissionSlider.value = timer;
+        skipIntermissionSlider.gameObject.SetActive(false);
     }
 
     public void BeginWave()
@@ -53,6 +93,8 @@ public class WaveSystem : MonoBehaviour
         Instantiate(ComponentManager.defaultEnemy, pos, Quaternion.identity);
         Instantiate(ComponentManager.tankEnemy, pos, Quaternion.identity);
         Instantiate(ComponentManager.fastEnemy, pos, Quaternion.identity);
+
+        allEnemiesSpawned = true;
     }
 
     // If were doing a timer setup
@@ -74,29 +116,49 @@ public class WaveSystem : MonoBehaviour
 
         if (EnemiesAlive.Length == 0)
         {
+            allEnemiesSpawned = false;
             return false;
         }
         return true;
     }
 
-    // Or maybe it should be a timer where if 1 minute has passed to show the btn
-    public void EnemiesLeftForGui()
+    public IEnumerator ShowNextWaveSlider()
     {
-        Collider[] EnemiesAlive = Physics.OverlapSphere(transform.position, 10000, EnemyLayer);
+        yield return new WaitForSeconds(10);
+        // Maybe we should have it more obvious so the player
+        // won't accidentally skip intermission thinking it was just skipping to intermission?
+        //like skipWaveAndIntermissionSlider.gameObject.SetActive(true);
 
-        if (EnemiesAlive.Length <= 4)
+        skipIntermissionSlider.gameObject.SetActive(true);
+        while (allEnemiesSpawned)
         {
-            // startNextWaveBtn.setActive(true);
-            //return false;
+            while (Input.GetKey(KeyCode.L))
+            {
+                timer += Time.deltaTime;
+                skipIntermissionSlider.value = timer;
+                if (timer >= 4)
+                {
+                    BeginWave();
+                    StopCoroutine(intermissionCoroutine);
+                    timer = 0;
+                    skipIntermissionSlider.value = 0;
+                    wait = false;
+
+                    break;
+                }
+                yield return null;
+            }
+
+            while (!Input.GetKey(KeyCode.L) && timer >= 0)
+            {
+                timer -= Time.deltaTime;
+                skipIntermissionSlider.value = timer;
+                yield return null;
+            }
+            yield return null;
         }
-        //return true;
-    }
-
-    // If we want a timer to show it instead
-    public IEnumerator ShowNextWaveBtn()
-    {
-        yield return new WaitForSeconds(60);
-        // startNextWaveBtn.setActive(true);
-
+        timer = 0;
+        skipIntermissionSlider.value = timer;
+        skipIntermissionSlider.gameObject.SetActive(false);
     }
 }

@@ -7,14 +7,25 @@ using Unity.AI.Navigation;
 
 public class BuildController : MonoBehaviour
 {
+    //!BUG: if game lose while player in build mode, player frozen next game start
+    //!BUG: Can place ontop of object
+    //!BUG: Will place new building if select building button
+
     public GameObject tower;
     public KeyCode spawnMultiple = KeyCode.RightShift;
+    public KeyCode cancel = KeyCode.C;
     private Button button;
-
     public GameObject outline;
-
     private bool shouldOutline;
+    Renderer render;
+    int rotateAngle;
+    Quaternion angleToSpawnTower;
+
     //public NavMeshSurface navMeshSurface;
+    void Start()
+    {
+        render = outline.GetComponent<Renderer>();
+    }
 
     private IEnumerator SpawnTowerRoutine()
     {
@@ -28,29 +39,74 @@ public class BuildController : MonoBehaviour
             HighlightButton(true);
             yield return null;
         }
+        shouldOutline = false;
         HighlightButton(false);
     }
-
+    //TODO: R for rotate 
     private IEnumerator TowerOutline()
     {
-        while (shouldOutline && !Input.GetKeyDown(KeyCode.Q))//Cancel Key
+        while (shouldOutline && !Input.GetKeyDown(cancel))
         {
             Ray ray = ComponentManager.buildCam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit))
             {
+                // Always at same level, issue for terrain?
                 outline.transform.position = hit.point;
+                //outline.transform.position = new Vector3(hit.point.x, 0.01f, hit.point.z);
+            }
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                rotateAngle += 90;
+                outline.transform.rotation = Quaternion.Euler(0, rotateAngle, 0);
+                angleToSpawnTower = Quaternion.Euler(0, rotateAngle, 0);
             }
 
+            if (!IsThereAnyColliders())
+            {
+                render.material.color = Color.white;
+            }
+            else
+            {
+                render.material.color = Color.green;
+            }
             yield return null;
         }
         // Setting the outline out of bounds
         outline.transform.position = new Vector3(0, -1000, 0);
+
+        // If you want it to always go back to default angle
+        rotateAngle = 0;
+        outline.transform.rotation = Quaternion.Euler(0, 0, 0);
+        angleToSpawnTower = Quaternion.Euler(0, 0, 0);
+    }
+
+    public void DeSelect()
+    {
+        if (GameMenu.isPaused)
+        {
+            return;
+        }
+
+        if (Input.GetKey(spawnMultiple) && Input.GetMouseButtonDown(0))
+        {
+            StartCoroutine(SpawnTowerRoutine());
+            return;
+        }
+        else if (Input.GetMouseButtonDown(0))
+        {
+            SpawnTowerAtMouse();
+        }
+        shouldOutline = false;
     }
 
     public void Selected()
     {
+        if (GameMenu.isPaused)
+        {
+            return;
+        }
         button = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
         string towerName = button.name.Replace("Btn", "");
         tower = Resources.Load<GameObject>("Prefabs/Buildings/" + towerName);
@@ -60,6 +116,20 @@ public class BuildController : MonoBehaviour
         Vector3 outlineSize = new Vector3(tower.transform.localScale.x + 1, 0.01f, tower.transform.localScale.z + 1);
         outline.transform.localScale = outlineSize;
         StartCoroutine(TowerOutline());
+    }
+
+    bool IsThereAnyColliders()
+    {
+        // The area it checks
+        Vector3 pos = new Vector3(outline.transform.position.x, outline.transform.position.y + 0.5f, outline.transform.position.z);
+
+        Collider[] colliders = Physics.OverlapBox(pos, outline.transform.localScale / 2, Quaternion.identity);
+
+        if (colliders.Length != 0)
+        {
+            return true;
+        }
+        return false;
     }
 
     private void HighlightButton(bool isActive)
@@ -76,28 +146,19 @@ public class BuildController : MonoBehaviour
         Ray ray = ComponentManager.buildCam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        //TODO: Need to stop tower from being placed anywhere
+        if (IsThereAnyColliders())
+        {
+            return;
+        }
+
         //TODO: Stop place if no money?
         if (Physics.Raycast(ray, out hit))
         {
-            Vector3 spawnLocation = new Vector3(hit.point.x, hit.point.y + 2.5f, hit.point.z);
+            Vector3 spawnLocation = new Vector3(hit.point.x, tower.transform.position.y, hit.point.z);
 
-            Instantiate(tower, spawnLocation, Quaternion.identity);
-            // A bit resource intensive, likely more for larger maps
+            Instantiate(tower, spawnLocation, angleToSpawnTower);
+            // A bit resource intensive, likely worse for larger maps
             //navMeshSurface.BuildNavMesh();
         }
-    }
-
-    public void DeSelect()
-    {
-        if (Input.GetKey(spawnMultiple) && Input.GetMouseButtonDown(0))
-        {
-            StartCoroutine(SpawnTowerRoutine());
-        }
-        else if (Input.GetMouseButtonDown(0))
-        {
-            SpawnTowerAtMouse();
-        }
-        shouldOutline = false;
     }
 }

@@ -45,8 +45,14 @@ public class EnemyAI : MonoBehaviour
     void Update()
     {
         // Animator.SetFloat("CharacterSpeed", Agent.velocity.magnitude); //? Animation
-
-        StateMachine.Update();
+        if (StateMachine == null)
+        {
+            Start();
+        }
+        else
+        {
+            StateMachine.Update();
+        }
         currentState = StateMachine.GetCurrentStateType();
     }
 

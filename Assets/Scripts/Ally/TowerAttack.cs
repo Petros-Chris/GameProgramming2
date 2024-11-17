@@ -10,6 +10,13 @@ public class TowerAttack : AllyAI
 
     void Update()
     {
-        StateMachine.Update();
+        if (StateMachine == null)
+        {
+            Start();
+        }
+        else
+        {
+            StateMachine.Update();
+        }
     }
 }
