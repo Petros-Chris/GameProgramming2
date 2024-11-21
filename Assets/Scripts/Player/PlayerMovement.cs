@@ -5,46 +5,32 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
-    [Header("Keybinds")]
-    [Header("Ground Check")]
     public float moveSpeed;
     public float groundDrag;
     public float jumpForce;
-    public float jumpCooldown;
     public float airMultiplier;
-    public int maxJumps = 2;
-
-    private int jumpCount;
-    bool readyToJump;
-    public KeyCode jumpKey = KeyCode.Space;
-    public KeyCode switchToBuildMode = KeyCode.M;
     public float playerHeight;
     public LayerMask whatIsGround;
+
+    private int jumpCount; 
+    //private bool readyToJump;
+    public KeyCode jumpKey = KeyCode.Space;
     bool grounded;
     public Transform orientation;
     float horizontalInput;
     float verticalInput;
     Vector3 moveDirection;
     Rigidbody rb;
-    public Camera buildCam;
-    public Camera playerCam;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        readyToJump = true;
-        jumpCount = maxJumps;
+        jumpCount = 0;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(switchToBuildMode))
-        {
-            GameMenu.playerFrozen = true;
-            playerCam.gameObject.SetActive(false);
-            buildCam.gameObject.SetActive(true);
-        }
-
+        // Only process movement and jumping if the game is not paused or frozen
         if (!GameMenu.playerFrozen)
         {
             MyInput();
@@ -60,14 +46,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void isGrounded()
     {
-        // Checks if the player is on the ground
+        // Check if the player is grounded using a raycast
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
 
-        // Changes how the movement feels depending on if it is flying
+        // Reset the jump count when the player touches the ground
         if (grounded)
         {
             rb.drag = groundDrag;
-            jumpCount = maxJumps; // Reset jump count when grounded
+            jumpCount = 0; 
         }
         else
         {
@@ -76,23 +62,19 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /// <summary>
-    /// Gets the input to control the player
+    /// Handles player input (movement and jumping)
     /// </summary>
     private void MyInput()
     {
-        // Get inputs
+        // Get movement input
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
-        // Jumping input with double-jump logic
-        if (Input.GetKeyDown(jumpKey) && readyToJump && jumpCount > 0)
+        // Jump input handling
+        if (Input.GetKeyDown(jumpKey) && jumpCount < 1) 
         {
-            readyToJump = false;
             Jump();
-            jumpCount--; // Decrease jump count on each jump
-
-            // When the cooldown has been reached, it allows the user to jump again
-            Invoke(nameof(ResetJump), jumpCooldown);
+            jumpCount++;
         }
     }
 
@@ -100,19 +82,18 @@ public class PlayerMovement : MonoBehaviour
     {
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
-        // Changes player physics while off the ground
         if (grounded)
         {
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
         }
-        else if (!grounded)
+        else
         {
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
         }
     }
 
     /// <summary>
-    /// Ensures the player doesn't go past the set moveSpeed
+    /// Prevents player from exceeding max speed
     /// </summary>
     private void SpeedControl()
     {
@@ -127,18 +108,17 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump()
     {
-        rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-
-        rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-    }
-
-    private void ResetJump()
-    {
-        readyToJump = true;
+        // Only allow jump if jumpCount < 2 (ensures no third jump)
+        if (jumpCount < 2)
+        {
+            rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z); // Reset vertical velocity before jumping
+            rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+        // Handle collisions, for example with enemies
         if (collision.gameObject.TryGetComponent<EnemyAI>(out EnemyAI enemyComponent))
         {
             enemyComponent.TakeDamage(1);
