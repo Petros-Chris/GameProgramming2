@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &52964269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1613,7 +1613,7 @@ RectTransform:
   m_Children:
   - {fileID: 1277778921}
   - {fileID: 1146177984}
-  m_Father: {fileID: 1263068841}
+  m_Father: {fileID: 922677912914389597}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2113,10 +2113,10 @@ RectTransform:
   - {fileID: 563965359}
   m_Father: {fileID: 52964272}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 400, y: -100}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchorMin: {x: 0.6220288, y: 0.22766356}
+  m_AnchorMax: {x: 0.8156684, y: 0.34329996}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &516979393
 MonoBehaviour:
@@ -2487,10 +2487,10 @@ RectTransform:
   - {fileID: 1109244965}
   m_Father: {fileID: 52964272}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 400, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchorMin: {x: 0.22511438, y: 0.22766356}
+  m_AnchorMax: {x: 0.40636986, y: 0.34329996}
+  m_AnchoredPosition: {x: 1.999939, y: 2}
+  m_SizeDelta: {x: 4, y: 4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &609194752
 MonoBehaviour:
@@ -5074,10 +5074,10 @@ RectTransform:
   - {fileID: 2012576918}
   m_Father: {fileID: 52964272}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -400, y: -100}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchorMin: {x: 0.6311962, y: 0.44151044}
+  m_AnchorMax: {x: 0.8156684, y: 0.5673021}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1147427357
 MonoBehaviour:
@@ -7969,10 +7969,10 @@ RectTransform:
   - {fileID: 1861581765}
   m_Father: {fileID: 52964272}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -400, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchorMin: {x: 0.22511438, y: 0.42989108}
+  m_AnchorMax: {x: 0.40636986, y: 0.5408366}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1936585001
 MonoBehaviour:
@@ -8347,15 +8347,15 @@ RectTransform:
   m_GameObject: {fileID: 2012576917}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.97255, y: 1.0242, z: 0.35541}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1147427356}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.749, y: 0.90683997}
+  m_AnchoredPosition: {x: 32.92, y: 0.5300293}
+  m_SizeDelta: {x: 67.698, y: -1.035}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2012576919
 MonoBehaviour:
@@ -8440,7 +8440,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -0.00044256586, y: 1.4448051, z: 8.845596, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -8967,6 +8967,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1318486639}
   m_SourcePrefab: {fileID: 100100000, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
+--- !u!4 &922677912914389597 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1092436262760843725, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
+  m_PrefabInstance: {fileID: 922677912914389596}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3403791897388489683
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9090,10 +9095,7 @@ PrefabInstance:
       objectReference: {fileID: 1616686264}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 1625249395216720927, guid: ce6be365833358a4990c1c2a1152736c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 439527516}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce6be365833358a4990c1c2a1152736c, type: 3}
 --- !u!1660057539 &9223372036854775807
