@@ -45,6 +45,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectile: {fileID: 3899376781402548592, guid: 70a03fb07882a8c4d8c8ed1570184c5d, type: 3}
+  HitPoint: {fileID: 8662618904407489197, guid: 513ae5b6720ac7b41bbce90212e444d3, type: 3}
+  Fire: {fileID: 1768110566680697574, guid: 5a07cf734e9b87344b8f4689b67a75d9, type: 3}
+  FirePoint: {fileID: 7161832787332771696}
+  Nozzle: {fileID: 7161832787332771696}
+  range: 100
   ForwardVelocity: 700
   launchVelocity: 200
 --- !u!1 &4156456685068592667

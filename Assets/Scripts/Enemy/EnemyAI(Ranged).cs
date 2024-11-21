@@ -194,9 +194,12 @@ public class EnemyAI : MonoBehaviour
     {
         if (!alreadyAttacked)
         {
-            if (weapon.TryGetComponent<EnemyGun>(out EnemyGun GunComponemt))
+            if (weapon.TryGetComponent<EnemyGun>(out EnemyGun GunComponent))
             {
-                GunComponemt.Shoot();
+               // Vector3 targetPosition = ally.transform.position;
+
+            weapon.transform.LookAt(new Vector3(ally.position.x, transform.position.y, transform.position.z));
+                GunComponent.Shoot();
             }
             else if (weapon.TryGetComponent<EnemyMeleeWeapon>(out EnemyMeleeWeapon meleeWeapon))
             {
