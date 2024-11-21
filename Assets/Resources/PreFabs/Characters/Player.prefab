@@ -171,7 +171,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0.594, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 819319443205666323}
   m_Father: {fileID: 1092436262760843725}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1739400495403733049
@@ -292,8 +293,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41f4ff1811c95944089d319b652a8266, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 2776797659692589897, guid: 4f93e9dbfbeae67459f477aa620d3520, type: 3}
-  launchVelocity: -1300
+  HitPoint: {fileID: 0}
+  Fire: {fileID: 0}
+  FirePoint: {fileID: 0}
+  range: 100
+  damage: 10
+  magazineSize: 50
+  reloadTime: 3
+  fireRate: 0.1
 --- !u!1 &1872048387377454887
 GameObject:
   m_ObjectHideFlags: 0
@@ -548,13 +555,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3462729703512752786}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.003, y: 0.047, z: 0.5879998}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.0029997826, y: -0.54699993, z: 0.5879998}
   m_LocalScale: {x: 0.43183, y: 0.70861, z: 0.4726}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1615271297058868322}
-  m_Father: {fileID: 1092436262760843725}
+  m_Father: {fileID: 3080837853307426172}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1271174975140386963
 MeshFilter:
@@ -864,7 +871,6 @@ Transform:
   - {fileID: 5310833300424228936}
   - {fileID: 8845650548858499561}
   - {fileID: 3080837853307426172}
-  - {fileID: 819319443205666323}
   - {fileID: 7123582529695284880}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -958,13 +964,16 @@ MonoBehaviour:
   jumpForce: 8
   jumpCooldown: 0.25
   airMultiplier: 0.4
+  maxJumps: 2
   jumpKey: 32
-  Attack: 104
+  switchToBuildMode: 109
   playerHeight: 2
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
   orientation: {fileID: 8845650548858499561}
+  buildCam: {fileID: 0}
+  playerCam: {fileID: 0}
 --- !u!54 &1366871249201615563
 Rigidbody:
   m_ObjectHideFlags: 0
