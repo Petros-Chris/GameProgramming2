@@ -1,19 +1,24 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class WaveSystem : MonoBehaviour
 {
     public LayerMask EnemyLayer;
-    bool wait = false;
+    bool currentlyInIntermission = false;
+    bool displaySlider = false;
     float timer;
     public Slider skipIntermissionSlider;
     Coroutine intermissionCoroutine;
     Coroutine waveCoroutine;
-
+    Coroutine skipCurrentRountCoroutine;
+    // TODO: Automatically get all spawn points
+    public GameObject[] spawnPoints;
+    public float spawnRate = 3.0f;
+    public KeyCode skipIntermissionKey = KeyCode.L;
     bool allEnemiesSpawned;
+    bool waveInProgress;
 
     void Start()
     {
@@ -22,91 +27,117 @@ public class WaveSystem : MonoBehaviour
 
     void Update()
     {
-        if (allEnemiesSpawned && waveCoroutine == null)
+        // If round is not currently in intermission
+        if (!currentlyInIntermission)
         {
-            //waveCoroutine = StartCoroutine(ShowNextWaveSlider());
-        }
-
-        // To make sure this aint happening twice
-        if (!wait)
-        {
-            if (!EnemiesLeft())
+            // If no enemies are left and the round is not in progess
+            if (!EnemiesLeft() && !waveInProgress)
             {
+                // Stop the coroutine if still counting down
                 if (waveCoroutine != null)
                 {
-                    StopCoroutine(waveCoroutine); // As round has already ended, not needed anymore
+                    StopCoroutine(waveCoroutine);
+                    waveCoroutine = null; //Because I don't think StopCoroutine makes it null again
                 }
 
-                intermissionCoroutine = StartCoroutine(IntermissionToNextWave());
+                if (skipCurrentRountCoroutine != null)
+                {
+                    StopCoroutine(skipCurrentRountCoroutine);
+                    skipCurrentRountCoroutine = null;
+                }
+
+                intermissionCoroutine = StartCoroutine(BeginIntermissionToNextWave());
                 if (ComponentManager.playerCam.gameObject.activeSelf)
                 {
-                    StartCoroutine(DisplayIntermissionSlider());
+                    StartCoroutine(DisplayIntermissionSlider(skipIntermissionSlider));
                 }
+            }
+
+            // If all enemies have spawned and coroutine is not currently running
+            if (allEnemiesSpawned && waveCoroutine == null)
+            {
+                waveCoroutine = StartCoroutine(BeginCountdownToDisplaySlider());
             }
         }
     }
 
-    private IEnumerator DisplayIntermissionSlider()
+    IEnumerator DisplayIntermissionSlider(Slider slider)
     {
-        skipIntermissionSlider.gameObject.SetActive(true);
-        while (wait)
+        slider.gameObject.SetActive(true);
+        while (displaySlider)
         {
-            while (Input.GetKey(KeyCode.L))
+            while (Input.GetKey(skipIntermissionKey))
             {
                 timer += Time.deltaTime;
-                skipIntermissionSlider.value = timer;
+                slider.value = timer;
                 if (timer >= 4)
                 {
                     BeginWave();
                     StopCoroutine(intermissionCoroutine);
                     timer = 0;
-                    skipIntermissionSlider.value = 0;
-                    wait = false;
-
+                    slider.value = 0;
+                    currentlyInIntermission = false;
                     break;
                 }
                 yield return null;
             }
 
-            while (!Input.GetKey(KeyCode.L) && timer >= 0)
+            while (!Input.GetKey(skipIntermissionKey) && timer >= 0)
             {
                 timer -= Time.deltaTime;
-                skipIntermissionSlider.value = timer;
+                slider.value = timer;
                 yield return null;
             }
             yield return null;
         }
         timer = 0;
-        skipIntermissionSlider.value = timer;
-        skipIntermissionSlider.gameObject.SetActive(false);
+        slider.value = timer;
+        slider.gameObject.SetActive(false);
     }
 
     public void BeginWave()
     {
-        // By adjusting this, you could make them spawn different areas
-        // A better way though would be to get all spawnpoints as gameobjects
-        // So it could easily be adjusted and changed
-        // just have a math.random function to make enemies spawn at different spawnpoints nicely
-        Vector3 pos = new Vector3(-20, 0.5f, 0);
-
-        // TODO: add a delay for each spawn to prevent massive rush
-        Instantiate(ComponentManager.defaultEnemy, pos, Quaternion.identity);
-        Instantiate(ComponentManager.tankEnemy, pos, Quaternion.identity);
-        Instantiate(ComponentManager.fastEnemy, pos, Quaternion.identity);
-
-        allEnemiesSpawned = true;
+        waveInProgress = true;
+        displaySlider = false;
+        StartCoroutine(SpawnWave());
     }
 
-    // If were doing a timer setup
-    public IEnumerator IntermissionToNextWave()
+    IEnumerator SpawnWave()
+    {
+        float timer = 0;
+        int enemiesSpawned = 0;
+        //TODO: Figure out how to get how many enemies should spawn (json file?)
+        while (enemiesSpawned < 5)
+        {
+            timer += Time.deltaTime;
+            if (timer >= spawnRate)
+            {
+                // Gets position to spawn at
+                int pointToSpawn = Random.Range(0, spawnPoints.Length);
+                Vector3 pos = spawnPoints[pointToSpawn].transform.position;
+                // TODO: Figure out how many of one type of enemy should spawn (json file?)
+                Instantiate(ComponentManager.defaultEnemy, pos, Quaternion.identity);
+                enemiesSpawned++;
+                timer = 0;
+            }
+            yield return null;
+        }
+        allEnemiesSpawned = true;
+        waveInProgress = false;
+        waveCoroutine = null;
+    }
+
+    IEnumerator BeginIntermissionToNextWave()
     {
         Debug.Log("Intermission!");
-        wait = true;
+        currentlyInIntermission = true;
+        displaySlider = true;
         yield return new WaitForSeconds(20);
         Debug.Log("Next Round About To Start!");
         yield return new WaitForSeconds(10);
         Debug.Log("Round Starting!");
-        wait = false;
+        currentlyInIntermission = false;
+        displaySlider = false;
         BeginWave();
     }
 
@@ -122,43 +153,12 @@ public class WaveSystem : MonoBehaviour
         return true;
     }
 
-    public IEnumerator ShowNextWaveSlider()
+    IEnumerator BeginCountdownToDisplaySlider()
     {
+        Debug.Log("Beginning Skip!");
         yield return new WaitForSeconds(10);
-        // Maybe we should have it more obvious so the player
-        // won't accidentally skip intermission thinking it was just skipping to intermission?
-        //like skipWaveAndIntermissionSlider.gameObject.SetActive(true);
-
-        skipIntermissionSlider.gameObject.SetActive(true);
-        while (allEnemiesSpawned)
-        {
-            while (Input.GetKey(KeyCode.L))
-            {
-                timer += Time.deltaTime;
-                skipIntermissionSlider.value = timer;
-                if (timer >= 4)
-                {
-                    BeginWave();
-                    StopCoroutine(intermissionCoroutine);
-                    timer = 0;
-                    skipIntermissionSlider.value = 0;
-                    wait = false;
-
-                    break;
-                }
-                yield return null;
-            }
-
-            while (!Input.GetKey(KeyCode.L) && timer >= 0)
-            {
-                timer -= Time.deltaTime;
-                skipIntermissionSlider.value = timer;
-                yield return null;
-            }
-            yield return null;
-        }
-        timer = 0;
-        skipIntermissionSlider.value = timer;
-        skipIntermissionSlider.gameObject.SetActive(false);
+        Debug.Log("Displaying Skip!");
+        displaySlider = true;
+        skipCurrentRountCoroutine = StartCoroutine(DisplayIntermissionSlider(skipIntermissionSlider));
     }
 }

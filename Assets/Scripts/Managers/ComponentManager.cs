@@ -43,11 +43,23 @@ public class ComponentManager : MonoBehaviour
     {
         if (Input.GetKeyDown(switchModes))
         {
-            GameMenu.playerFrozen = false;
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            ComponentManager.buildCam.gameObject.SetActive(false);
-            ComponentManager.playerCam.gameObject.SetActive(true);
+            // Switch cam back to player if true
+            if (buildCam.gameObject.activeSelf)
+            {
+                GameMenu.playerFrozen = false;
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                buildCam.gameObject.SetActive(false);
+                playerCam.gameObject.SetActive(true);
+            }
+            else
+            {
+                GameMenu.playerFrozen = true;
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                buildCam.gameObject.SetActive(true);
+                playerCam.gameObject.SetActive(false);
+            }
         }
     }
 }
