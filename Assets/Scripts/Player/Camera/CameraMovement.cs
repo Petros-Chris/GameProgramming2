@@ -7,6 +7,7 @@ public class CameraMovement : MonoBehaviour
     public float sensX;
     public float sensY;
     public Transform orientation;
+    public Transform mesh;
     float xRotation;
     float yRotation;
 
@@ -36,6 +37,8 @@ public class CameraMovement : MonoBehaviour
         if (orientation != null)
         {
             orientation.rotation = Quaternion.Euler(0, yRotation, 0);
+            // I think this is getting hit with gimbal lock :O
+            mesh.rotation = Quaternion.Euler(0, yRotation - 90, 0);
         }
     }
 }

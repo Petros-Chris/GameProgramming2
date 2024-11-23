@@ -151,6 +151,11 @@ public class BuildController : MonoBehaviour
             return;
         }
 
+       // if (tower.price - WaveSystem.currency < 0)
+       // {
+         //   return;
+        //}
+
         //TODO: Stop place if no money?
         if (Physics.Raycast(ray, out hit))
         {

@@ -31,7 +31,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
         // Animator = GetComponent<Animator>(); // Commented out since we're not using animations
         building = GetClosestBuilding();
         ally = GetClosestEnemy();
-
+        Debug.Log("Amount");
         StateMachine = new StateMachine();
         StateMachine.AddState(new HeadToTowerState(this));
         StateMachine.AddState(new ChaseState(this));
@@ -39,26 +39,33 @@ public class EnemyAI : MonoBehaviour, IDamageable
         StateMachine.AddState(new AttackBuildingState(this));
 
         StateMachine.TransitionToState(StateType.HeadToTower);
-        // InvokeRepeating("UpdateStateMachine",0,0.4f);
+        //InvokeRepeating("UpdateStateMachine", 0, 0.5f);
     }
     //slep
     void Update()
     {
-        // Animator.SetFloat("CharacterSpeed", Agent.velocity.magnitude); //? Animation
-      //  if (StateMachine == null)
-     //   {
-     //       Start();
-      //  }
-     //   else
-       // {
-            StateMachine.Update();
-       // }
+        //Animator.SetFloat("CharacterSpeed", Agent.velocity.magnitude); //? Animation
+        // if (StateMachine == null)
+        // {
+        //     Start();
+        // }
+        // else
+        // {
+        StateMachine.Update();
+        // }
         currentState = StateMachine.GetCurrentStateType();
     }
 
     void UpdateStateMachine()
     {
-        StateMachine.Update();
+        if (StateMachine == null)
+        {
+            Start();
+        }
+        else
+        {
+            StateMachine.Update();
+        }
     }
 
     public Transform GetClosestEnemy()
@@ -196,9 +203,9 @@ public class EnemyAI : MonoBehaviour, IDamageable
         {
             if (weapon.TryGetComponent<EnemyGun>(out EnemyGun GunComponent))
             {
-               // Vector3 targetPosition = ally.transform.position;
+                // Vector3 targetPosition = ally.transform.position;
 
-            //weapon.transform.LookAt(new Vector3(ally.position.x, transform.position.y, transform.position.z));
+                weapon.transform.LookAt(new Vector3(ally.position.x, transform.position.y, transform.position.z));
                 GunComponent.Shoot();
             }
             else if (weapon.TryGetComponent<EnemyMeleeWeapon>(out EnemyMeleeWeapon meleeWeapon))
