@@ -21,6 +21,10 @@ public class Settings : MonoBehaviour
     {
         ChangeFrameRate();
         ChangeVsync();
+        JsonHandler.Save();
+        JsonHandler.DataToSave data = JsonHandler.ReadFile("settings");
+        frameRate = data.frameRate;
+        vsyncOptions = data.vsyncOption;
     }
 
     public void ChangeFrameRate()

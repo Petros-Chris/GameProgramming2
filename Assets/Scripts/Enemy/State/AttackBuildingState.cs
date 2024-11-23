@@ -39,7 +39,7 @@ public class AttackBuildingState : IState
         // Makes them not shoot if theres something in the way
         if (aiController.CanSeeBuilding())
         {
-            aiController.Attack();
+            //aiController.Attack();
             return;
         }
 

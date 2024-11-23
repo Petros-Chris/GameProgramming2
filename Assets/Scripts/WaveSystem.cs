@@ -19,10 +19,30 @@ public class WaveSystem : MonoBehaviour
     public KeyCode skipIntermissionKey = KeyCode.L;
     bool allEnemiesSpawned;
     bool waveInProgress;
+    int round = 0;
+    int wavesToComplete;
+
+    bool isLastRound = false;
+    JsonHandler.Root root;
 
     void Start()
     {
-
+        root = JsonHandler.ReadFileForWave("waves");
+        Debug.Log(root.difficulty[0].difficulty);
+        wavesToComplete = root.difficulty[0].waves.Count;
+        // foreach (var difficulty in root.difficulty)
+        // {
+        //     print("difficulty Level: " + difficulty.difficulty);
+        //     foreach (var wave in difficulty.waves)
+        //     {
+        //         print("wave Num: " + wave.wave);
+        //         print("anmount of enemmiwas: " + wave.totalEnemies);
+        //         foreach (var enemy in wave.enemies)
+        //         {
+        //             print("count of type: " + enemy.count + " type of enemiesas: " + enemy.type);
+        //         }
+        //     }
+        // }
     }
 
     void Update()
@@ -30,8 +50,13 @@ public class WaveSystem : MonoBehaviour
         // If round is not currently in intermission
         if (!currentlyInIntermission)
         {
+            if (wavesToComplete <= round)
+            {
+                isLastRound = true;
+            }
+
             // If no enemies are left and the round is not in progess
-            if (!EnemiesLeft() && !waveInProgress)
+            if (!EnemiesLeft() && !waveInProgress && !isLastRound)
             {
                 // Stop the coroutine if still counting down
                 if (waveCoroutine != null)
@@ -52,6 +77,11 @@ public class WaveSystem : MonoBehaviour
                     StartCoroutine(DisplayIntermissionSlider(skipIntermissionSlider));
                 }
             }
+            if (!EnemiesLeft() && !waveInProgress && isLastRound)
+            {
+                //Switch scene
+                Debug.Log("YOU WIN");
+            }
 
             // If all enemies have spawned and coroutine is not currently running
             if (allEnemiesSpawned && waveCoroutine == null)
@@ -64,7 +94,7 @@ public class WaveSystem : MonoBehaviour
     IEnumerator DisplayIntermissionSlider(Slider slider)
     {
         slider.gameObject.SetActive(true);
-        while (displaySlider)
+        while (displaySlider && !isLastRound)
         {
             while (Input.GetKey(skipIntermissionKey))
             {
@@ -99,15 +129,23 @@ public class WaveSystem : MonoBehaviour
     {
         waveInProgress = true;
         displaySlider = false;
+        round++;
         StartCoroutine(SpawnWave());
+
     }
 
     IEnumerator SpawnWave()
     {
         float timer = 0;
         int enemiesSpawned = 0;
-        //TODO: Figure out how to get how many enemies should spawn (json file?)
-        while (enemiesSpawned < 5)
+        int countBasic = 0;
+
+        var easyMode = root.difficulty[0];
+        var wave = easyMode.waves[round - 1];
+        var waveNumber = wave.wave;
+        var totalEnemiesInRound = wave.totalEnemies;
+
+        while (enemiesSpawned < totalEnemiesInRound)
         {
             timer += Time.deltaTime;
             if (timer >= spawnRate)
@@ -115,8 +153,15 @@ public class WaveSystem : MonoBehaviour
                 // Gets position to spawn at
                 int pointToSpawn = Random.Range(0, spawnPoints.Length);
                 Vector3 pos = spawnPoints[pointToSpawn].transform.position;
-                // TODO: Figure out how many of one type of enemy should spawn (json file?)
-                Instantiate(ComponentManager.defaultEnemy, pos, Quaternion.identity);
+
+                if (wave.enemies[0].type == "basic")
+                {
+                    if (wave.enemies[0].count > countBasic)
+                    {
+                        Instantiate(ComponentManager.defaultEnemy, pos, Quaternion.identity);
+                    }
+                    countBasic++;
+                }
                 enemiesSpawned++;
                 timer = 0;
             }

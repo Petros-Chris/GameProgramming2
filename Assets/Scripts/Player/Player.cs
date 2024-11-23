@@ -13,7 +13,7 @@ public class Player : MonoBehaviour, IDamageable
     void Start()
     {
         healthBar = GameObject.Find("PlayerHealthBar").transform;
-        ComponentManager.deathCam.gameObject.SetActive(false);
+        //ComponentManager.deathCam.gameObject.SetActive(false);
     }
     void Update()
     {
