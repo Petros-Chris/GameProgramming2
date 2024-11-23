@@ -3,17 +3,17 @@ using UnityEngine;
 
 public class Gun2 : MonoBehaviour
 {
-    public GameObject ExplosionEffect; // Prefab for the explosion visual effect
-    public Transform FirePoint; // Point from where the gun fires
-    public float range = 100f; // Max range of the gun
-    public float explosionRadius = 5f; // Radius of the explosion
-    public float damage = 20f; // Damage dealt to enemies within the explosion radius
-    public float fireCooldown = 5f; // Cooldown between shots
-    public float bulletRegenTime = 10f; // Time it takes to regenerate a bullet
-    public int maxBullets = 2; // Maximum bullets
+    public GameObject ExplosionEffect; 
+    public Transform FirePoint; 
+    public float range = 100f; 
+    public float explosionRadius = 5f; 
+    public float damage = 20f;
+    public float fireCooldown = 5f; 
+    public float bulletRegenTime = 10f; 
+    public int maxBullets = 2; 
 
-    public static int currentBullets; // Current bullets in the gun
-    private float nextFireTime = 0f; // Cooldown timer for firing
+    public static int currentBullets; 
+    private float nextFireTime = 0f; 
 
     void Start()
     {
@@ -41,18 +41,17 @@ public class Gun2 : MonoBehaviour
 
         if (Physics.Raycast(FirePoint.position, FirePoint.forward, out hit, range))
         {
-            // Spawn the explosion effect at the hit point
+  
             if (ExplosionEffect != null)
             {
                 GameObject explosion = Instantiate(ExplosionEffect, hit.point, Quaternion.identity);
                 Destroy(explosion, 2.0f);
             }
 
-            // Find all colliders in the explosion radius
             Collider[] colliders = Physics.OverlapSphere(hit.point, explosionRadius);
             foreach (Collider nearbyObject in colliders)
             {
-                // Check if the object has an EnemyAI script
+
                 EnemyAI enemy = nearbyObject.GetComponent<EnemyAI>();
                 if (enemy != null)
                 {
@@ -61,7 +60,7 @@ public class Gun2 : MonoBehaviour
             }
         }
 
-        currentBullets--; // Reduce the bullet count
+        currentBullets--;
     }
 
     IEnumerator RegenerateBullets()
