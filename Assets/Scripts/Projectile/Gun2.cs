@@ -1,67 +1,87 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Gun1 : MonoBehaviour
+public class Gun2 : MonoBehaviour
 {
-    public GameObject projectile;
-    public float launchVelocity = -700f;
-    public int magazineSize = 50;
-    public float reloadTime = 3.0f;
-    public float fireRate = 0.5f; 
-    public int pelletsPerShot = 8; 
-    public float spreadAngle = 30f; 
-    private int currentBullets;
-    private bool isReloading = false;
-    private float nextFireTime = 0f;
+    public GameObject ExplosionEffect; // Prefab for the explosion visual effect
+    public Transform FirePoint; // Point from where the gun fires
+    public float range = 100f; // Max range of the gun
+    public float explosionRadius = 5f; // Radius of the explosion
+    public float damage = 20f; // Damage dealt to enemies within the explosion radius
+    public float fireCooldown = 5f; // Cooldown between shots
+    public float bulletRegenTime = 10f; // Time it takes to regenerate a bullet
+    public int maxBullets = 2; // Maximum bullets
+
+    public static int currentBullets; // Current bullets in the gun
+    private float nextFireTime = 0f; // Cooldown timer for firing
 
     void Start()
     {
-        currentBullets = magazineSize;
+        currentBullets = maxBullets;
+        StartCoroutine(RegenerateBullets());
     }
 
     void Update()
     {
-
-        if (GameMenu.isPaused || GameMenu.playerFrozen || isReloading)
+        if (GameMenu.isPaused || GameMenu.playerFrozen)
         {
             return;
         }
 
-        if (Input.GetButton("Fire1") && currentBullets > 0 && Time.time >= nextFireTime)
+        if (Input.GetButton("Fire2") && Time.time >= nextFireTime && currentBullets > 0)
         {
-            nextFireTime = Time.time + fireRate;
-            Shoot();
-        }
-        else if (currentBullets <= 0 && !isReloading)
-        {
-
-            StartCoroutine(Reload());
+            nextFireTime = Time.time + fireCooldown;
+            ExplosiveShot();
         }
     }
 
-    void Shoot()
+    void ExplosiveShot()
     {
-        for (int i = 0; i < pelletsPerShot; i++)
+        RaycastHit hit;
+
+        if (Physics.Raycast(FirePoint.position, FirePoint.forward, out hit, range))
         {
+            // Spawn the explosion effect at the hit point
+            if (ExplosionEffect != null)
+            {
+                GameObject explosion = Instantiate(ExplosionEffect, hit.point, Quaternion.identity);
+                Destroy(explosion, 2.0f);
+            }
 
-            float angle = Random.Range(-spreadAngle / 2, spreadAngle / 2);
-            Quaternion rotation = Quaternion.Euler(0, angle, 0);
-
-
-            GameObject ball = Instantiate(projectile, transform.position, transform.rotation * rotation);
-            ball.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, launchVelocity, 0));
+            // Find all colliders in the explosion radius
+            Collider[] colliders = Physics.OverlapSphere(hit.point, explosionRadius);
+            foreach (Collider nearbyObject in colliders)
+            {
+                // Check if the object has an EnemyAI script
+                EnemyAI enemy = nearbyObject.GetComponent<EnemyAI>();
+                if (enemy != null)
+                {
+                    enemy.TakeDamage(damage);
+                }
+            }
         }
 
-
-        currentBullets--;
+        currentBullets--; // Reduce the bullet count
     }
 
-    IEnumerator Reload()
+    IEnumerator RegenerateBullets()
     {
-        isReloading = true;
-        yield return new WaitForSeconds(reloadTime);
-        currentBullets = magazineSize;
-        isReloading = false;
+        while (true)
+        {
+            yield return new WaitForSeconds(bulletRegenTime);
+
+            if (currentBullets < maxBullets)
+            {
+                currentBullets++;
+                Debug.Log("Bullet regenerated. Current bullets: " + currentBullets);
+            }
+        }
+    }
+
+    // Visualize the explosion radius in the editor
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(FirePoint.position, explosionRadius);
     }
 }

@@ -551,9 +551,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35d3ed77be3c42b4da404baf320f341d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 2776797659692589897, guid: 4f93e9dbfbeae67459f477aa620d3520, type: 3}
+  HitPoint: {fileID: 8662618904407489197, guid: 513ae5b6720ac7b41bbce90212e444d3, type: 3}
+  Fire: {fileID: 1768110566680697574, guid: 5a07cf734e9b87344b8f4689b67a75d9, type: 3}
+  FirePoint: {fileID: 3524201312362402920}
+  Nozzle: {fileID: 3524201312362402920}
+  range: 100
   ForwardVelocity: 700
-  launchVelocity: 200
+  launchVelocity: 100
 --- !u!1 &6210910723542204523
 GameObject:
   m_ObjectHideFlags: 0

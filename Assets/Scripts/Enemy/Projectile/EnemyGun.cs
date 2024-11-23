@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EnemyGun : MonoBehaviour
 {
-    public GameObject projectile;
     public GameObject HitPoint;
     public GameObject Fire; 
     public Transform FirePoint; 

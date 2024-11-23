@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
-public class EnemyAI : MonoBehaviour
+public class EnemyAI : MonoBehaviour, IDamageable
 {
     public HealthBarScript healthBarScript;
     public StateMachine StateMachine { get; set; }
@@ -45,14 +45,14 @@ public class EnemyAI : MonoBehaviour
     void Update()
     {
         // Animator.SetFloat("CharacterSpeed", Agent.velocity.magnitude); //? Animation
-        if (StateMachine == null)
-        {
-            Start();
-        }
-        else
-        {
+      //  if (StateMachine == null)
+     //   {
+     //       Start();
+      //  }
+     //   else
+       // {
             StateMachine.Update();
-        }
+       // }
         currentState = StateMachine.GetCurrentStateType();
     }
 
@@ -198,7 +198,7 @@ public class EnemyAI : MonoBehaviour
             {
                // Vector3 targetPosition = ally.transform.position;
 
-            weapon.transform.LookAt(new Vector3(ally.position.x, transform.position.y, transform.position.z));
+            //weapon.transform.LookAt(new Vector3(ally.position.x, transform.position.y, transform.position.z));
                 GunComponent.Shoot();
             }
             else if (weapon.TryGetComponent<EnemyMeleeWeapon>(out EnemyMeleeWeapon meleeWeapon))
