@@ -1,1 +1,0 @@
-{"difficulty":[{"difficulty":"easy","waves":[{"wave":1,"totalEnemies":10,"enemies":[{"type":"basic","count":10}]},{"wave":2,"totalEnemies":20,"enemies":[{"type":"basic","count":20}]}]},{"difficulty":"medium","waves":[{"wave":1,"totalEnemies":10,"enemies":[{"type":"basic","count":10}]},{"wave":2,"totalEnemies":20,"enemies":[{"type":"basic","count":20}]}]}]}

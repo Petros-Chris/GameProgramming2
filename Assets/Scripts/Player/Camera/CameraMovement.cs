@@ -31,14 +31,14 @@ public class CameraMovement : MonoBehaviour
         yRotation += mouseXAxis;
         xRotation -= mouseYAxis;
         //Prevents player from breaking their neck
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        xRotation = Mathf.Clamp(xRotation, -80f, 60f);
 
         transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
         if (orientation != null)
         {
             orientation.rotation = Quaternion.Euler(0, yRotation, 0);
             // I think this is getting hit with gimbal lock :O
-            mesh.rotation = Quaternion.Euler(0, yRotation - 90, 0);
+            mesh.rotation = Quaternion.Euler(0, yRotation, 0);
         }
     }
 }

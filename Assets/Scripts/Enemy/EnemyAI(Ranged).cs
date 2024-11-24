@@ -41,7 +41,6 @@ public class EnemyAI : MonoBehaviour, IDamageable
         StateMachine.TransitionToState(StateType.HeadToTower);
         //InvokeRepeating("UpdateStateMachine", 0, 0.5f);
     }
-    //slep
     void Update()
     {
         //Animator.SetFloat("CharacterSpeed", Agent.velocity.magnitude); //? Animation
@@ -205,7 +204,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
             {
                 // Vector3 targetPosition = ally.transform.position;
 
-                weapon.transform.LookAt(new Vector3(ally.position.x, transform.position.y, transform.position.z));
+                //weapon.transform.LookAt(new Vector3(ally.position.x, transform.position.y, transform.position.z));
                 GunComponent.Shoot();
             }
             else if (weapon.TryGetComponent<EnemyMeleeWeapon>(out EnemyMeleeWeapon meleeWeapon))

@@ -93,6 +93,10 @@ public class WaveSystem : MonoBehaviour
 
     IEnumerator DisplayIntermissionSlider(Slider slider)
     {
+        if (slider == null)
+        {
+            yield break;
+        }
         slider.gameObject.SetActive(true);
         while (displaySlider && !isLastRound)
         {

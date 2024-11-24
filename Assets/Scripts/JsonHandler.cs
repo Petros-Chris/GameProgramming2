@@ -78,7 +78,7 @@ public class JsonHandler : MonoBehaviour
     }
     public static Root ReadFileForWave(String fileNameToRead = "wavesaaaa")
     {
-        String rawData = File.ReadAllText(Application.dataPath + "/" + fileNameToRead + ".txt");
+        String rawData = Resources.Load<TextAsset>(fileNameToRead).text;
 
         Root data = JsonUtility.FromJson<Root>(rawData);
         return data;

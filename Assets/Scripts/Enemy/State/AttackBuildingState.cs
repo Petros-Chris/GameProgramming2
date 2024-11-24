@@ -18,7 +18,7 @@ public class AttackBuildingState : IState
     public void Execute()
     {
         aiController.ally = aiController.GetClosestEnemy();
-        
+
         if (aiController.ally != null)
         {
             if (aiController.CanSeeEnemy(aiController.SightRange))
@@ -39,7 +39,7 @@ public class AttackBuildingState : IState
         // Makes them not shoot if theres something in the way
         if (aiController.CanSeeBuilding())
         {
-            //aiController.Attack();
+            aiController.Attack();
             return;
         }
 
