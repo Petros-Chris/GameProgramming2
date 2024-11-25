@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     public float airMultiplier;
     public float playerHeight;
     public LayerMask whatIsGround;
+    private Animator animator;
 
     private int jumpCount; 
     //private bool readyToJump;
@@ -24,12 +25,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         jumpCount = 0;
     }
 
     private void Update()
     {
+        animator.SetFloat("CharacterSpeed", rb.velocity.magnitude);
         // Only process movement and jumping if the game is not paused or frozen
         if (!GameMenu.playerFrozen)
         {
@@ -113,6 +116,7 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z); // Reset vertical velocity before jumping
             rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+            animator.SetTrigger("Jumped");
         }
     }
 

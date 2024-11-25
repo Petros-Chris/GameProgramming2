@@ -123,8 +123,8 @@ ModelImporter:
       name: Standing Jump
       takeName: Standing Jump
       internalID: -3554577098843197493
-      firstFrame: 0
-      lastFrame: 73
+      firstFrame: 20
+      lastFrame: 37
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -160,7 +160,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0

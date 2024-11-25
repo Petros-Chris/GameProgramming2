@@ -14,6 +14,7 @@ public class ComponentManager : MonoBehaviour
     public static GameObject defaultEnemy;
     public static GameObject fastEnemy;
     public static GameObject tankEnemy;
+    public static bool lockCamera;
 
     void Start()
     {
@@ -43,6 +44,11 @@ public class ComponentManager : MonoBehaviour
     {
         if (Input.GetKeyDown(switchModes))
         {
+            if (lockCamera)
+            {
+                return;
+            }
+            
             // Switch cam back to player if true
             if (buildCam.gameObject.activeSelf)
             {
@@ -61,5 +67,14 @@ public class ComponentManager : MonoBehaviour
                 playerCam.gameObject.SetActive(false);
             }
         }
+    }
+    public static void SwitchToPlayerAndLockCamera()
+    {
+        GameMenu.playerFrozen = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        lockCamera = true;
+        buildCam.gameObject.SetActive(false);
+        playerCam.gameObject.SetActive(true);
     }
 }

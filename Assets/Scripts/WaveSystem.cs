@@ -58,6 +58,7 @@ public class WaveSystem : MonoBehaviour
             // If no enemies are left and the round is not in progess
             if (!EnemiesLeft() && !waveInProgress && !isLastRound)
             {
+                ComponentManager.lockCamera = false;
                 // Stop the coroutine if still counting down
                 if (waveCoroutine != null)
                 {
@@ -79,6 +80,7 @@ public class WaveSystem : MonoBehaviour
             }
             if (!EnemiesLeft() && !waveInProgress && isLastRound)
             {
+                ComponentManager.lockCamera = false; // Remove when scene changes as its just for now 
                 //Switch scene
                 Debug.Log("YOU WIN");
             }
@@ -134,6 +136,7 @@ public class WaveSystem : MonoBehaviour
         waveInProgress = true;
         displaySlider = false;
         round++;
+        ComponentManager.SwitchToPlayerAndLockCamera();
         StartCoroutine(SpawnWave());
 
     }

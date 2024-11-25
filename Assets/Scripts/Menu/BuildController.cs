@@ -42,7 +42,7 @@ public class BuildController : MonoBehaviour
         shouldOutline = false;
         HighlightButton(false);
     }
-    //TODO: R for rotate 
+
     private IEnumerator TowerOutline()
     {
         while (shouldOutline && !Input.GetKeyDown(cancel))

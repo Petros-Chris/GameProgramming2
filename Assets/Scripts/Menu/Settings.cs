@@ -95,14 +95,22 @@ public class Settings : MonoBehaviour
     }
 
     //TODO: Get it to see the isOn in the toggle itself
-    //! Permanently changed the game resolution to 16:9?
     public void ToggleScreen()
     {
         Screen.fullScreen = !Screen.fullScreen;
+
+        // if (!Screen.fullScreen)
+        // {
+        //     Screen.SetResolution(640, 480, false);
+        // }
+        // else
+        // {
+        //     Screen.SetResolution(Display.main.systemWidth, Display.main.systemHeight, true);
+        // }
     }
 
     public void ChangeScreenResoultion()
     {
-        Screen.SetResolution(640, 480, Screen.fullScreen);
+        Screen.SetResolution(640, 480, false);
     }
 }
