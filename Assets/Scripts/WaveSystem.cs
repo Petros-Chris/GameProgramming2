@@ -72,6 +72,8 @@ public class WaveSystem : MonoBehaviour
                     skipCurrentRountCoroutine = null;
                 }
 
+                RewardMoney();
+
                 intermissionCoroutine = StartCoroutine(BeginIntermissionToNextWave());
                 if (ComponentManager.playerCam.gameObject.activeSelf)
                 {
@@ -213,4 +215,10 @@ public class WaveSystem : MonoBehaviour
         displaySlider = true;
         skipCurrentRountCoroutine = StartCoroutine(DisplayIntermissionSlider(skipIntermissionSlider));
     }
+
+    private void RewardMoney()
+{
+    int reward = round * 50; 
+    CurrencyManager.Instance.Currency += reward; 
+}
 }

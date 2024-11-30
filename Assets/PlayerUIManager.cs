@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class PlayerUIManager : MonoBehaviour
 {
     public TextMeshProUGUI currentAmmo;
+    public TextMeshProUGUI reloading;
     public Image explosionAmmo1;
     public Image explosionAmmo2;
     // Start is called before the first frame update
@@ -34,6 +35,12 @@ public class PlayerUIManager : MonoBehaviour
          if(Gun2.currentBullets == 2){
             explosionAmmo2.gameObject.SetActive(true);
             explosionAmmo1.gameObject.SetActive(true);
+        }
+        if(Gun.currentBullets == 0){
+            reloading.gameObject.SetActive(true);
+
+        }else{
+             reloading.gameObject.SetActive(false);
         }
     }
 }

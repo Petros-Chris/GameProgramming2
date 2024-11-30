@@ -5,14 +5,14 @@ using UnityEngine;
 public class SpawnAlly : MonoBehaviour
 {
     public GameObject Ally;
-    public KeyCode SpawnKey = KeyCode.R;
+    private KeyCode SpawnKey = KeyCode.P;
 
     // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(SpawnKey))
         {
-            GameObject ally = Instantiate(Ally, transform.position, transform.rotation);
+            Instantiate(Ally, transform.position, transform.rotation);
         }
 
     }

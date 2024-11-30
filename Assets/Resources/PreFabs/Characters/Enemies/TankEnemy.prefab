@@ -277,6 +277,7 @@ MonoBehaviour:
   alreadyAttacked: 0
   health: 250
   maxHealth: 250
+  value: 7
 --- !u!1 &2072711536925606694
 GameObject:
   m_ObjectHideFlags: 0

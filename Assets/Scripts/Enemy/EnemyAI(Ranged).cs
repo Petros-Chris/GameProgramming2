@@ -24,6 +24,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
     public Transform raycastOrigin;
     public bool alreadyAttacked = false;
     public float health, maxHealth = 100f;
+    public int value = 3;
 
     void Start()
     {
@@ -232,6 +233,8 @@ public class EnemyAI : MonoBehaviour, IDamageable
 
         if (health <= 0)
         {
+            CurrencyManager.Instance.Currency += value;
+            Debug.Log(CurrencyManager.Instance.Currency);
             Destroy(gameObject);
         }
     }

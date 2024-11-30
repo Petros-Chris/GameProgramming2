@@ -18,6 +18,8 @@ public class Gun : MonoBehaviour
     private bool isReloading = false; 
     private float nextFireTime = 0f;
 
+    private KeyCode reloadKey = KeyCode.R;
+
     void Start()
     {
         currentBullets = magazineSize;
@@ -41,6 +43,10 @@ public class Gun : MonoBehaviour
     
         if (currentBullets <= 0 && !isReloading)
         {
+            StartCoroutine(Reload());
+        }
+
+        if(Input.GetKeyDown(reloadKey) && !isReloading && currentBullets != magazineSize){
             StartCoroutine(Reload());
         }
     }
@@ -82,6 +88,7 @@ public class Gun : MonoBehaviour
 
     IEnumerator Reload()
     {
+        currentBullets = 0;
         isReloading = true;
         Debug.Log("Reloading...");
         yield return new WaitForSeconds(reloadTime);
