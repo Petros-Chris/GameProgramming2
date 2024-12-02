@@ -1757,7 +1757,6 @@ MonoBehaviour:
   defaultEnemy: {fileID: 1143756752094828556, guid: 6b8434cc00392de48a8ac95a42b6e7ee, type: 3}
   fastEnemy: {fileID: 1143756752094828556, guid: e86b5fd04740dfc46bad551a1dc82e5b, type: 3}
   tankEnemy: {fileID: 1143756752094828556, guid: 3fbebdf4eb1f3354d92a54af1756ce6f, type: 3}
-  SpawnKey: 101
 --- !u!114 &460592986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5247,7 +5246,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Ally: {fileID: 1143756752094828556, guid: 9a1f30ffb78b26849a3382a4203b9da8, type: 3}
-  SpawnKey: 114
 --- !u!1 &1261617933
 GameObject:
   m_ObjectHideFlags: 0
@@ -5715,14 +5713,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1382221352}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: -0.043619405, z: 0, w: 0.9990483}
+  m_LocalPosition: {x: 0, y: -5, z: 0}
+  m_LocalScale: {x: 1, y: -5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1263068841}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -5, z: 0}
 --- !u!114 &1382221354
 MonoBehaviour:
   m_ObjectHideFlags: 0
