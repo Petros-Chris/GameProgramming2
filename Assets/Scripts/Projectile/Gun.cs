@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Gun : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class Gun : MonoBehaviour
     public static int currentBullets; 
     private bool isReloading = false; 
     private float nextFireTime = 0f;
+
+    public TrailRenderer bulletTrail;
 
     private KeyCode reloadKey = KeyCode.R;
 
@@ -54,7 +57,11 @@ public class Gun : MonoBehaviour
     void Shoot()
     {
          RaycastHit hit;
-
+        var bullet = Instantiate(bulletTrail, Nozzle.position, Quaternion.identity);
+        bullet.AddPosition(Nozzle.position);
+        {
+            bullet.transform.position = transform.position + (Nozzle.forward * 200);
+        }
     
     if (Physics.Raycast(FirePoint.position, FirePoint.forward, out hit, range))
     {
@@ -80,6 +87,9 @@ public class Gun : MonoBehaviour
     if (Fire != null)
     {
         GameObject fire = Instantiate(Fire, Nozzle.position, FirePoint.rotation);
+        Vector3 originalScale = fire.transform.localScale;
+        fire.transform.parent = Nozzle.transform;          
+        fire.transform.localScale = originalScale;         
         Destroy(fire, 1.0f);
     }
 

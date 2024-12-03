@@ -6014,9 +6014,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1860873014}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -775, y: 505}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 185, y: -78}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1433510765
@@ -9676,6 +9676,10 @@ PrefabInstance:
       propertyPath: FirePoint
       value: 
       objectReference: {fileID: 1263068841}
+    - target: {fileID: 8318743889850480823, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
+      propertyPath: bulletTrail
+      value: 
+      objectReference: {fileID: -3532444799092184316, guid: 7c4fdb9598a3a13418903244566024b5, type: 3}
     - target: {fileID: 9060304023689677792, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
       propertyPath: m_fontColor.b
       value: 0.8627451
