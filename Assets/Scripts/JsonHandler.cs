@@ -58,7 +58,7 @@ public class JsonHandler : MonoBehaviour
 
     public static void Save(int frameRate = 0, int vsyncOption = 1)
     {
-        Debug.Log("Saving to" + Application.dataPath);
+        // Debug.Log("Saving to" + Application.dataPath);
 
         DataToSave dataToSave = new DataToSave
         {

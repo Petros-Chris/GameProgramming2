@@ -240,7 +240,7 @@ public class WaveSystem : MonoBehaviour
         CurrencyManager.Instance.Currency += reward;
     }
     //GUI for showing base health
-    //Maybe a sound effect everytime it is hit when its low
+    //!BUG: Skip round in deathcam, casuing broken cam when suceesufly skiiped
 
     //GUI for showing boss health (when he exists)
 }

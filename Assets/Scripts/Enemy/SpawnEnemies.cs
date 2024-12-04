@@ -7,19 +7,25 @@ public class SpawnEnemies : MonoBehaviour
     public GameObject defaultEnemy;
     public GameObject fastEnemy;
     public GameObject tankEnemy;
-    private KeyCode SpawnKey = KeyCode.E;
+    private KeyCode spawnKey = KeyCode.J;
+    private KeyCode spawnKeyStrong = KeyCode.K;
+    private KeyCode spawnKeyFast = KeyCode.L;
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(SpawnKey))
+        if (Input.GetKeyDown(spawnKey))
         {
-            for (int i = 0; i < 5; i++)
-            {
-                Instantiate(defaultEnemy, transform.position, transform.rotation);
-                Instantiate(fastEnemy, transform.position, transform.rotation);
-                Instantiate(fastEnemy, transform.position, transform.rotation);
-            }
+            Instantiate(defaultEnemy, transform.position, transform.rotation);
+        }
+        if (Input.GetKeyDown(spawnKeyFast))
+        {
+            Instantiate(fastEnemy, transform.position, transform.rotation);
+
+        }
+        if (Input.GetKeyDown(spawnKeyStrong))
+        {
+            Instantiate(tankEnemy, transform.position, transform.rotation);
 
         }
     }

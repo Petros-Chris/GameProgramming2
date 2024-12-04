@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Level2.unity
     guid: e246457c2d9c33342897b56efc595b56
   - enabled: 0
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/Scenes/TestScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
     path: Assets/Scenes/LoseScreen.unity

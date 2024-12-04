@@ -1,1 +1,15 @@
-{"difficulty":[{"difficulty":"easy","waves":[{"wave":1,"totalEnemies":10,"enemies":[{"type":"basic","count":10}]},{"wave":2,"totalEnemies":20,"enemies":[{"type":"basic","count":20}]}]},{"difficulty":"medium","waves":[{"wave":1,"totalEnemies":10,"enemies":[{"type":"basic","count":10}]},{"wave":2,"totalEnemies":20,"enemies":[{"type":"basic","count":20}]}]}]}
+{"difficulty":[
+{"difficulty":"easy","waves":[
+{"wave":1,"totalEnemies":10,"enemies":[{"type":"basic","count":10}]},
+{"wave":2,"totalEnemies":20,"enemies":[{"type":"basic","count":20}]},
+{"wave":3,"totalEnemies":30,"enemies":[{"type":"basic","count":30}]},
+{"wave":4,"totalEnemies":40,"enemies":[{"type":"basic","count":40}]},
+{"wave":5,"totalEnemies":50,"enemies":[{"type":"basic","count":50}]},
+{"wave":6,"totalEnemies":60,"enemies":[{"type":"basic","count":60}]},
+{"wave":7,"totalEnemies":70,"enemies":[{"type":"basic","count":70}]}]},{"difficulty":"medium","waves":[
+{"wave":1,"totalEnemies":10,"enemies":[{"type":"basic","count":10}]},{"wave":2,"totalEnemies":20,"enemies":[{"type":"basic","count":20}]},
+{"wave":3,"totalEnemies":30,"enemies":[{"type":"basic","count":30}]},
+{"wave":4,"totalEnemies":40,"enemies":[{"type":"basic","count":40}]},
+{"wave":5,"totalEnemies":50,"enemies":[{"type":"basic","count":50}]},
+{"wave":6,"totalEnemies":60,"enemies":[{"type":"basic","count":60}]},
+{"wave":7,"totalEnemies":70,"enemies":[{"type":"basic","count":70}]}]}]}
