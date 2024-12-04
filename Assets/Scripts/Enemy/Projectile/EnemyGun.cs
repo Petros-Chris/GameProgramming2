@@ -16,11 +16,11 @@ public class EnemyGun : MonoBehaviour
     {
        RaycastHit hit;
     
-        //var bullet = Instantiate(bulletTrail, Nozzle.position, Quaternion.identity);
-        //bullet.AddPosition(Nozzle.position);
-        //{
-        //    bullet.transform.position = transform.position + (Nozzle.forward * 200);
-        //}
+        var bullet = Instantiate(bulletTrail, Nozzle.position, Quaternion.identity);
+        bullet.AddPosition(Nozzle.position);
+        {
+            bullet.transform.position = transform.position + (Nozzle.forward * 200);
+        }
     if (Physics.Raycast(FirePoint.position, FirePoint.forward, out hit, range))
     {
         // Debug remove for line to dissapear
