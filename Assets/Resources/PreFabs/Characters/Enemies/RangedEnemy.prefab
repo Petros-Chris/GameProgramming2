@@ -714,6 +714,7 @@ MonoBehaviour:
   range: 100
   ForwardVelocity: 700
   launchVelocity: 100
+  bulletTrail: {fileID: -3532444799092184316, guid: 7c4fdb9598a3a13418903244566024b5, type: 3}
 --- !u!1001 &6296319475648414524
 PrefabInstance:
   m_ObjectHideFlags: 0

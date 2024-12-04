@@ -113,7 +113,7 @@ public class AllyAI : MonoBehaviour, IDamageable
     {
         if (!alreadyAttacked)
         {
-            if (weapon.TryGetComponent<EnemyGun>(out EnemyGun GunComponemt))
+            if (weapon.TryGetComponent<TowerGun>(out TowerGun GunComponemt))
             {
                 GunComponemt.Shoot();
             }

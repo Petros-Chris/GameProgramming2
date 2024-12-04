@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyGun : MonoBehaviour
+public class TowerGun : MonoBehaviour
 {
     public GameObject HitPoint;
     public GameObject Fire; 
@@ -16,11 +16,11 @@ public class EnemyGun : MonoBehaviour
     {
        RaycastHit hit;
     
-        //var bullet = Instantiate(bulletTrail, Nozzle.position, Quaternion.identity);
-        //bullet.AddPosition(Nozzle.position);
-        //{
-        //    bullet.transform.position = transform.position + (Nozzle.forward * 200);
-        //}
+        var bullet = Instantiate(bulletTrail, Nozzle.position, Quaternion.identity);
+        bullet.AddPosition(Nozzle.position);
+        {
+            bullet.transform.position = transform.position + (Nozzle.forward * 200);
+        }
     if (Physics.Raycast(FirePoint.position, FirePoint.forward, out hit, range))
     {
         // Debug remove for line to dissapear
