@@ -29,10 +29,4 @@ public class CurrencyManager : MonoBehaviour
     {
         scoreText.text = "Money: " + Currency;
     }
-    //Put slider in corder, next to press l to skip
-    // Show enemies left at top middle of scrren
-    // Wave coutner that shows how many waves in a game
-    
-    // i nbuild screen, add text that says how much money you need to place tower when you don't have enough at top middle
-    
 }

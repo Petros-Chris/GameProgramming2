@@ -12,7 +12,7 @@ public class WaveSystem : MonoBehaviour
     public Slider skipIntermissionSlider;
     Coroutine intermissionCoroutine;
     Coroutine waveCoroutine;
-    Coroutine skipCurrentRountCoroutine;
+    Coroutine skipCurrentRoundCoroutine;
     // TODO: Automatically get all spawn points
     public GameObject[] spawnPoints;
     public float spawnRate = 3.0f;
@@ -27,7 +27,9 @@ public class WaveSystem : MonoBehaviour
 
     bool isLastRound = false;
     JsonHandler.Root root;
+    int intermissionTimer;
 
+    //!BUG: If holding slider key when round starts, slider doesn't dissaper immediately
     void Start()
     {
         root = JsonHandler.ReadFileForWave("waves");
@@ -70,13 +72,13 @@ public class WaveSystem : MonoBehaviour
                     waveCoroutine = null; //Because I don't think StopCoroutine makes it null again
                 }
 
-                if (skipCurrentRountCoroutine != null)
+                if (skipCurrentRoundCoroutine != null)
                 {
-                    StopCoroutine(skipCurrentRountCoroutine);
-                    skipCurrentRountCoroutine = null;
+                    StopCoroutine(skipCurrentRoundCoroutine);
+                    skipCurrentRoundCoroutine = null;
                 }
 
-                RewardMoney();
+                RewardMoney(0);
 
                 intermissionCoroutine = StartCoroutine(BeginIntermissionToNextWave());
                 if (ComponentManager.Instance.playerCam.gameObject.activeSelf)
@@ -87,8 +89,7 @@ public class WaveSystem : MonoBehaviour
             if (!EnemiesLeft() && !waveInProgress && isLastRound)
             {
                 ComponentManager.Instance.lockCamera = false; // Remove when scene changes as its just for now 
-                //Switch scene
-                Debug.Log("YOU WIN");
+                ComponentManager.Instance.DisplayWinScreen();
             }
 
             // If all enemies have spawned and coroutine is not currently running
@@ -115,6 +116,7 @@ public class WaveSystem : MonoBehaviour
                 if (timer >= 4)
                 {
                     BeginWave();
+                    RewardMoney(intermissionTimer);
                     StopCoroutine(intermissionCoroutine);
                     timer = 0;
                     slider.value = 0;
@@ -143,8 +145,8 @@ public class WaveSystem : MonoBehaviour
         displaySlider = false;
         round++;
         ComponentManager.Instance.SwitchToPlayerAndLockCamera();
+        ComponentManager.Instance.CallCoroutine(ComponentManager.Instance.ShowMessage("Round Starting!"));
         StartCoroutine(SpawnWave());
-
     }
 
     IEnumerator SpawnWave()
@@ -188,7 +190,7 @@ public class WaveSystem : MonoBehaviour
 
     IEnumerator BeginIntermissionToNextWave()
     {
-        float intermissionTimer = 30;
+        intermissionTimer = 30;
         Debug.Log("Intermission!");
         currentlyInIntermission = true;
         displaySlider = true;
@@ -222,18 +224,23 @@ public class WaveSystem : MonoBehaviour
         yield return new WaitForSeconds(10);
         Debug.Log("Displaying Skip!");
         displaySlider = true;
-        skipCurrentRountCoroutine = StartCoroutine(DisplayIntermissionSlider(skipIntermissionSlider));
+        skipCurrentRoundCoroutine = StartCoroutine(DisplayIntermissionSlider(skipIntermissionSlider));
     }
 
-    private void RewardMoney()
+    private void RewardMoney(int timeSkipped = default)
     {
-        int reward = round * 50;
+        int reward = 0;
+
+        if (timeSkipped != default)
+        {
+            reward += round * (timeSkipped / 10);
+        }
+        reward += round * 50;
+
         CurrencyManager.Instance.Currency += reward;
     }
-    //Time Until
-    //Next Round
-    //30
+    //GUI for showing base health
+    //Maybe a sound effect everytime it is hit when its low
 
-    //Enemies Left
-    //30
+    //GUI for showing boss health (when he exists)
 }

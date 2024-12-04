@@ -23,7 +23,6 @@ public class GameMenu : MonoBehaviour
             {
                 ResumeGameWithGUI();
             }
-
             else
             {
                 PauseGame();
@@ -38,8 +37,10 @@ public class GameMenu : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-
-        gameMenu.SetActive(true);
+        if (!ComponentManager.Instance.winScreenIsDisplayed)
+        {
+            gameMenu.SetActive(true);
+        }
     }
 
     public void ResumeGameWithGUI()

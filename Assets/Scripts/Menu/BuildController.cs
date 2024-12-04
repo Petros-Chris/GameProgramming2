@@ -44,7 +44,7 @@ public class BuildController : MonoBehaviour
             {
                 costRemaining = priceOfObject - CurrencyManager.Instance.Currency;
                 ComponentManager.Instance.CallCoroutine(ComponentManager.Instance.ShowMessage("HAHAHA YOU BROKE You need " + costRemaining + "$"));
-                ComponentManager.Instance.CallCoroutine(FlashButton());
+                ComponentManager.Instance.CallCoroutine(FlashButton(Color.red));
                 break;
             }
             // Changes color to show you are in multi place mode
@@ -168,6 +168,8 @@ public class BuildController : MonoBehaviour
 
         if (IsThereAnyColliders())
         {
+            ComponentManager.Instance.CallCoroutine(ComponentManager.Instance.ShowMessage("You Can't Place There"));
+            ComponentManager.Instance.CallCoroutine(FlashButton(Color.yellow));
             return;
         }
 
@@ -187,20 +189,19 @@ public class BuildController : MonoBehaviour
         {
             costRemaining = priceOfObject - CurrencyManager.Instance.Currency;
             ComponentManager.Instance.CallCoroutine(ComponentManager.Instance.ShowMessage("HAHAHA YOU BROKE You need " + costRemaining + "$"));
-            ComponentManager.Instance.CallCoroutine(FlashButton());
+            ComponentManager.Instance.CallCoroutine(FlashButton(Color.red));
         }
     }
 
-    private IEnumerator FlashButton()
+    private IEnumerator FlashButton(Color color)
     {
-        Color red = Color.red;
         Button saveButt = button;
-        HighlightButton(true, saveButt, red);
+        HighlightButton(true, saveButt, color);
         yield return new WaitForSeconds(0.3f);
-        HighlightButton(false, saveButt, red);
+        HighlightButton(false, saveButt, color);
         yield return new WaitForSeconds(0.3f);
-        HighlightButton(true, saveButt, red);
+        HighlightButton(true, saveButt, color);
         yield return new WaitForSeconds(0.3f);
-        HighlightButton(false, saveButt, red);
+        HighlightButton(false, saveButt, color);
     }
 }

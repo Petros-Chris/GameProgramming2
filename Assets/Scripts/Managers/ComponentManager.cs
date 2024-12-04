@@ -16,14 +16,18 @@ public class ComponentManager : MonoBehaviour
     public GameObject defaultEnemy;
     public GameObject fastEnemy;
     public GameObject tankEnemy;
+
+    // I feel like all this should be in gameMenu 
     public bool lockCamera;
     public GameObject message;
     public TextMeshProUGUI messageText;
     public GameObject panel;
+    public GameObject winCanvas;
+    public bool winScreenIsDisplayed;
 
     void Start()
     {
-        TextMeshProUGUI messageText = message.GetComponent<TextMeshProUGUI>();
+        messageText = message.GetComponent<TextMeshProUGUI>();
         fastEnemy = Resources.Load<GameObject>("PreFabs/Characters/Enemies/FastEnemy");
         defaultEnemy = Resources.Load<GameObject>("PreFabs/Characters/Enemies/RangedEnemy");
         tankEnemy = Resources.Load<GameObject>("PreFabs/Characters/Enemies/TankEnemy");
@@ -106,5 +110,11 @@ public class ComponentManager : MonoBehaviour
     public void CallCoroutine(IEnumerator coroutine)
     {
         StartCoroutine(coroutine);
+    }
+
+    public void DisplayWinScreen()
+    {
+        winCanvas.SetActive(true);
+        winScreenIsDisplayed = true;
     }
 }
