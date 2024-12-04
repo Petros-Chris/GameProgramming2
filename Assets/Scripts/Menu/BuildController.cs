@@ -2,14 +2,14 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using UnityEngine.AI;
-using Unity.AI.Navigation;
+using TMPro;
 
 public class BuildController : MonoBehaviour
 {
     //!BUG: if game lose while player in build mode, player frozen next game start
-    //!BUG: Can place ontop of object
+    //!BUG: Can place on top of object
     //!BUG: Will place new building if select building button
+    //!BUG: Outline will stay at spot if user forced out of build mode, which is eh
 
     public GameObject tower;
     public KeyCode spawnMultiple = KeyCode.RightShift;
@@ -20,6 +20,8 @@ public class BuildController : MonoBehaviour
     Renderer render;
     int rotateAngle;
     Quaternion angleToSpawnTower;
+    int priceOfObject;
+    int costRemaining;
 
     //public NavMeshSurface navMeshSurface;
     void Start()
@@ -31,23 +33,33 @@ public class BuildController : MonoBehaviour
     {
         while (Input.GetKey(spawnMultiple))
         {
-            if (Input.GetMouseButtonDown(0))
+            if (CurrencyManager.Instance.Currency >= priceOfObject)
             {
-                SpawnTowerAtMouse();
+                if (Input.GetMouseButtonDown(0))
+                {
+                    SpawnTowerAtMouse();
+                }
+            }
+            else
+            {
+                costRemaining = priceOfObject - CurrencyManager.Instance.Currency;
+                ComponentManager.Instance.CallCoroutine(ComponentManager.Instance.ShowMessage("HAHAHA YOU BROKE You need " + costRemaining + "$"));
+                ComponentManager.Instance.CallCoroutine(FlashButton());
+                break;
             }
             // Changes color to show you are in multi place mode
-            HighlightButton(true);
+            HighlightButton(true, button);
             yield return null;
         }
         shouldOutline = false;
-        HighlightButton(false);
+        HighlightButton(false, button);
     }
 
     private IEnumerator TowerOutline()
     {
         while (shouldOutline && !Input.GetKeyDown(cancel))
         {
-            Ray ray = ComponentManager.buildCam.ScreenPointToRay(Input.mousePosition);
+            Ray ray = ComponentManager.Instance.buildCam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit))
@@ -109,6 +121,10 @@ public class BuildController : MonoBehaviour
         }
         button = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
         string towerName = button.name.Replace("Btn", "");
+
+        TextMeshProUGUI[] buttonTexts = button.GetComponentsInChildren<TextMeshProUGUI>();
+
+        priceOfObject = int.Parse(buttonTexts[1].text.Replace("Costs: ", ""));
         tower = Resources.Load<GameObject>("Prefabs/Buildings/" + towerName);
 
         shouldOutline = true;
@@ -132,18 +148,22 @@ public class BuildController : MonoBehaviour
         return false;
     }
 
-    private void HighlightButton(bool isActive)
+    private void HighlightButton(bool isActive, Button buttonToChange, Color color = default)
     {
-        ColorBlock colors = button.colors;
-        colors.normalColor = isActive ? Color.green : Color.white;
-        button.colors = colors;
+        if (color == default)
+        {
+            color = Color.green;
+        }
+
+        ColorBlock colors = buttonToChange.colors;
+        colors.normalColor = isActive ? color : Color.white;
+        buttonToChange.colors = colors;
     }
 
     // Will not update the enemy table on new towers, is that bad? 
-    // (depends on if were allowing the player to build mid battle, maybe we could but there would be a timer of like 30 seconds?)
     private void SpawnTowerAtMouse()
     {
-        Ray ray = ComponentManager.buildCam.ScreenPointToRay(Input.mousePosition);
+        Ray ray = ComponentManager.Instance.buildCam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
         if (IsThereAnyColliders())
@@ -151,19 +171,36 @@ public class BuildController : MonoBehaviour
             return;
         }
 
-       // if (tower.price - WaveSystem.currency < 0)
-       // {
-         //   return;
-        //}
-
-        //TODO: Stop place if no money?
-        if (Physics.Raycast(ray, out hit))
+        if (CurrencyManager.Instance.Currency >= priceOfObject)
         {
-            Vector3 spawnLocation = new Vector3(hit.point.x, tower.transform.position.y, hit.point.z);
+            if (Physics.Raycast(ray, out hit))
+            {
+                Vector3 spawnLocation = new Vector3(hit.point.x, tower.transform.position.y, hit.point.z);
 
-            Instantiate(tower, spawnLocation, angleToSpawnTower);
-            // A bit resource intensive, likely worse for larger maps
-            //navMeshSurface.BuildNavMesh();
+                Instantiate(tower, spawnLocation, angleToSpawnTower);
+                CurrencyManager.Instance.Currency -= priceOfObject;
+                // A bit resource intensive, likely worse for larger maps
+                //navMeshSurface.BuildNavMesh();
+            }
         }
+        else
+        {
+            costRemaining = priceOfObject - CurrencyManager.Instance.Currency;
+            ComponentManager.Instance.CallCoroutine(ComponentManager.Instance.ShowMessage("HAHAHA YOU BROKE You need " + costRemaining + "$"));
+            ComponentManager.Instance.CallCoroutine(FlashButton());
+        }
+    }
+
+    private IEnumerator FlashButton()
+    {
+        Color red = Color.red;
+        Button saveButt = button;
+        HighlightButton(true, saveButt, red);
+        yield return new WaitForSeconds(0.3f);
+        HighlightButton(false, saveButt, red);
+        yield return new WaitForSeconds(0.3f);
+        HighlightButton(true, saveButt, red);
+        yield return new WaitForSeconds(0.3f);
+        HighlightButton(false, saveButt, red);
     }
 }

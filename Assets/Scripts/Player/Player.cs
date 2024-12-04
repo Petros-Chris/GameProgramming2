@@ -17,18 +17,17 @@ public class Player : MonoBehaviour, IDamageable
     {
         healthBar = GameObject.Find("PlayerHealthBar").transform;
         //ComponentManager.deathCam.gameObject.SetActive(false);
-         lastDamageTime = Time.time;
+        lastDamageTime = Time.time;
     }
     void Update()
     {
-        ComponentManager.ToggleBuildPlayerMode();
+        ComponentManager.Instance.ToggleBuildPlayerMode();
 
         if (!isRegenerating && Time.time - lastDamageTime >= 5f)
         {
             StartCoroutine(RegenerateHealth());
         }
     }
-
 
     public void TakeDamage(float damage)
     {
@@ -43,19 +42,19 @@ public class Player : MonoBehaviour, IDamageable
         {
             //gameObject.SetActive(false);
             Destroy(gameObject);
-            ComponentManager.deathCam.gameObject.SetActive(true);
-            ComponentManager.playerCam.gameObject.SetActive(false);
+            ComponentManager.Instance.deathCam.gameObject.SetActive(true);
+            ComponentManager.Instance.playerCam.gameObject.SetActive(false);
         }
     }
 
-      private IEnumerator RegenerateHealth()
+    private IEnumerator RegenerateHealth()
     {
         isRegenerating = true;
 
         while (health < maxHealth)
         {
             health += 1;
-            health = Mathf.Min(health, maxHealth); 
+            health = Mathf.Min(health, maxHealth);
 
             if (healthBar.TryGetComponent<PlayerHealthBar>(out PlayerHealthBar HealthComponent))
             {
@@ -71,6 +70,6 @@ public class Player : MonoBehaviour, IDamageable
             }
         }
 
-        isRegenerating = false; 
+        isRegenerating = false;
     }
 }

@@ -22,6 +22,9 @@ public class WaveSystem : MonoBehaviour
     int round = 0;
     int wavesToComplete;
 
+    public TextMeshProUGUI waveText;
+    public TextMeshProUGUI EnemyOrTimerText;
+
     bool isLastRound = false;
     JsonHandler.Root root;
 
@@ -30,6 +33,7 @@ public class WaveSystem : MonoBehaviour
         root = JsonHandler.ReadFileForWave("waves");
         Debug.Log(root.difficulty[0].difficulty);
         wavesToComplete = root.difficulty[0].waves.Count;
+        waveText.text = "Wave: " + 0 + "/" + wavesToComplete;
         // foreach (var difficulty in root.difficulty)
         // {
         //     print("difficulty Level: " + difficulty.difficulty);
@@ -58,7 +62,7 @@ public class WaveSystem : MonoBehaviour
             // If no enemies are left and the round is not in progess
             if (!EnemiesLeft() && !waveInProgress && !isLastRound)
             {
-                ComponentManager.lockCamera = false;
+                ComponentManager.Instance.lockCamera = false;
                 // Stop the coroutine if still counting down
                 if (waveCoroutine != null)
                 {
@@ -75,14 +79,14 @@ public class WaveSystem : MonoBehaviour
                 RewardMoney();
 
                 intermissionCoroutine = StartCoroutine(BeginIntermissionToNextWave());
-                if (ComponentManager.playerCam.gameObject.activeSelf)
+                if (ComponentManager.Instance.playerCam.gameObject.activeSelf)
                 {
                     StartCoroutine(DisplayIntermissionSlider(skipIntermissionSlider));
                 }
             }
             if (!EnemiesLeft() && !waveInProgress && isLastRound)
             {
-                ComponentManager.lockCamera = false; // Remove when scene changes as its just for now 
+                ComponentManager.Instance.lockCamera = false; // Remove when scene changes as its just for now 
                 //Switch scene
                 Debug.Log("YOU WIN");
             }
@@ -138,7 +142,7 @@ public class WaveSystem : MonoBehaviour
         waveInProgress = true;
         displaySlider = false;
         round++;
-        ComponentManager.SwitchToPlayerAndLockCamera();
+        ComponentManager.Instance.SwitchToPlayerAndLockCamera();
         StartCoroutine(SpawnWave());
 
     }
@@ -152,6 +156,7 @@ public class WaveSystem : MonoBehaviour
         var easyMode = root.difficulty[0];
         var wave = easyMode.waves[round - 1];
         var waveNumber = wave.wave;
+        waveText.text = "Wave: " + waveNumber + "/" + wavesToComplete;
         var totalEnemiesInRound = wave.totalEnemies;
 
         while (enemiesSpawned < totalEnemiesInRound)
@@ -167,7 +172,7 @@ public class WaveSystem : MonoBehaviour
                 {
                     if (wave.enemies[0].count > countBasic)
                     {
-                        Instantiate(ComponentManager.defaultEnemy, pos, Quaternion.identity);
+                        Instantiate(ComponentManager.Instance.defaultEnemy, pos, Quaternion.identity);
                     }
                     countBasic++;
                 }
@@ -183,13 +188,16 @@ public class WaveSystem : MonoBehaviour
 
     IEnumerator BeginIntermissionToNextWave()
     {
+        float intermissionTimer = 30;
         Debug.Log("Intermission!");
         currentlyInIntermission = true;
         displaySlider = true;
-        yield return new WaitForSeconds(20);
-        Debug.Log("Next Round About To Start!");
-        yield return new WaitForSeconds(10);
-        Debug.Log("Round Starting!");
+        while (intermissionTimer > 0)
+        {
+            yield return new WaitForSeconds(1f);
+            EnemyOrTimerText.text = "Time Until Next Round " + --intermissionTimer;
+        }
+        EnemyOrTimerText.text = "Round Starting!";
         currentlyInIntermission = false;
         displaySlider = false;
         BeginWave();
@@ -198,6 +206,7 @@ public class WaveSystem : MonoBehaviour
     public bool EnemiesLeft()
     {
         Collider[] EnemiesAlive = Physics.OverlapSphere(transform.position, 10000, EnemyLayer);
+        EnemyOrTimerText.text = "Enemies Left " + EnemiesAlive.Length;
 
         if (EnemiesAlive.Length == 0)
         {
@@ -217,8 +226,14 @@ public class WaveSystem : MonoBehaviour
     }
 
     private void RewardMoney()
-{
-    int reward = round * 50; 
-    CurrencyManager.Instance.Currency += reward; 
-}
+    {
+        int reward = round * 50;
+        CurrencyManager.Instance.Currency += reward;
+    }
+    //Time Until
+    //Next Round
+    //30
+
+    //Enemies Left
+    //30
 }

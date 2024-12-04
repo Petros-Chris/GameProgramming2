@@ -29,7 +29,7 @@ public class CamBuild : MonoBehaviour
         CameraRotation();
         CameraMovement();
 
-        ComponentManager.ToggleBuildPlayerMode();
+        ComponentManager.Instance.ToggleBuildPlayerMode();
     }
 
     private void CameraRotation()

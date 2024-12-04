@@ -516,7 +516,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3524201312362402920}
-  - component: {fileID: 4134493407310215999}
+  - component: {fileID: 1319962350168429079}
   m_Layer: 0
   m_Name: Attack
   m_TagString: Untagged
@@ -539,7 +539,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2741210651399224431}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4134493407310215999
+--- !u!114 &1319962350168429079
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -548,16 +548,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 5840331874037749611}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35d3ed77be3c42b4da404baf320f341d, type: 3}
+  m_Script: {fileID: 11500000, guid: 99bb6769099506c44bbada888a15eb27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   HitPoint: {fileID: 8662618904407489197, guid: 513ae5b6720ac7b41bbce90212e444d3, type: 3}
   Fire: {fileID: 1768110566680697574, guid: 5a07cf734e9b87344b8f4689b67a75d9, type: 3}
-  FirePoint: {fileID: 3524201312362402920}
-  Nozzle: {fileID: 3524201312362402920}
+  FirePoint: {fileID: 1351209619312055099}
+  Nozzle: {fileID: 1351209619312055099}
   range: 100
   ForwardVelocity: 700
   launchVelocity: 100
+  bulletTrail: {fileID: -3532444799092184316, guid: a4c1eefb1fb9bf745ba190c7dadfa4a4, type: 3}
 --- !u!1 &6210910723542204523
 GameObject:
   m_ObjectHideFlags: 0

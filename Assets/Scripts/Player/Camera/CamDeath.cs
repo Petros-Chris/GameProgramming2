@@ -37,8 +37,8 @@ public class CamDeath : MonoBehaviour
     public IEnumerator RespawnPlayer()
     {
         yield return new WaitForSeconds(respawnTimer);
-        ComponentManager.deathCam.gameObject.SetActive(false);
-        ComponentManager.playerCam.gameObject.SetActive(true);
+        ComponentManager.Instance.deathCam.gameObject.SetActive(false);
+        ComponentManager.Instance.playerCam.gameObject.SetActive(true);
     }
 
     private void CameraRotation()
