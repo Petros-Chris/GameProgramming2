@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3744158597184289291}
   - component: {fileID: 4618637802803540207}
   - component: {fileID: 8269039796816256787}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116,7 +116,7 @@ GameObject:
   - component: {fileID: 4255524751601232906}
   - component: {fileID: 5900150768119852185}
   - component: {fileID: 3531215037889035720}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BaseHealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 6741360543032693726}
   - component: {fileID: 9124061621893816640}
   - component: {fileID: 333152320382167467}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -435,7 +435,7 @@ GameObject:
   - component: {fileID: 5279904400158423277}
   - component: {fileID: 3787290622988667115}
   - component: {fileID: 1343073314570939705}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -534,7 +534,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3925364601855350355}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -572,7 +572,7 @@ GameObject:
   - component: {fileID: 9170820670237226002}
   - component: {fileID: 3778420363970230372}
   - component: {fileID: 286582543666375943}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -646,7 +646,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1494660318338728849, guid: b480be52e473ff345a769962c95377bf, type: 3}
       propertyPath: m_Layer
-      value: 11
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4156456685068592667, guid: b480be52e473ff345a769962c95377bf, type: 3}
       propertyPath: m_Name
@@ -654,23 +654,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4156456685068592667, guid: b480be52e473ff345a769962c95377bf, type: 3}
       propertyPath: m_Layer
-      value: 11
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 7908245626051613975, guid: b480be52e473ff345a769962c95377bf, type: 3}
       propertyPath: m_Layer
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 9175482777718939345, guid: b480be52e473ff345a769962c95377bf, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.33333334
-      objectReference: {fileID: 0}
-    - target: {fileID: 9175482777718939345, guid: b480be52e473ff345a769962c95377bf, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9175482777718939345, guid: b480be52e473ff345a769962c95377bf, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.33333334
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 9175482777718939345, guid: b480be52e473ff345a769962c95377bf, type: 3}
       propertyPath: m_LocalPosition.x
@@ -712,55 +700,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 8764091068710352266, guid: b480be52e473ff345a769962c95377bf, type: 3}
-    - {fileID: 5669367838407301628, guid: b480be52e473ff345a769962c95377bf, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1494660318338728849, guid: b480be52e473ff345a769962c95377bf, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5991494634651952409}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b480be52e473ff345a769962c95377bf, type: 3}
---- !u!4 &2818982080300612580 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7161832787332771696, guid: b480be52e473ff345a769962c95377bf, type: 3}
-  m_PrefabInstance: {fileID: 4935093884674200724}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4262979501934479941 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9175482777718939345, guid: b480be52e473ff345a769962c95377bf, type: 3}
   m_PrefabInstance: {fileID: 4935093884674200724}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &5819460089568204549 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1494660318338728849, guid: b480be52e473ff345a769962c95377bf, type: 3}
-  m_PrefabInstance: {fileID: 4935093884674200724}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &5991494634651952409
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5819460089568204549}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99bb6769099506c44bbada888a15eb27, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HitPoint: {fileID: 8662618904407489197, guid: 513ae5b6720ac7b41bbce90212e444d3, type: 3}
-  Fire: {fileID: 1768110566680697574, guid: 5a07cf734e9b87344b8f4689b67a75d9, type: 3}
-  FirePoint: {fileID: 2818982080300612580}
-  Nozzle: {fileID: 2818982080300612580}
-  range: 100
-  ForwardVelocity: 700
-  launchVelocity: 100
-  bulletTrail: {fileID: -3532444799092184316, guid: a4c1eefb1fb9bf745ba190c7dadfa4a4, type: 3}
-  whatIsBuilding:
-    serializedVersion: 2
-    m_Bits: 512
-  whatIsAlly:
-    serializedVersion: 2
-    m_Bits: 0
-  bulletDamage: 8

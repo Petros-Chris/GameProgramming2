@@ -10,6 +10,7 @@ public class WaveSystem : MonoBehaviour
     bool displaySlider = false;
     float timer;
     public Slider skipIntermissionSlider;
+    public TextMeshProUGUI skipSliderText;
     Coroutine intermissionCoroutine;
     Coroutine waveCoroutine;
     Coroutine skipCurrentRoundCoroutine;
@@ -83,7 +84,7 @@ public class WaveSystem : MonoBehaviour
                 intermissionCoroutine = StartCoroutine(BeginIntermissionToNextWave());
                 if (ComponentManager.Instance.playerCam.gameObject.activeSelf)
                 {
-                    StartCoroutine(DisplayIntermissionSlider(skipIntermissionSlider));
+                    StartCoroutine(DisplayIntermissionSlider(skipIntermissionSlider, "Hold L To Skip Intermission"));
                 }
             }
             if (!EnemiesLeft() && !waveInProgress && isLastRound)
@@ -100,13 +101,14 @@ public class WaveSystem : MonoBehaviour
         }
     }
 
-    IEnumerator DisplayIntermissionSlider(Slider slider)
+    IEnumerator DisplayIntermissionSlider(Slider slider, string message)
     {
         if (slider == null)
         {
             yield break;
         }
         slider.gameObject.SetActive(true);
+        skipSliderText.text = message;
         while (displaySlider && !isLastRound)
         {
             while (Input.GetKey(skipIntermissionKey))
@@ -224,7 +226,7 @@ public class WaveSystem : MonoBehaviour
         yield return new WaitForSeconds(10);
         Debug.Log("Displaying Skip!");
         displaySlider = true;
-        skipCurrentRoundCoroutine = StartCoroutine(DisplayIntermissionSlider(skipIntermissionSlider));
+        skipCurrentRoundCoroutine = StartCoroutine(DisplayIntermissionSlider(skipIntermissionSlider, "Hold L To Begin Next Wave"));
     }
 
     private void RewardMoney(int timeSkipped = default)

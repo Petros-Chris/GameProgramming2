@@ -5,10 +5,10 @@ using UnityEngine;
 public class TowerGun : MonoBehaviour
 {
     public GameObject HitPoint;
-    public GameObject Fire; 
-    public Transform FirePoint; 
+    public GameObject Fire;
+    public Transform FirePoint;
     public Transform Nozzle;
-    public float range = 100f; 
+    public float range = 100f;
     public int ForwardVelocity = 700;
     public int launchVelocity = 100;
     public TrailRenderer bulletTrail;
@@ -17,31 +17,28 @@ public class TowerGun : MonoBehaviour
     public float bulletDamage = 5f;
     public void Shoot()
     {
-       RaycastHit hit;
-         Vector3 rayOrigin = FirePoint.position;
-Vector3 randomOffset = new Vector3(
-        0f, 
-        Random.Range(-0.05f, 0.05f), 
-        Random.Range(-0.05f, 0.05f)
-    );
-    Vector3 rayDirection = (FirePoint.forward + randomOffset).normalized;
+        RaycastHit hit;
+        Vector3 rayOrigin = FirePoint.position;
+        Vector3 randomOffset = new Vector3(
+                0f,
+                Random.Range(-0.05f, 0.05f),
+                Random.Range(-0.05f, 0.05f)
+            );
+        Vector3 rayDirection = (FirePoint.forward + randomOffset).normalized;
         float remainingRange = range;
-    
+
         var bullet = Instantiate(bulletTrail, Nozzle.position, Quaternion.identity);
         bullet.AddPosition(Nozzle.position);
-        {
-            bullet.transform.position = transform.position + (Nozzle.forward * 200);
-        }
+        bullet.transform.position = transform.position + (Nozzle.forward * 200);
 
-
-     while (Physics.Raycast(rayOrigin, rayDirection, out hit, remainingRange))
+        while (Physics.Raycast(rayOrigin, rayDirection, out hit, remainingRange))
         {
 
             if (((1 << hit.transform.gameObject.layer) & (whatIsBuilding | whatIsAlly)) != 0)
             {
 
                 remainingRange -= hit.distance;
-                rayOrigin = hit.point + rayDirection * 0.01f; 
+                rayOrigin = hit.point + rayDirection * 0.01f;
                 continue;
             }
 
@@ -58,20 +55,12 @@ Vector3 randomOffset = new Vector3(
             {
                 damageable.TakeDamage(bulletDamage);
             }
-
             break;
         }
-           
-    
-    
-
-  
-    if (Fire != null)
-    {
-        GameObject fire = Instantiate(Fire, Nozzle.position, FirePoint.rotation);
-        Destroy(fire, 1.0f);
-    }
-
-   
+        if (Fire != null)
+        {
+            GameObject fire = Instantiate(Fire, Nozzle.position, FirePoint.rotation);
+            Destroy(fire, 1.0f);
+        }
     }
 }
