@@ -10,7 +10,7 @@ public class Gun : MonoBehaviour
     public Transform FirePoint; 
     public Transform Nozzle;
     public float range = 100f; 
-    public float damage = 10f; 
+    public float damage = 4f; 
     public static int magazineSize = 50;
     public float reloadTime = 3.0f; 
     public float fireRate = 0.1f; 

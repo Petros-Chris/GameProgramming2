@@ -22,12 +22,13 @@ public class AttackEnemyState : IStateAlly
         if (aiController.enemy != null)
         {
             // Enemy is not in attack range
-            if (!aiController.CanSeeEnemy(aiController.AttackRange))
+            if (!aiController.IsEnemyInRange(aiController.AttackRange))
             {
                 aiController.StateMachine.TransitionToState(StateTypeAlly.Chase);
                 return;
             }
             aiController.LookAt(aiController.enemy);
+            aiController.Nozzle.LookAt(aiController.enemy);
             aiController.Attack();
         }
         else

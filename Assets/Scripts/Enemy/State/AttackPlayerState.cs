@@ -3,6 +3,7 @@ using UnityEngine;
 public class AttackPlayerState : IState
 {
     private EnemyAI aiController;
+    
 
     public StateType Type => StateType.AttackPlayer;
 
@@ -36,6 +37,7 @@ public class AttackPlayerState : IState
         }
 
         aiController.LookAt(aiController.ally);
+        aiController.Nozzle.LookAt(aiController.ally);
         aiController.Attack();
     }
 

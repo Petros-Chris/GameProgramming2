@@ -20,6 +20,7 @@ public class AllyAI : MonoBehaviour, IDamageable
     public float attackCooldown = 1f;
     public bool alreadyAttacked = false;
     public float health, maxHealth = 100f;
+    public Transform Nozzle;
 
     void Start()
     {
@@ -66,9 +67,9 @@ public class AllyAI : MonoBehaviour, IDamageable
         return closestEnemy;
     }
 
-    public void LookAt(Transform thing)
+    public void LookAt(Transform lookingAt)
     {
-        Vector3 direction = (thing.position - transform.position).normalized;
+        Vector3 direction = (lookingAt.position - transform.position).normalized;
 
         Quaternion targetRotation = Quaternion.LookRotation(direction);
 

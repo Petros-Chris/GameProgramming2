@@ -25,6 +25,8 @@ public class EnemyAI : MonoBehaviour, IDamageable
     public bool alreadyAttacked = false;
     public float health, maxHealth = 100f;
     public int value = 3;
+    public Transform Nozzle;
+    
 
     void Start()
     {
@@ -98,7 +100,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
         transform.rotation = Quaternion.Slerp(
         transform.rotation,
         targetRotation,
-        Time.deltaTime * 2.0f
+        Time.deltaTime * 1.25f
         );
     }
 

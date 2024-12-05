@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3600228635117281327}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 6931965026330052295}
   - component: {fileID: 5285368881477739332}
   - component: {fileID: 7341132542762983650}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -278,6 +278,7 @@ MonoBehaviour:
   health: 250
   maxHealth: 250
   value: 7
+  Nozzle: {fileID: 4963172863360039278}
 --- !u!1 &2072711536925606694
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,7 +292,7 @@ GameObject:
   - component: {fileID: 2644522878748726269}
   - component: {fileID: 2625983343370398651}
   - component: {fileID: 7623187901632947911}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: WeaponHead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -398,12 +399,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HitPoint: {fileID: 8662618904407489197, guid: 513ae5b6720ac7b41bbce90212e444d3, type: 3}
   Fire: {fileID: 1768110566680697574, guid: 5a07cf734e9b87344b8f4689b67a75d9, type: 3}
-  FirePoint: {fileID: 1351209619312055099}
+  FirePoint: {fileID: 4963172863360039278}
   Nozzle: {fileID: 4963172863360039278}
   range: 100
   ForwardVelocity: 700
   launchVelocity: 100
   bulletTrail: {fileID: -3532444799092184316, guid: ac7e1965935b23f41871466b8638dcaa, type: 3}
+  whatIsEnemy:
+    serializedVersion: 2
+    m_Bits: 0
+  bulletDamage: 5
 --- !u!1 &3848054618829087646
 GameObject:
   m_ObjectHideFlags: 0
@@ -413,7 +418,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1351209619312055099}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Face
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -447,7 +452,7 @@ GameObject:
   - component: {fileID: 2439155411462112466}
   - component: {fileID: 698488294038508136}
   - component: {fileID: 8695536942727796308}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -548,7 +553,7 @@ GameObject:
   - component: {fileID: 4375769829635705740}
   - component: {fileID: 4660880647093821158}
   - component: {fileID: 8941173978250856697}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -651,7 +656,7 @@ GameObject:
   - component: {fileID: 2834215201412743078}
   - component: {fileID: 4859331612708906693}
   - component: {fileID: 1419129030969251146}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -782,6 +787,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 3b84e2952acf8cb4b97920617cc9349d, type: 3}
       propertyPath: m_Name
       value: watergun
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3b84e2952acf8cb4b97920617cc9349d, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

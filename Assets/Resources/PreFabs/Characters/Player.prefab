@@ -296,10 +296,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HitPoint: {fileID: 8662618904407489197, guid: 513ae5b6720ac7b41bbce90212e444d3, type: 3}
   Fire: {fileID: 1768110566680697574, guid: 5a07cf734e9b87344b8f4689b67a75d9, type: 3}
-  FirePoint: {fileID: 0}
+  FirePoint: {fileID: 1615271297058868322}
   Nozzle: {fileID: 1615271297058868322}
   range: 100
-  damage: 10
+  damage: 4
   reloadTime: 3
   fireRate: 0.1
   bulletTrail: {fileID: -3532444799092184316, guid: 7c4fdb9598a3a13418903244566024b5, type: 3}
@@ -318,10 +318,10 @@ MonoBehaviour:
   ExplosionEffect: {fileID: 8662618904407489197, guid: 7c5cb6ec6b53a304b8a693b00fd7fb52, type: 3}
   FirePoint: {fileID: 1615271297058868322}
   range: 100
-  explosionRadius: 5
-  damage: 20
+  explosionRadius: 10
+  damage: 45
   fireCooldown: 5
-  bulletRegenTime: 30
+  bulletRegenTime: 25
   maxBullets: 2
 --- !u!1 &1872048387377454887
 GameObject:

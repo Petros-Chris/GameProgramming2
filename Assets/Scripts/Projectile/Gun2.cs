@@ -7,7 +7,7 @@ public class Gun2 : MonoBehaviour
     public Transform FirePoint; 
     public float range = 100f; 
     public float explosionRadius = 5f; 
-    public float damage = 20f;
+    public float damage = 45f;
     public float fireCooldown = 5f; 
     public float bulletRegenTime = 10f; 
     public int maxBullets = 2; 
