@@ -43,7 +43,7 @@ public class BuildController : MonoBehaviour
             else
             {
                 costRemaining = priceOfObject - CurrencyManager.Instance.Currency;
-                ComponentManager.Instance.CallCoroutine(ComponentManager.Instance.ShowMessage("HAHAHA YOU BROKE You need " + costRemaining + "$"));
+                ComponentManager.Instance.CallCoroutine(ComponentManager.Instance.ShowMessage("You need " + costRemaining + "$ more"));
                 ComponentManager.Instance.CallCoroutine(FlashButton(Color.red));
                 break;
             }
@@ -77,11 +77,11 @@ public class BuildController : MonoBehaviour
 
             if (!IsThereAnyColliders())
             {
-                render.material.color = Color.white;
+                render.material.SetColor("_EmissionColor", Color.green * 0.7f);
             }
             else
             {
-                render.material.color = Color.green;
+                render.material.SetColor("_EmissionColor", Color.red * 0.7f);
             }
             yield return null;
         }
@@ -188,7 +188,7 @@ public class BuildController : MonoBehaviour
         else
         {
             costRemaining = priceOfObject - CurrencyManager.Instance.Currency;
-            ComponentManager.Instance.CallCoroutine(ComponentManager.Instance.ShowMessage("HAHAHA YOU BROKE You need " + costRemaining + "$"));
+            ComponentManager.Instance.CallCoroutine(ComponentManager.Instance.ShowMessage("You need " + costRemaining + "$ more"));
             ComponentManager.Instance.CallCoroutine(FlashButton(Color.red));
         }
     }
