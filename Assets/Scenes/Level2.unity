@@ -2454,6 +2454,14 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 977220441}
+    - target: {fileID: 4898369700202977528, guid: fb7c785c2ece4f1478581385f007e173, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4898369700202977528, guid: fb7c785c2ece4f1478581385f007e173, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5661071447347865166, guid: fb7c785c2ece4f1478581385f007e173, type: 3}
       propertyPath: m_margin.z
       value: -1.614258
@@ -2640,6 +2648,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4490662820721668763, guid: 9225e6c4388b5b14c8ae7ebafe6cb27f, type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 4955178543719041902, guid: 9225e6c4388b5b14c8ae7ebafe6cb27f, type: 3}
       propertyPath: outline
       value: 
@@ -2691,6 +2703,10 @@ PrefabInstance:
     - target: {fileID: 8215577874594463811, guid: 9225e6c4388b5b14c8ae7ebafe6cb27f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8829338098543521112, guid: 9225e6c4388b5b14c8ae7ebafe6cb27f, type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

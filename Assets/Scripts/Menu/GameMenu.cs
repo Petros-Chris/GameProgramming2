@@ -6,6 +6,7 @@ public class GameMenu : MonoBehaviour
 {
     public static bool isPaused = false;
     public static bool isSubMenuOpen = false;
+    public static KeyCode pauseGame = KeyCode.Escape;
     public GameObject gameMenu;
     public GameObject settingMenu;
     public static bool playerFrozen;

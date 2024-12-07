@@ -3,49 +3,65 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
+using System;
+using Unity.VisualScripting;
 
 public class BuildController : MonoBehaviour
 {
-    //!BUG: if game lose while player in build mode, player frozen next game start
-    //!BUG: Can place on top of object
-    //!BUG: Will place new building if select building button
-    //!BUG: Outline will stay at spot if user forced out of build mode, which is eh
+    //? Tower Idea: Mini wall that is weaker but easier to place around map
+    // if game lose while player in build mode, player frozen next game start ... Is this a issue? Player can't lose in build mode as can't build during round
+    // Will not update current enemies on new towers, is that bad? 
 
-    public GameObject tower;
+    [Header("Controls")]
     public KeyCode spawnMultiple = KeyCode.RightShift;
     public KeyCode cancel = KeyCode.C;
-    private Button button;
-    public GameObject outline;
-    private bool shouldOutline;
-    Renderer render;
-    int rotateAngle;
-    Quaternion angleToSpawnTower;
-    int priceOfObject;
-    int costRemaining;
+    public KeyCode rotateBuildingLeft = KeyCode.Q;
+    public KeyCode rotateBuildingRight = KeyCode.E;
 
-    //public NavMeshSurface navMeshSurface;
+    [Header("Initalizers")]
+    public GameObject tower;
+    public GameObject outline;
+
+    private bool shouldOutline;
+    private Button button;
+    private Renderer render;
+    private int rotateAngle;
+    private Quaternion angleToSpawnTower;
+    private int priceOfObject;
+    private int costRemaining;
+    private Vector3 outOfBounds = new Vector3(0, -1000, 0);
+    private Coroutine TowerOutlineCor;
+
     void Start()
     {
         render = outline.GetComponent<Renderer>();
     }
 
+    void OnDisable()
+    {
+        // Setting the outline out of bounds when not required anymore
+        outline.transform.position = outOfBounds;
+
+    }
+
     private IEnumerator SpawnTowerRoutine()
     {
-        while (Input.GetKey(spawnMultiple))
+        while (Input.GetKey(spawnMultiple) && !Input.GetKeyDown(GameMenu.pauseGame))
         {
-            if (CurrencyManager.Instance.Currency >= priceOfObject)
+            if (Input.GetMouseButtonDown(0))
             {
-                if (Input.GetMouseButtonDown(0))
+                if (CurrencyManager.Instance.Currency >= priceOfObject)
                 {
+
                     SpawnTowerAtMouse();
                 }
-            }
-            else
-            {
-                costRemaining = priceOfObject - CurrencyManager.Instance.Currency;
-                ComponentManager.Instance.CallCoroutine(ComponentManager.Instance.ShowMessage("You need " + costRemaining + "$ more"));
-                ComponentManager.Instance.CallCoroutine(FlashButton(Color.red));
-                break;
+                else
+                {
+                    costRemaining = priceOfObject - CurrencyManager.Instance.Currency;
+                    ComponentManager.Instance.CallCoroutine(ComponentManager.Instance.ShowMessage("You need " + costRemaining + "$ more"));
+                    ComponentManager.Instance.CallCoroutine(FlashButton(Color.red));
+                    break;
+                }
             }
             // Changes color to show you are in multi place mode
             HighlightButton(true, button);
@@ -59,23 +75,23 @@ public class BuildController : MonoBehaviour
     {
         while (shouldOutline && !Input.GetKeyDown(cancel))
         {
+            // Deselects the button when user pauses the game
+            if (Input.GetKeyDown(GameMenu.pauseGame))
+            {
+                EventSystem.current.SetSelectedGameObject(null);
+                break;
+            }
             Ray ray = ComponentManager.Instance.buildCam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit))
             {
-                // Always at same level, issue for terrain?
                 outline.transform.position = hit.point;
-                //outline.transform.position = new Vector3(hit.point.x, 0.01f, hit.point.z);
-            }
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                rotateAngle += 90;
-                outline.transform.rotation = Quaternion.Euler(0, rotateAngle, 0);
-                angleToSpawnTower = Quaternion.Euler(0, rotateAngle, 0);
             }
 
-            if (!IsThereAnyColliders())
+            RotateBuilding();
+
+            if (IsCorrectArea())
             {
                 render.material.SetColor("_EmissionColor", Color.green * 0.7f);
             }
@@ -86,7 +102,7 @@ public class BuildController : MonoBehaviour
             yield return null;
         }
         // Setting the outline out of bounds
-        outline.transform.position = new Vector3(0, -1000, 0);
+        outline.transform.position = outOfBounds;
 
         // If you want it to always go back to default angle
         rotateAngle = 0;
@@ -94,10 +110,33 @@ public class BuildController : MonoBehaviour
         angleToSpawnTower = Quaternion.Euler(0, 0, 0);
     }
 
+    public void RotateBuilding()
+    {
+        if (Input.GetKeyDown(rotateBuildingLeft))
+        {
+            rotateAngle -= 15;
+        }
+        else if (Input.GetKeyDown(rotateBuildingRight))
+        {
+            rotateAngle += 15;
+        }
+        outline.transform.rotation = Quaternion.Euler(0, rotateAngle, 0);
+        angleToSpawnTower = Quaternion.Euler(0, rotateAngle, 0);
+    }
+
     public void DeSelect()
     {
         if (GameMenu.isPaused)
         {
+            shouldOutline = false;
+            return;
+        }
+        // Stops user from placing when clicking a UI element
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            shouldOutline = false;
+            rotateAngle = 0;
+            StopAllCoroutines();
             return;
         }
 
@@ -139,13 +178,21 @@ public class BuildController : MonoBehaviour
         // The area it checks
         Vector3 pos = new Vector3(outline.transform.position.x, outline.transform.position.y + 0.5f, outline.transform.position.z);
 
-        Collider[] colliders = Physics.OverlapBox(pos, outline.transform.localScale / 2, Quaternion.identity);
+        Collider[] colliders = Physics.OverlapBox(pos, outline.transform.localScale / 2, outline.transform.rotation);
+        return colliders.Length != 0;
+    }
 
-        if (colliders.Length != 0)
-        {
-            return true;
-        }
-        return false;
+    bool IsItInContactWithGround()
+    {
+        Vector3 pos = new Vector3(outline.transform.position.x, outline.transform.position.y, outline.transform.position.z);
+
+        Collider[] colliders = Physics.OverlapBox(pos, outline.transform.localScale / 2, outline.transform.rotation, LayerMask.GetMask("whatIsGround"));
+        return colliders.Length != 0;
+    }
+
+    bool IsCorrectArea()
+    {
+        return IsItInContactWithGround() && !IsThereAnyColliders();
     }
 
     private void HighlightButton(bool isActive, Button buttonToChange, Color color = default)
@@ -160,13 +207,12 @@ public class BuildController : MonoBehaviour
         buttonToChange.colors = colors;
     }
 
-    // Will not update the enemy table on new towers, is that bad? 
     private void SpawnTowerAtMouse()
     {
         Ray ray = ComponentManager.Instance.buildCam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if (IsThereAnyColliders())
+        if (!IsCorrectArea())
         {
             ComponentManager.Instance.CallCoroutine(ComponentManager.Instance.ShowMessage("You Can't Place There"));
             ComponentManager.Instance.CallCoroutine(FlashButton(Color.yellow));
@@ -177,7 +223,7 @@ public class BuildController : MonoBehaviour
         {
             if (Physics.Raycast(ray, out hit))
             {
-                Vector3 spawnLocation = new Vector3(hit.point.x, tower.transform.position.y, hit.point.z);
+                Vector3 spawnLocation = new Vector3(hit.point.x, hit.point.y + 2.5f, hit.point.z);
 
                 Instantiate(tower, spawnLocation, angleToSpawnTower);
                 CurrencyManager.Instance.Currency -= priceOfObject;
