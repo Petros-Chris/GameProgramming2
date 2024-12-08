@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class CanvasMovementScript : MonoBehaviour
 {
-    public Camera cam;
     public Transform orientation;
     public float smoothSpeed;
     public Vector3 screenOffset = new Vector3(0.2f, 0.8f, 1.5f);
+    private Camera cam;
 
     void Update()
     {
+        if (cam == null)
+        {
+            cam = ComponentManager.Instance.playerCam;
+        }
         Vector3 viewportPosition = new Vector3(screenOffset.x, screenOffset.y, screenOffset.z);
         Vector3 canvasPosition = cam.ViewportToWorldPoint(viewportPosition);
 
@@ -27,6 +31,6 @@ public class CanvasMovementScript : MonoBehaviour
         direction.y = 0; // Keep the health bar level by nullifying any tilt on the y-axis
         Quaternion lookRotation = Quaternion.LookRotation(-direction); // Reverse direction to face the camera
 
-        transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation , smoothSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, smoothSpeed * Time.deltaTime);
     }
 }

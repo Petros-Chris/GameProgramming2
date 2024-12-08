@@ -12,12 +12,22 @@ public class WeaponMovement : MonoBehaviour
 
     void Update()
     {
-        GunMovesWithPlayerDirection();
-        WeaponLooksInPlayerDirection();
+        if (playerCamera != null)
+        {
+            GunMovesWithPlayerDirection();
+            WeaponLooksInPlayerDirection();
+        }
+        else
+        {
+            playerCamera = ComponentManager.Instance.playerCam;
+        }
     }
 
     void WeaponLooksInPlayerDirection()
     {
+
+
+
         Quaternion target = playerCamera.transform.rotation;
 
         Quaternion offset = Quaternion.Euler(-90f, 0f, 0f);

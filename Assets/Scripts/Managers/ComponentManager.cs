@@ -12,6 +12,8 @@ public class ComponentManager : MonoBehaviour
     public static ComponentManager Instance { get; private set; }
 
     public List<GameObject> TowersDisabled;
+
+    public bool hasPlayerDied;
     public Camera buildCam;
     public Camera playerCam;
     public Camera deathCam;
@@ -61,6 +63,27 @@ public class ComponentManager : MonoBehaviour
         }
     }
 
+    public void ReAssignCameras()
+    {
+        // Simply reassigns all cameras if player goes missing
+        Camera[] cameras = FindObjectsOfType<Camera>(true);
+        foreach (var camera in cameras)
+        {
+            switch (camera.gameObject.name)
+            {
+                case "BuildCamera":
+                    buildCam = camera;
+                    break;
+                case "Player Camera":
+                    playerCam = camera;
+                    break;
+                case "Death Cam":
+                    deathCam = camera;
+                    break;
+            }
+        }
+    }
+
     public void ToggleBuildPlayerMode()
     {
         if (Input.GetKeyDown(switchModes))
@@ -90,13 +113,26 @@ public class ComponentManager : MonoBehaviour
             }
         }
     }
-    public void SwitchToPlayerAndLockCamera()
+    public void SwitchToPlayerAndLockCamera(bool lockCamera = true)
     {
         GameMenu.playerFrozen = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        lockCamera = true;
-        buildCam.gameObject.SetActive(false);
+        if (lockCamera)
+        {
+            lockCamera = true;
+        }
+        // Checks if death cam is active before disabling
+        if (deathCam.gameObject.activeSelf)
+        {
+            deathCam.gameObject.SetActive(false);
+        }
+        // Checks if build cam is active before disabling
+        if (buildCam.gameObject.activeSelf)
+        {
+            buildCam.gameObject.SetActive(false);
+        }
+
         playerCam.gameObject.SetActive(true);
     }
 

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
@@ -19,6 +17,12 @@ public class CameraMovement : MonoBehaviour
 
     private void Update()
     {
+        if (orientation == null)
+        {
+            GameObject playerObj = GameObject.FindWithTag("Player");
+            orientation = playerObj.transform.Find("Orientation").gameObject.transform;
+            mesh = playerObj.transform.Find("Incidental 70").gameObject.transform;
+        }
         // Locks camera in first person
         if (GameMenu.isPaused)
         {

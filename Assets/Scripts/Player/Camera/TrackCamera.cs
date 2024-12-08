@@ -11,9 +11,22 @@ public class TrackCamera : MonoBehaviour
     void Update()
     {
         //moves the camera to the player position
-        if(cameraPosition != null)
+        if (cameraPosition != null)
         {
             transform.position = cameraPosition.position;
+        }
+        else
+        {
+            ReassignCamPos();
+        }
+    }
+
+    void ReassignCamPos()
+    {
+        GameObject playerObj = GameObject.FindWithTag("Player");
+        if (playerObj != null)
+        {
+            cameraPosition = playerObj.transform.Find("CameraPos").gameObject.transform;
         }
     }
 }

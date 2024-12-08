@@ -18,13 +18,23 @@ public class AttackEnemyTowerState : IStateAlly
         // Enemy doesn't exist
         if (aiController.enemy != null)
         {
-            aiController.transform.LookAt(aiController.enemy);
-            aiController.Attack();
+            if (aiController.IsEnemyInRange(aiController.AttackRange))
+            {
+                aiController.transform.LookAt(aiController.enemy);
+                aiController.Attack();
+            }
+            else
+            {
+                aiController.StateMachine.TransitionToState(StateTypeAlly.Idle);
+            }
+
         }
         else
         {
             aiController.enemy = aiController.GetClosestEnemy();
         }
+
+
     }
 
     public void Exit() { }

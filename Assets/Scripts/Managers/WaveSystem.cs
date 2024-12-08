@@ -23,17 +23,15 @@ public class WaveSystem : MonoBehaviour
     bool waveInProgress;
     int round = 0;
     int wavesToComplete;
-
     public TextMeshProUGUI waveText;
     public TextMeshProUGUI EnemyOrTimerText;
-
     bool isLastRound = false;
     JsonHandler.Root root;
     int intermissionTimer;
-
     private GameObject enemyToCreate;
+    private GameObject playerToCreate;
+    public Vector3 wherePlayerSpawn = new Vector3(52, 0.9f, 22);
 
-    //!BUG: If holding slider key when round starts, slider doesn't dissaper immediately
     void Start()
     {
         root = JsonHandler.ReadFileForWave("waves");
@@ -82,19 +80,20 @@ public class WaveSystem : MonoBehaviour
                     skipCurrentRoundCoroutine = null;
                 }
 
-                //Add thing here
                 RewardMoney(0);
                 ReviveAllTowers();
+                RevivePlayer();
 
                 intermissionCoroutine = StartCoroutine(BeginIntermissionToNextWave());
                 if (ComponentManager.Instance.playerCam.gameObject.activeSelf)
                 {
-                    StartCoroutine(DisplayIntermissionSlider(skipIntermissionSlider, "Hold L To Skip Intermission"));
+                    StartCoroutine(DisplayWaveSlider(skipIntermissionSlider, "Hold L To Skip Intermission"));
                 }
             }
+
             if (!EnemiesLeft() && !waveInProgress && isLastRound)
             {
-                ComponentManager.Instance.lockCamera = false; // Remove when scene changes as its just for now 
+                ComponentManager.Instance.lockCamera = false;
                 ComponentManager.Instance.DisplayWinScreen();
             }
 
@@ -109,7 +108,7 @@ public class WaveSystem : MonoBehaviour
     //TODO: Make it where player needs to hit object to repair it into a useable building
     public void ReviveAllTowers()
     {
-        //Some kind of overlay to show that this building got destoried
+        //TODO: Some kind of overlay to show that this building got destoried
         foreach (GameObject tower in ComponentManager.Instance.TowersDisabled)
         {
             tower.SetActive(true);
@@ -121,7 +120,20 @@ public class WaveSystem : MonoBehaviour
 
     }
 
-    IEnumerator DisplayIntermissionSlider(Slider slider, string message)
+    public void RevivePlayer()
+    {
+        if (ComponentManager.Instance.hasPlayerDied)
+        {
+            playerToCreate = Resources.Load<GameObject>("Prefabs/Characters/Player");
+
+            Instantiate(playerToCreate, wherePlayerSpawn, Quaternion.identity);
+            // ComponentManager.Instance.ReAssignCameras();
+            ComponentManager.Instance.hasPlayerDied = false;
+            ComponentManager.Instance.SwitchToPlayerAndLockCamera(false); // Should probably make another method for this
+        }
+    }
+
+    IEnumerator DisplayWaveSlider(Slider slider, string message)
     {
         if (slider == null)
         {
@@ -131,7 +143,8 @@ public class WaveSystem : MonoBehaviour
         skipSliderText.text = message;
         while (displaySlider && !isLastRound)
         {
-            while (Input.GetKey(skipIntermissionKey))
+            // while the key is pressed and the slider is meant to be shown
+            while (Input.GetKey(skipIntermissionKey) && displaySlider)
             {
                 timer += Time.deltaTime;
                 slider.value = timer;
@@ -139,6 +152,7 @@ public class WaveSystem : MonoBehaviour
                 {
                     BeginWave();
                     RewardMoney(intermissionTimer);
+                    RevivePlayer(); // If player starts next round while dead, this makes them come back
                     StopCoroutine(intermissionCoroutine);
                     timer = 0;
                     slider.value = 0;
@@ -147,8 +161,8 @@ public class WaveSystem : MonoBehaviour
                 }
                 yield return null;
             }
-
-            while (!Input.GetKey(skipIntermissionKey) && timer >= 0)
+            // while the key is pressed, the value is not 0, and the slider is meant to be shown
+            while (!Input.GetKey(skipIntermissionKey) && timer >= 0 && displaySlider)
             {
                 timer -= Time.deltaTime;
                 slider.value = timer;
@@ -182,22 +196,17 @@ public class WaveSystem : MonoBehaviour
         var waveNumber = wave.wave;
         waveText.text = "Wave: " + waveNumber + "/" + wavesToComplete;
         var totalEnemiesInRound = wave.totalEnemies;
-        Debug.Log("HIHI Im boutta bust!");
 
-        //TODO: Figure out why it spawns wrong amounts of emenies sometimes
         while (enemiesSpawned < totalEnemiesInRound)
         {
-            Debug.Log("HIHI Im at the beginning all weridly!");
             foreach (var enemy in wave.enemies)
             {
                 enemyToCreate = Resources.Load<GameObject>("Prefabs/Characters/Enemies/" + enemy.type + "Enemy");
-                Debug.Log("HIHI I Passed trough here and Selected A Enemy!");
                 while (count < enemy.count)
                 {
                     timer2 += Time.deltaTime;
                     if (timer2 >= spawnRate)
                     {
-                        Debug.Log("HIHI enemy spawning!");
                         // Gets position to spawn at
                         int pointToSpawn = Random.Range(0, spawnPoints.Length);
                         Vector3 pos = spawnPoints[pointToSpawn].transform.position;
@@ -253,7 +262,7 @@ public class WaveSystem : MonoBehaviour
         yield return new WaitForSeconds(10);
         Debug.Log("Displaying Skip!");
         displaySlider = true;
-        skipCurrentRoundCoroutine = StartCoroutine(DisplayIntermissionSlider(skipIntermissionSlider, "Hold L To Begin Next Wave"));
+        skipCurrentRoundCoroutine = StartCoroutine(DisplayWaveSlider(skipIntermissionSlider, "Hold L To Begin Next Wave"));
     }
 
     private void RewardMoney(int timeSkipped = default)

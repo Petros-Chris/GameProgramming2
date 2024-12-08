@@ -40,10 +40,11 @@ public class Player : MonoBehaviour, IDamageable
         }
         if (health <= 0)
         {
-            //gameObject.SetActive(false);
             Destroy(gameObject);
+            ComponentManager.Instance.hasPlayerDied = true;
+            // Switch cameras
             ComponentManager.Instance.deathCam.gameObject.SetActive(true);
-            ComponentManager.Instance.playerCam.gameObject.SetActive(false);
+            ComponentManager.Instance.playerCam.gameObject.SetActive(false); // If we change the player to have camera on body, this should be removed else it will make error
         }
     }
 
@@ -73,3 +74,12 @@ public class Player : MonoBehaviour, IDamageable
         isRegenerating = false;
     }
 }
+
+// Gun laggy (sanppy)
+// It feels like the enemies focus on me more than the towers 
+// the floaty feel on buildings feels wrong (should act like im on ground but without the whatIsGround layer)
+// If im at certain spots, the enemies freak out (start pacing back and forth) (it's likely because they don't see me anymore, so i just have to make them go to last spot of where i was before forgetting about me)
+// Having towers automatically come back feels kinda op right now (likely because of lack of upgrading and the weak enemy we fight against)
+// Tower Reparability is missing, it just comes back low hp
+// buildings just kind of popping in is suddenly perhaps there should be partcles of the building getting rebuilt (like particles begian than 3 seconds later they would appear and particles dissaper)
+// If enemy runs away from tower, tower can keep hitting it for fun ...
