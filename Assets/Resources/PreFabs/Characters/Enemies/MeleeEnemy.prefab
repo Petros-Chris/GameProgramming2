@@ -329,7 +329,7 @@ MonoBehaviour:
   weapon: {fileID: 6905842804339835639}
   SightRange: 20
   maxAngle: 45
-  AttackRange: 2
+  AttackRange: 3
   attackCooldown: 1
   EnemyLayer:
     serializedVersion: 2
@@ -344,6 +344,7 @@ MonoBehaviour:
   maxHealth: 1000
   value: 3
   Nozzle: {fileID: 0}
+  thinkingSpeed: 0.5
 --- !u!1 &2219683641565180389
 GameObject:
   m_ObjectHideFlags: 0

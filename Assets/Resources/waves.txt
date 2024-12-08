@@ -1,7 +1,7 @@
 {"difficulty":[
 {"difficulty":"easy","waves":[
-{"wave":1,"totalEnemies":20,"enemies":
-	[{"type":"Ranged","count":10}, {"type":"Melee","count":10}]},
+{"wave":1,"totalEnemies":11,"enemies":
+	[{"type":"Ranged","count":10}, {"type":"Melee","count":1}]},
 
 {"wave":2,"totalEnemies":20,"enemies":[{"type":"Ranged","count":20}]},
 {"wave":3,"totalEnemies":30,"enemies":[{"type":"Ranged","count":30}]},

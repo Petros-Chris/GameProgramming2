@@ -16,6 +16,7 @@ public class AttackPlayerState : IState
     {
         //aiController.Animator.SetBool("isAttacking", true);
         aiController.Agent.isStopped = true;
+        // aiController.thinkingSpeed = 0.01f;
     }
 
     public void Execute()
@@ -42,6 +43,7 @@ public class AttackPlayerState : IState
     public void Exit()
     {
         //aiController.Animator.SetBool("isAttacking", false);
+        // aiController.thinkingSpeed = 0.5f;
         aiController.Agent.isStopped = false;
     }
 }

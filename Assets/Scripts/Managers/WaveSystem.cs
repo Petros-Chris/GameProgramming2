@@ -1,5 +1,6 @@
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -81,7 +82,9 @@ public class WaveSystem : MonoBehaviour
                     skipCurrentRoundCoroutine = null;
                 }
 
+                //Add thing here
                 RewardMoney(0);
+                ReviveAllTowers();
 
                 intermissionCoroutine = StartCoroutine(BeginIntermissionToNextWave());
                 if (ComponentManager.Instance.playerCam.gameObject.activeSelf)
@@ -101,6 +104,21 @@ public class WaveSystem : MonoBehaviour
                 waveCoroutine = StartCoroutine(BeginCountdownToDisplaySlider());
             }
         }
+    }
+
+    //TODO: Make it where player needs to hit object to repair it into a useable building
+    public void ReviveAllTowers()
+    {
+        //Some kind of overlay to show that this building got destoried
+        foreach (GameObject tower in ComponentManager.Instance.TowersDisabled)
+        {
+            tower.SetActive(true);
+            // Giving object health 
+            Tower towerScript = tower.GetComponent<Tower>();
+            towerScript.health = 50; // towerScript.maxHealth if you want it to come back with max health
+            towerScript.healthBar.UpdateHealthBar(towerScript.health, towerScript.maxHealth);
+        }
+
     }
 
     IEnumerator DisplayIntermissionSlider(Slider slider, string message)
@@ -156,6 +174,7 @@ public class WaveSystem : MonoBehaviour
     IEnumerator SpawnWave()
     {
         int enemiesSpawned = 0;
+        int count = 0;
         float timer2 = 0;
 
         var easyMode = root.difficulty[0];
@@ -163,18 +182,22 @@ public class WaveSystem : MonoBehaviour
         var waveNumber = wave.wave;
         waveText.text = "Wave: " + waveNumber + "/" + wavesToComplete;
         var totalEnemiesInRound = wave.totalEnemies;
+        Debug.Log("HIHI Im boutta bust!");
 
-        //TODO: Figure out why it spawns different enemies when its meant to spawn only one type of enemy
+        //TODO: Figure out why it spawns wrong amounts of emenies sometimes
         while (enemiesSpawned < totalEnemiesInRound)
         {
+            Debug.Log("HIHI Im at the beginning all weridly!");
             foreach (var enemy in wave.enemies)
             {
                 enemyToCreate = Resources.Load<GameObject>("Prefabs/Characters/Enemies/" + enemy.type + "Enemy");
-                for (int count = 0; count < enemy.count; count++)
+                Debug.Log("HIHI I Passed trough here and Selected A Enemy!");
+                while (count < enemy.count)
                 {
                     timer2 += Time.deltaTime;
                     if (timer2 >= spawnRate)
                     {
+                        Debug.Log("HIHI enemy spawning!");
                         // Gets position to spawn at
                         int pointToSpawn = Random.Range(0, spawnPoints.Length);
                         Vector3 pos = spawnPoints[pointToSpawn].transform.position;
@@ -182,10 +205,11 @@ public class WaveSystem : MonoBehaviour
                         Instantiate(enemyToCreate, pos, Quaternion.identity);
                         enemiesSpawned++;
                         timer2 = 0;
-
+                        count++;
                     }
                     yield return null;
                 }
+                count = 0;
             }
         }
         allEnemiesSpawned = true;

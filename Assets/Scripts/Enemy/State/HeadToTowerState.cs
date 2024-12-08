@@ -13,7 +13,14 @@ public class HeadToTowerState : IState
 
     public void Enter()
     {
-        if (aiController.building == null)
+        if (aiController.building != null)
+        {
+            if (!aiController.building.gameObject.activeInHierarchy)
+            {
+                aiController.building = aiController.GetClosestBuilding();
+            }
+        }
+        else
         {
             aiController.building = aiController.GetClosestBuilding();
         }
@@ -37,15 +44,22 @@ public class HeadToTowerState : IState
         // Restarting the state, as the building got destroyed
         // before they made it to the building to switch to attack state,
         // Causing them to just stare at where the building used to be
+
+        // Checks if build was prem destroyed
         if (aiController.building == null)
         {
             aiController.StateMachine.TransitionToState(StateType.HeadToTower);
             return;
         }
 
-        // CanSeeBuilding causing them to all walk forward dumbly 
-        // ? Maybe there some way to lock their position so others don't push them out causing them to look for building again?
-        if (aiController.IsBuildingInRange(aiController.AttackRange)) //&& aiController.CanSeeBuilding())
+        // Checks if build was disabled
+        if (!aiController.building.gameObject.activeInHierarchy)
+        {
+            aiController.StateMachine.TransitionToState(StateType.HeadToTower);
+            return;
+        }
+
+        if (aiController.IsBuildingInRange(aiController.AttackRange))
         {
             aiController.StateMachine.TransitionToState(StateType.AttackBuilding);
         }

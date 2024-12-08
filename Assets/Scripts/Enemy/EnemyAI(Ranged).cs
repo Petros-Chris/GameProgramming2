@@ -27,6 +27,8 @@ public class EnemyAI : MonoBehaviour, IDamageable
     public int value = 3;
     public Transform Nozzle;
 
+    public float thinkingSpeed = 0.5f;
+
 
     void Start()
     {
@@ -34,7 +36,6 @@ public class EnemyAI : MonoBehaviour, IDamageable
         // Animator = GetComponent<Animator>(); // Commented out since we're not using animations
         building = GetClosestBuilding();
         ally = GetClosestEnemy();
-        Debug.Log("Amount");
         StateMachine = new StateMachine();
         StateMachine.AddState(new HeadToTowerState(this));
         StateMachine.AddState(new ChaseState(this));
@@ -42,7 +43,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
         StateMachine.AddState(new AttackBuildingState(this));
 
         StateMachine.TransitionToState(StateType.HeadToTower);
-        //InvokeRepeating("UpdateStateMachine", 0, 0.5f);
+        // InvokeRepeating("UpdateStateMachine", 0f, 0.5f);
     }
     void Update()
     {
@@ -67,6 +68,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
         else
         {
             StateMachine.Update();
+            currentState = StateMachine.GetCurrentStateType();
         }
     }
 
@@ -106,7 +108,6 @@ public class EnemyAI : MonoBehaviour, IDamageable
 
     // Currently will get building closest to enemy,
     // should probably have something that also checks if it is closer to fish kingdom
-    // So player doesn't lure a boss with towers (if he can place towers during round)
     public Transform GetClosestBuilding()
     {
         Vector3 enemyPosition = transform.position;

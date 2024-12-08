@@ -5,10 +5,13 @@ using UnityEngine.EventSystems;
 using UnityEngine.AI;
 using Unity.AI.Navigation;
 using TMPro;
+using System.Collections.Generic;
 
 public class ComponentManager : MonoBehaviour
 {
     public static ComponentManager Instance { get; private set; }
+
+    public List<GameObject> TowersDisabled;
     public Camera buildCam;
     public Camera playerCam;
     public Camera deathCam;

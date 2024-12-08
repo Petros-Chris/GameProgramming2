@@ -5,9 +5,9 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
-public class Base : MonoBehaviour, IDamageable
+public class Tower : MonoBehaviour, IDamageable
 {
-    private HealthBarScript healthBar;
+    public HealthBarScript healthBar;
     public float health;
     public float maxHealth;
 
@@ -24,12 +24,19 @@ public class Base : MonoBehaviour, IDamageable
 
         if (health <= 0)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 
     public void OnDestroy()
     {
 
+    }
+
+
+
+    public void OnDisable()
+    {
+        ComponentManager.Instance.TowersDisabled.Add(gameObject);
     }
 }

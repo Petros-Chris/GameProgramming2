@@ -27,22 +27,20 @@ public class AttackBuildingState : IState
                 return;
             }
         }
-
+        // Checks if build was prem destroyed
         if (aiController.building == null)
+        {
+            aiController.StateMachine.TransitionToState(StateType.HeadToTower);
+            return;
+        }
+        // Checks if build was disabled
+        if (!aiController.building.gameObject.activeInHierarchy)
         {
             aiController.StateMachine.TransitionToState(StateType.HeadToTower);
             return; // This stops the current execute in its path
         }
-
         aiController.LookAt(aiController.building);
-
-        // Makes them not shoot if theres something in the way
-        //if (aiController.CanSeeBuilding())
-        // {
-        // aiController.Nozzle.LookAt(aiController.building);
         aiController.Attack(aiController.building);
-        //     return;
-        // }
 
         if (!aiController.IsBuildingInRange(aiController.AttackRange))//!aiController.CanSeeBuilding())
         {
