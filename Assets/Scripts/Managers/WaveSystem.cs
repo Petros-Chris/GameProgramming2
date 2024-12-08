@@ -30,6 +30,8 @@ public class WaveSystem : MonoBehaviour
     JsonHandler.Root root;
     int intermissionTimer;
 
+    private GameObject enemyToCreate;
+
     //!BUG: If holding slider key when round starts, slider doesn't dissaper immediately
     void Start()
     {
@@ -153,9 +155,8 @@ public class WaveSystem : MonoBehaviour
 
     IEnumerator SpawnWave()
     {
-        float timer = 0;
         int enemiesSpawned = 0;
-        int countBasic = 0;
+        float timer2 = 0;
 
         var easyMode = root.difficulty[0];
         var wave = easyMode.waves[round - 1];
@@ -163,27 +164,29 @@ public class WaveSystem : MonoBehaviour
         waveText.text = "Wave: " + waveNumber + "/" + wavesToComplete;
         var totalEnemiesInRound = wave.totalEnemies;
 
+        //TODO: Figure out why it spawns different enemies when its meant to spawn only one type of enemy
         while (enemiesSpawned < totalEnemiesInRound)
         {
-            timer += Time.deltaTime;
-            if (timer >= spawnRate)
+            foreach (var enemy in wave.enemies)
             {
-                // Gets position to spawn at
-                int pointToSpawn = Random.Range(0, spawnPoints.Length);
-                Vector3 pos = spawnPoints[pointToSpawn].transform.position;
-
-                if (wave.enemies[0].type == "basic")
+                enemyToCreate = Resources.Load<GameObject>("Prefabs/Characters/Enemies/" + enemy.type + "Enemy");
+                for (int count = 0; count < enemy.count; count++)
                 {
-                    if (wave.enemies[0].count > countBasic)
+                    timer2 += Time.deltaTime;
+                    if (timer2 >= spawnRate)
                     {
-                        Instantiate(ComponentManager.Instance.defaultEnemy, pos, Quaternion.identity);
+                        // Gets position to spawn at
+                        int pointToSpawn = Random.Range(0, spawnPoints.Length);
+                        Vector3 pos = spawnPoints[pointToSpawn].transform.position;
+
+                        Instantiate(enemyToCreate, pos, Quaternion.identity);
+                        enemiesSpawned++;
+                        timer2 = 0;
+
                     }
-                    countBasic++;
+                    yield return null;
                 }
-                enemiesSpawned++;
-                timer = 0;
             }
-            yield return null;
         }
         allEnemiesSpawned = true;
         waveInProgress = false;
@@ -243,6 +246,7 @@ public class WaveSystem : MonoBehaviour
     }
     //GUI for showing base health
     //!BUG: Skip round in deathcam, casuing broken cam when suceesufly skiiped
+    // should just respawn the player when the round ends
 
     //GUI for showing boss health (when he exists)
 }

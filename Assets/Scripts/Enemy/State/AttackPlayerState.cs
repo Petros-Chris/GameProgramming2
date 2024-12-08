@@ -3,7 +3,7 @@ using UnityEngine;
 public class AttackPlayerState : IState
 {
     private EnemyAI aiController;
-    
+
 
     public StateType Type => StateType.AttackPlayer;
 
@@ -21,14 +21,13 @@ public class AttackPlayerState : IState
     public void Execute()
     {
         aiController.ally = aiController.GetClosestEnemy();
-        
+
         if (aiController.ally == null)
         {
             aiController.StateMachine.TransitionToState(StateType.HeadToTower);
             return;
         }
 
-        // Debug.Log(aiController.player.position);
         // If person is not visible in attack range
         if (!aiController.CanSeeEnemy(aiController.AttackRange))//IsEnemyInRange(aiController.AttackRange))
         {
@@ -37,8 +36,7 @@ public class AttackPlayerState : IState
         }
 
         aiController.LookAt(aiController.ally);
-        aiController.Nozzle.LookAt(aiController.ally);
-        aiController.Attack();
+        aiController.Attack(aiController.ally);
     }
 
     public void Exit()

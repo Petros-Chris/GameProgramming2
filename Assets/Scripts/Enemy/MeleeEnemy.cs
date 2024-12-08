@@ -27,17 +27,4 @@ public class MeleeEnemy : EnemyAI
         StateMachine.Update();
         currentState = StateMachine.GetCurrentStateType();
     }
-
-    new public void Attack()
-    {
-        if (!alreadyAttacked)
-        {
-            if (weapon.TryGetComponent<EnemyMeleeWeapon>(out EnemyMeleeWeapon meleeWeapon))
-            {
-                meleeWeapon.Stab(AttackRange);
-            }
-            alreadyAttacked = true;
-            Invoke(nameof(ResetAttack), attackCooldown);
-        }
-    }
 }

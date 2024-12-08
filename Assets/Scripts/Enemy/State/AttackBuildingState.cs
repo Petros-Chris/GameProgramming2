@@ -38,11 +38,11 @@ public class AttackBuildingState : IState
 
         // Makes them not shoot if theres something in the way
         //if (aiController.CanSeeBuilding())
-       // {
-            aiController.Nozzle.LookAt(aiController.building);
-            aiController.Attack();
-       //     return;
-       // }
+        // {
+        // aiController.Nozzle.LookAt(aiController.building);
+        aiController.Attack(aiController.building);
+        //     return;
+        // }
 
         if (!aiController.IsBuildingInRange(aiController.AttackRange))//!aiController.CanSeeBuilding())
         {

@@ -26,7 +26,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
     public float health, maxHealth = 100f;
     public int value = 3;
     public Transform Nozzle;
-    
+
 
     void Start()
     {
@@ -199,7 +199,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
         return distanceToBuilding <= range;
     }
 
-    public void Attack()
+    public void Attack(Transform whoToLookAt)
     {
         if (!alreadyAttacked)
         {
@@ -208,6 +208,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
                 // Vector3 targetPosition = ally.transform.position;
 
                 //weapon.transform.LookAt(new Vector3(ally.position.x, transform.position.y, transform.position.z));
+                Nozzle.LookAt(whoToLookAt);
                 GunComponent.Shoot();
             }
             else if (weapon.TryGetComponent<EnemyMeleeWeapon>(out EnemyMeleeWeapon meleeWeapon))

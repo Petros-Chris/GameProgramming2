@@ -303,7 +303,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 2
+  m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -329,7 +329,7 @@ MonoBehaviour:
   weapon: {fileID: 6905842804339835639}
   SightRange: 20
   maxAngle: 45
-  AttackRange: 4
+  AttackRange: 2
   attackCooldown: 1
   EnemyLayer:
     serializedVersion: 2
@@ -342,6 +342,8 @@ MonoBehaviour:
   alreadyAttacked: 0
   health: 1000
   maxHealth: 1000
+  value: 3
+  Nozzle: {fileID: 0}
 --- !u!1 &2219683641565180389
 GameObject:
   m_ObjectHideFlags: 0
@@ -565,7 +567,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 221397402716541779}
-  - component: {fileID: 3169677836487557120}
   - component: {fileID: 5710248067061970275}
   m_Layer: 10
   m_Name: Attack
@@ -583,33 +584,12 @@ Transform:
   m_GameObject: {fileID: 6905842804339835639}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.201, z: 0.91}
+  m_LocalPosition: {x: 0, y: -0.201, z: 0.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7514159583414495947}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &3169677836487557120
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6905842804339835639}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &5710248067061970275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -622,7 +602,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16efa84554ced5b42bebe5ab5739c4d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
+  damage: 5
 --- !u!1 &6958279003495577750
 GameObject:
   m_ObjectHideFlags: 0
