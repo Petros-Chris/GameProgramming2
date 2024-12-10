@@ -9,6 +9,7 @@ public class GameMenu : MonoBehaviour
     public static KeyCode pauseGame = KeyCode.Escape;
     public GameObject gameMenu;
     public GameObject settingMenu;
+    public static bool isUpdateMenuOpen = false;
     public static bool playerFrozen;
 
     void Update()

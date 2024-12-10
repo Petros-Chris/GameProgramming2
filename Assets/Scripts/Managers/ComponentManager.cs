@@ -10,9 +10,7 @@ using System.Collections.Generic;
 public class ComponentManager : MonoBehaviour
 {
     public static ComponentManager Instance { get; private set; }
-
     public List<GameObject> TowersDisabled;
-
     public bool hasPlayerDied;
     public Camera buildCam;
     public Camera playerCam;
@@ -21,6 +19,7 @@ public class ComponentManager : MonoBehaviour
     public GameObject defaultEnemy;
     public GameObject fastEnemy;
     public GameObject tankEnemy;
+    public GameObject defaultAlly;
 
     // I feel like all this should be in gameMenu 
     public bool lockCamera;
@@ -30,12 +29,14 @@ public class ComponentManager : MonoBehaviour
     public GameObject winCanvas;
     public bool winScreenIsDisplayed;
 
-    void Start()
+
+    void Awake()
     {
         messageText = message.GetComponent<TextMeshProUGUI>();
         fastEnemy = Resources.Load<GameObject>("PreFabs/Characters/Enemies/FastEnemy");
         defaultEnemy = Resources.Load<GameObject>("PreFabs/Characters/Enemies/RangedEnemy");
         tankEnemy = Resources.Load<GameObject>("PreFabs/Characters/Enemies/TankEnemy");
+        defaultAlly = Resources.Load<GameObject>("PreFabs/Characters/RangedAlly");
 
         Camera[] cameras = FindObjectsOfType<Camera>(true);
         foreach (var camera in cameras)
@@ -113,12 +114,12 @@ public class ComponentManager : MonoBehaviour
             }
         }
     }
-    public void SwitchToPlayerAndLockCamera(bool lockCamera = true)
+    public void SwitchToPlayerAndLockCamera(bool localLockCamera = true)
     {
         GameMenu.playerFrozen = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        if (lockCamera)
+        if (localLockCamera)
         {
             lockCamera = true;
         }

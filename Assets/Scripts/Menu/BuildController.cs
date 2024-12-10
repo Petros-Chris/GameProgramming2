@@ -18,10 +18,8 @@ public class BuildController : MonoBehaviour
     public KeyCode rotateBuildingLeft = KeyCode.Q;
     public KeyCode rotateBuildingRight = KeyCode.E;
 
-    [Header("Initalizers")]
-    public GameObject tower;
-    public GameObject outline;
-
+    private GameObject tower;
+    private GameObject outline;
     private bool shouldOutline;
     private Button button;
     private Renderer render;
@@ -30,10 +28,10 @@ public class BuildController : MonoBehaviour
     private int priceOfObject;
     private int costRemaining;
     private Vector3 outOfBounds = new Vector3(0, -1000, 0);
-    private Coroutine TowerOutlineCor;
 
     void Start()
     {
+        outline = GameObject.Find("Outline");
         render = outline.GetComponent<Renderer>();
     }
 

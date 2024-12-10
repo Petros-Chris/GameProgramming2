@@ -1,0 +1,102 @@
+{
+  "building": [
+    {
+      "building": "FishKingdom",
+      "upgrades": [
+        {
+          "maxHealth": [
+            {
+              "level": 1,
+              "maxHealth": 800,
+              "cost": 50
+            },
+            {
+              "level": 2,
+              "maxHealth": 1600,
+              "cost": 100
+            },
+            {
+              "level": 3,
+              "maxHealth": 2000,
+              "cost": 200
+            }
+          ],
+          "attack": [
+            {
+              "level": 1,
+              "attack": 5,
+              "attackSpeed": 1,
+              "cost": 50
+            },
+            {
+              "level": 2,
+              "attack": 10,
+              "attackSpeed": 0.8,
+              "cost": 300
+            },
+            {
+              "level": 3,
+              "attack": 20,
+              "attackSpeed": 0.5,
+              "cost": 200
+            }
+          ],
+          "emergencyAllySpawn": [
+            {
+              "state": false,
+              "cost": 0
+            },
+            {
+              "state": true,
+              "cost": 150
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "building": "Tower",
+      "upgrades": [
+        {
+          "maxHealth": [
+            {
+              "level": 1,
+              "maxHealth": 800,
+              "cost": 50
+            },
+            {
+              "level": 2,
+              "maxHealth": 1600,
+              "cost": 100
+            },
+            {
+              "level": 3,
+              "maxHealth": 2000,
+              "cost": 200
+            }
+          ],
+          "attack": [
+            {
+              "level": 1,
+              "attack": 5,
+              "attackSpeed": 1,
+              "cost": 50
+            },
+            {
+              "level": 2,
+              "attack": 10,
+              "attackSpeed": 0.8,
+              "cost": 300
+            },
+            {
+              "level": 3,
+              "attack": 20,
+              "attackSpeed": 0.5,
+              "cost": 200
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

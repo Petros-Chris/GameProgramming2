@@ -66,7 +66,9 @@ public class WaveSystem : MonoBehaviour
             // If no enemies are left and the round is not in progess
             if (!EnemiesLeft() && !waveInProgress && !isLastRound)
             {
+                // Allows the player to switch into build mode again
                 ComponentManager.Instance.lockCamera = false;
+
                 // Stop the coroutine if still counting down
                 if (waveCoroutine != null)
                 {
@@ -115,7 +117,7 @@ public class WaveSystem : MonoBehaviour
             // Giving object health 
             Tower towerScript = tower.GetComponent<Tower>();
             towerScript.health = 50; // towerScript.maxHealth if you want it to come back with max health
-            towerScript.healthBar.UpdateHealthBar(towerScript.health, towerScript.maxHealth);
+            towerScript.getHealthBar().UpdateHealthBar(towerScript.health, towerScript.maxHealth);
         }
 
     }

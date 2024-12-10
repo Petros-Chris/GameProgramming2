@@ -5,22 +5,19 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
-public class Tower : MonoBehaviour, IDamageable
+public class Tower : Building, IDamageable
 {
-    public HealthBarScript healthBar;
-    public float health;
-    public float maxHealth;
+    private int maxHealthCount = 1;
 
     void Start()
     {
-        healthBar = gameObject.GetComponentInChildren<HealthBarScript>();
+        setHealthBar(gameObject.GetComponentInChildren<HealthBarScript>());
     }
-
     public void TakeDamage(float damage)
     {
         health -= damage;
 
-        healthBar.UpdateHealthBar(health, maxHealth);
+        getHealthBar().UpdateHealthBar(health, maxHealth);
 
         if (health <= 0)
         {
@@ -28,11 +25,20 @@ public class Tower : MonoBehaviour, IDamageable
         }
     }
 
-    public void OnDestroy()
+    public void UpgradeMaxHealth()
     {
+        if (maxHealthCount == 5)
+        {
+            return;
+        }
+        maxHealth += 400;
 
+        health = maxHealth; // Sets it to full
+        //health += 400; // Only adds the new health onto the original
+        getHealthBar().UpdateHealthBar(health, maxHealth);
+
+        maxHealthCount++;
     }
-
 
 
     public void OnDisable()

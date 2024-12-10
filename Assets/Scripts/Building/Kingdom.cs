@@ -3,27 +3,53 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Kingdom : MonoBehaviour, IDamageable
+public class Kingdom : Building, IDamageable
 {
-    private HealthBarScript healthBar;
-    public float health;
-    public float maxHealth;
-    public GameObject Ally;
-    public Vector3 SpawnPointForAlly;
+    private GameObject ally;
+    private Vector3 SpawnPointForAlly;
     public bool hasAllySpawnInTroubleUpgrade = false;
-    int toggleOnce = 0;
+    private int toggleOnce = 0;
+    private Dictionary<string, int> methodMap;
+
+    private int maxHealthCount = 1;
+    UpgradeJsonHandler.Root root;
+
 
     void Start()
     {
-        healthBar = gameObject.GetComponentInChildren<HealthBarScript>();
-        SpawnPointForAlly = new Vector3(transform.position.x + -2, transform.position.y, transform.position.z);
+        ally = ComponentManager.Instance.defaultAlly;
+        setHealthBar(gameObject.GetComponentInChildren<HealthBarScript>());
+        SpawnPointForAlly = new Vector3(transform.position.x, transform.position.y, transform.position.z + -2);
+        root = UpgradeJsonHandler.ReadFile();
+        Debug.Log("ASD");
+
+        methodMap = new Dictionary<string, int>
+        {
+            { "maxHealth", 1 }
+        };
+        Debug.Log("ASD");
+    }
+
+    public void UpgradeMaxHealth()
+    {
+        if (maxHealthCount == 5)
+        {
+            return;
+        }
+        maxHealth += 600;
+
+        health = maxHealth; // Sets it to full
+        //health += 600; // Only adds the new health onto the original
+        getHealthBar().UpdateHealthBar(health, maxHealth);
+
+        maxHealthCount++;
     }
 
     public void TakeDamage(float damage)
     {
         health -= damage;
 
-        healthBar.UpdateHealthBar(health, maxHealth);
+        getHealthBar().UpdateHealthBar(health, maxHealth);
         float healthPercent = health / maxHealth * 100;
 
         // Upgrade for FishKingdom to spawn allies when in trouble
@@ -32,7 +58,7 @@ public class Kingdom : MonoBehaviour, IDamageable
         {
             for (int i = 0; i < 4; i++)
             {
-                Instantiate(Ally, SpawnPointForAlly, transform.rotation);
+                Instantiate(ally, SpawnPointForAlly, transform.rotation);
             }
             toggleOnce++;
         }
@@ -42,7 +68,7 @@ public class Kingdom : MonoBehaviour, IDamageable
 
             for (int i = 0; i < 7; i++)
             {
-                Instantiate(Ally, SpawnPointForAlly, transform.rotation);
+                Instantiate(ally, SpawnPointForAlly, transform.rotation);
             }
             toggleOnce++;
         }

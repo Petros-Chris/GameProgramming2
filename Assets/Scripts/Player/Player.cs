@@ -82,4 +82,3 @@ public class Player : MonoBehaviour, IDamageable
 // Having towers automatically come back feels kinda op right now (likely because of lack of upgrading and the weak enemy we fight against)
 // Tower Reparability is missing, it just comes back low hp
 // buildings just kind of popping in is suddenly perhaps there should be partcles of the building getting rebuilt (like particles begian than 3 seconds later they would appear and particles dissaper)
-// If enemy runs away from tower, tower can keep hitting it for fun ...

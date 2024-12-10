@@ -29,6 +29,11 @@ public class CameraMovement : MonoBehaviour
             return;
         }
 
+        if (GameMenu.isUpdateMenuOpen)
+        {
+            return;
+        }
+
         float mouseXAxis = Input.GetAxisRaw("Mouse X") * Time.fixedDeltaTime * sensX;
         float mouseYAxis = Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * sensY;
 
