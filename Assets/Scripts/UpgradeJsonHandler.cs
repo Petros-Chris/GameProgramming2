@@ -9,28 +9,34 @@ using UnityEngine.UI;
 public class UpgradeJsonHandler : MonoBehaviour
 {
     [System.Serializable]
-    public class MaxHealth
+
+    public class Stats
+    {
+
+    }
+    [System.Serializable]
+    public class MaxHealth : Stats
     {
         public int level;
         public int maxHealth;
         public int cost;
     }
     [System.Serializable]
-    public class Attack
+    public class Attack : Stats
     {
         public int level;
         public int attack;
-        public int attackSpeed;
+        public float attackSpeed;
         public int cost;
     }
     [System.Serializable]
-    public class EmergencyAllySpawn
+    public class EmergencyAllySpawn : Stats
     {
         public bool state;
         public int cost;
     }
     [System.Serializable]
-    public class BuildingName
+    public class BuildingName : Stats
     {
         public string building;
         public List<Upgrade> upgrades;
@@ -41,6 +47,8 @@ public class UpgradeJsonHandler : MonoBehaviour
         public List<MaxHealth> maxHealth;
         public List<Attack> attack;
         public List<EmergencyAllySpawn> emergencyAllySpawn;
+        public string upgradeName;
+        public string upgradeIDName;
     }
     [System.Serializable]
     public class Root
@@ -48,12 +56,6 @@ public class UpgradeJsonHandler : MonoBehaviour
         public List<BuildingName> building;
     }
 
-    // public static DataToSave ReadFile(String fileNameToRead)
-    // {
-    //     String rawData = File.ReadAllText(Application.dataPath + "/" + fileNameToRead + ".txt");
-    //     DataToSave data = JsonUtility.FromJson<DataToSave>(rawData);
-    //     return data;
-    // }
     public static Root ReadFile()
     {
         string rawData = Resources.Load<TextAsset>("upgrades").text;

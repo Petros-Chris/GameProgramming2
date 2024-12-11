@@ -281,7 +281,6 @@ public class WaveSystem : MonoBehaviour
     }
     //GUI for showing base health
     //!BUG: Skip round in deathcam, casuing broken cam when suceesufly skiiped
-    // should just respawn the player when the round ends
 
     //GUI for showing boss health (when he exists)
 }

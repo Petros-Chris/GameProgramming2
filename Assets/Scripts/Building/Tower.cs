@@ -8,10 +8,15 @@ using UnityEngine.SceneManagement;
 public class Tower : Building, IDamageable
 {
     private int maxHealthCount = 1;
+    UpgradeJsonHandler.Root root;
 
     void Start()
     {
         setHealthBar(gameObject.GetComponentInChildren<HealthBarScript>());
+        towerAttack = gameObject.GetComponentsInChildren<TowerAttack>();
+        towerGun = gameObject.GetComponentsInChildren<TowerGun>();
+        initalize();
+
     }
     public void TakeDamage(float damage)
     {
@@ -25,22 +30,25 @@ public class Tower : Building, IDamageable
         }
     }
 
-    public void UpgradeMaxHealth()
+    public void initalize()
     {
-        if (maxHealthCount == 5)
+        root = UpgradeJsonHandler.ReadFile();
+        var upgrades = root.building.Find(b => b.building == "Tower").upgrades;
+        foreach (var upgrade in upgrades)
         {
-            return;
+            // It only runs one :O
+            if (upgrade.attack.Count != 0)
+            {
+                SetAttack(upgrade.attack);
+            }
+
+            else if (upgrade.maxHealth.Count != 0)
+            {
+                // Set it as the first level
+                SetMaxHealth(upgrade.maxHealth);
+            }
         }
-        maxHealth += 400;
-
-        health = maxHealth; // Sets it to full
-        //health += 400; // Only adds the new health onto the original
-        getHealthBar().UpdateHealthBar(health, maxHealth);
-
-        maxHealthCount++;
     }
-
-
     public void OnDisable()
     {
         ComponentManager.Instance.TowersDisabled.Add(gameObject);

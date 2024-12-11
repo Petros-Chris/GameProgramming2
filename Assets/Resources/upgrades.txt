@@ -4,11 +4,13 @@
       "building": "FishKingdom",
       "upgrades": [
         {
+          "upgradeName": "Maximum Health",
+          "upgradeIDName": "maxHealth",
           "maxHealth": [
             {
               "level": 1,
-              "maxHealth": 800,
-              "cost": 50
+              "maxHealth": 850,
+              "cost": 0
             },
             {
               "level": 2,
@@ -20,13 +22,17 @@
               "maxHealth": 2000,
               "cost": 200
             }
-          ],
+          ]
+        },
+        {
+          "upgradeName": "Building Damage",
+          "upgradeIDName": "attack",
           "attack": [
             {
               "level": 1,
               "attack": 5,
               "attackSpeed": 1,
-              "cost": 50
+              "cost": 0
             },
             {
               "level": 2,
@@ -40,7 +46,11 @@
               "attackSpeed": 0.5,
               "cost": 200
             }
-          ],
+          ]
+        },
+        {
+          "upgradeName": "Spawn Allies In Trouble",
+          "upgradeIDName": "emergencyAllySpawn",
           "emergencyAllySpawn": [
             {
               "state": false,
@@ -58,23 +68,29 @@
       "building": "Tower",
       "upgrades": [
         {
+          "upgradeName": "Maximum Health",
+          "upgradeIDName": "maxHealth",
           "maxHealth": [
             {
               "level": 1,
-              "maxHealth": 800,
+              "maxHealth": 400,
               "cost": 50
             },
             {
               "level": 2,
-              "maxHealth": 1600,
+              "maxHealth": 800,
               "cost": 100
             },
             {
               "level": 3,
-              "maxHealth": 2000,
+              "maxHealth": 1200,
               "cost": 200
             }
-          ],
+          ]
+        },
+        {
+          "upgradeName": "Building Damage",
+          "upgradeIDName": "attack",
           "attack": [
             {
               "level": 1,
