@@ -18,7 +18,7 @@ public class Tower : Building, IDamageable
         initalize();
 
     }
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, GameObject whoOwMe)
     {
         health -= damage;
 

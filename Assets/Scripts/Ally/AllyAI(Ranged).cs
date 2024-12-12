@@ -21,6 +21,7 @@ public class AllyAI : MonoBehaviour, IDamageable
     public bool alreadyAttacked = false;
     public float health, maxHealth = 100f;
     public Transform Nozzle;
+    public StateTypeAlly currentState;
 
     void Start()
     {
@@ -38,13 +39,13 @@ public class AllyAI : MonoBehaviour, IDamageable
     {
         StateMachine.Update(); //? Maybe some way to repair this after a script change
         // Animator.SetFloat("CharacterSpeed", Agent.velocity.magnitude);
-        //currentState = StateMachine.GetCurrentStateType();
+        currentState = StateMachine.GetCurrentStateType();
     }
 
-    public Transform GetClosestEnemy()
+    public Transform GetClosestEnemy(float range)
     {
         Vector3 position = transform.position;
-        Collider[] enemiesInRange = Physics.OverlapSphere(position, AttackRange, EnemyLayer);
+        Collider[] enemiesInRange = Physics.OverlapSphere(position, range, EnemyLayer);
 
         if (enemiesInRange.Length == 0)
         {
@@ -110,12 +111,14 @@ public class AllyAI : MonoBehaviour, IDamageable
         float distanceToEnemy = Vector3.Distance(transform.position, enemy.position);
         return distanceToEnemy <= range;
     }
-    public void Attack()
+    public void Attack(Transform whoToLookAt = default)
     {
         if (!alreadyAttacked)
         {
             if (weapon.TryGetComponent<TowerGun>(out TowerGun GunComponemt))
             {
+                if (whoToLookAt != default)
+                    Nozzle.LookAt(whoToLookAt);
                 GunComponemt.Shoot();
             }
             alreadyAttacked = true;
@@ -131,11 +134,24 @@ public class AllyAI : MonoBehaviour, IDamageable
     /// Enemy Takes damage
     /// </summary>
     /// <param name="damage">How much damage the enemy is going to take</param>
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, GameObject whoOwMe)
     {
         health -= damage;
 
         healthBarScript.UpdateHealthBar(health, maxHealth);
+
+        if (currentState == StateTypeAlly.Patrol || currentState == StateTypeAlly.Chase)
+        {
+            if (enemy == null)
+            {
+                return;
+            }
+            
+            if (IsEnemyInRange(SightRange))
+            {
+                transform.LookAt(whoOwMe.transform);
+            }
+        }
 
         if (health <= 0)
         {

@@ -14,6 +14,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
     public Transform ally;
     public Transform building;
     public GameObject weapon;
+    public Vector3 lastAllyPos;
     public float SightRange = 20f;
     public float maxAngle = 45.0f;
     public float AttackRange = 10f;
@@ -28,6 +29,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
     public Transform Nozzle;
 
     public float thinkingSpeed = 0.5f;
+    public bool CurrentlyInLookCooldown = false;
 
 
     void Start()
@@ -75,7 +77,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
     public Transform GetClosestEnemy()
     {
         Vector3 position = transform.position;
-        Collider[] enemiesInRange = Physics.OverlapSphere(position, 10000, EnemyLayer);
+        Collider[] enemiesInRange = Physics.OverlapSphere(position, SightRange, EnemyLayer);
 
         Transform closestEnemy = null;
         float closestDistance = Mathf.Infinity;
@@ -102,7 +104,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
         transform.rotation = Quaternion.Slerp(
         transform.rotation,
         targetRotation,
-        Time.deltaTime * 1.25f
+        Time.deltaTime * 2.0f
         );
     }
 
@@ -224,17 +226,38 @@ public class EnemyAI : MonoBehaviour, IDamageable
     {
         alreadyAttacked = false;
     }
+    public void ResetLookCooldown()
+    {
+        CurrentlyInLookCooldown = false;
+    }
 
     /// <summary>
     /// Enemy Takes damage
     /// </summary>
     /// <param name="damage">How much damage the enemy is going to take</param>
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, GameObject whoOwMe)
     {
         health -= damage;
 
         healthBarScript.UpdateHealthBar(health, maxHealth);
 
+        if (currentState == StateType.HeadToTower || currentState == StateType.Chase)
+        {
+            if (!CurrentlyInLookCooldown)
+            {
+                if (ally == null)
+                {
+                    return;
+                }
+
+                if (IsEnemyInRange(SightRange))
+                {
+                    transform.LookAt(whoOwMe.transform);
+                    CurrentlyInLookCooldown = true;
+                    Invoke(nameof(ResetLookCooldown), 3);
+                }
+            }
+        }
         if (health <= 0)
         {
             CurrencyManager.Instance.Currency += value;

@@ -31,7 +31,7 @@ public class AttackEnemyTowerState : IStateAlly
         }
         else
         {
-            aiController.enemy = aiController.GetClosestEnemy();
+            aiController.enemy = aiController.GetClosestEnemy(aiController.AttackRange);
         }
 
 

@@ -18,25 +18,23 @@ public class AttackEnemyState : IStateAlly
 
     public void Execute()
     {
+        // Get nearest enemy
+        aiController.enemy = aiController.GetClosestEnemy(aiController.SightRange);
         // Enemy doesn't exist
-        if (aiController.enemy != null)
-        {
-            // Enemy is not in attack range
-            if (!aiController.IsEnemyInRange(aiController.AttackRange))
-            {
-                aiController.StateMachine.TransitionToState(StateTypeAlly.Chase);
-                return;
-            }
-            aiController.LookAt(aiController.enemy);
-            aiController.Nozzle.LookAt(aiController.enemy);
-            aiController.Attack();
-        }
-        else
+        if (aiController.enemy == null)
         {
             aiController.StateMachine.TransitionToState(StateTypeAlly.Patrol);
+            return;
         }
-
-
+        // Enemy is not seen in attack range
+        if (!aiController.CanSeeEnemy(aiController.AttackRange))
+        {
+            aiController.StateMachine.TransitionToState(StateTypeAlly.Chase);
+            return;
+        }
+        // Look at and attack enemy
+        aiController.LookAt(aiController.enemy);
+        aiController.Attack(aiController.enemy);
     }
 
     public void Exit()

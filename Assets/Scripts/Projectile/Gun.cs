@@ -85,7 +85,7 @@ public class Gun : MonoBehaviour
             EnemyAI enemy = hit.transform.GetComponent<EnemyAI>();
             if (enemy != null)
             {
-                enemy.TakeDamage(damage);
+                enemy.TakeDamage(damage, gameObject);
             }
         }
 

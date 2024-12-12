@@ -30,7 +30,7 @@ public class AttackPlayerState : IState
         }
 
         // If person is not visible in attack range
-        if (!aiController.CanSeeEnemy(aiController.AttackRange))//IsEnemyInRange(aiController.AttackRange))
+        if (!aiController.CanSeeEnemy(aiController.AttackRange))
         {
             aiController.StateMachine.TransitionToState(StateType.Chase);
             return;

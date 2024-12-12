@@ -19,7 +19,7 @@ public class BasicBullet : MonoBehaviour
         {
             if(amountOfTimesDamageCanBeTrigged > 0)
             {
-                enemyComponent.TakeDamage(damage);
+                enemyComponent.TakeDamage(damage, gameObject);
                 amountOfTimesDamageCanBeTrigged--;
                 Destroy(gameObject, timeTillDeathAfterHit);
             }

@@ -18,8 +18,7 @@ public class PatrolStateAlly : IStateAlly
 
     public void Execute()
     {
-        // Somehow make this not run as often
-        aiController.enemy = aiController.GetClosestEnemy();
+        aiController.enemy = aiController.GetClosestEnemy(aiController.SightRange);
 
         if (aiController.enemy != null)
         {

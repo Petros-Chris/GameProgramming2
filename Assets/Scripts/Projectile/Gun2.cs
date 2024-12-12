@@ -55,7 +55,7 @@ public class Gun2 : MonoBehaviour
                 EnemyAI enemy = nearbyObject.GetComponent<EnemyAI>();
                 if (enemy != null)
                 {
-                    enemy.TakeDamage(damage);
+                    enemy.TakeDamage(damage, gameObject);
                 }
             }
         }

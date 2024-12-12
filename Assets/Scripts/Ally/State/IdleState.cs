@@ -16,7 +16,7 @@ public class IdleStateAlly : IStateAlly
 
     public void Execute()
     {
-        if (aiController.GetClosestEnemy() != null)
+        if (aiController.GetClosestEnemy(aiController.AttackRange) != null)
         {
             aiController.StateMachine.TransitionToState(StateTypeAlly.AttackEnemyFromTower);
         }

@@ -125,7 +125,7 @@ public class PlayerMovement : MonoBehaviour
         // Handle collisions, for example with enemies
         if (collision.gameObject.TryGetComponent<EnemyAI>(out EnemyAI enemyComponent))
         {
-            enemyComponent.TakeDamage(1);
+            enemyComponent.TakeDamage(1, gameObject);
         }
     }
 }

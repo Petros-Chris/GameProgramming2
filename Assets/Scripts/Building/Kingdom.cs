@@ -67,7 +67,7 @@ public class Kingdom : Building, IDamageable
         emergencyAllySpawn++;
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, GameObject whoOwMe = default)
     {
         health -= damage;
 
@@ -97,16 +97,18 @@ public class Kingdom : Building, IDamageable
 
         if (health <= 0)
         {
+            MenuController.didKingdomDie = true;
             Destroy(gameObject);
         }
     }
     public void OnDestroy()
     {
-        if (!MenuController.isSceneChanging)
+        // If scene wasn't changing because building got destoryed
+        if (MenuController.didKingdomDie)
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            MenuController.isSceneChanging = false;
+            MenuController.didKingdomDie = false;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }

@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour
 {
-    public static bool isSceneChanging;
+    public static bool didKingdomDie;
 
     public void StartGame()
     {
@@ -18,7 +18,7 @@ public class MenuController : MonoBehaviour
     public void RestartGame()
     {
         GameMenu.ResumeGame();
-        isSceneChanging = true;
+        didKingdomDie = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 

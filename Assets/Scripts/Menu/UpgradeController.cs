@@ -44,15 +44,8 @@ public class UpgradeController : MonoBehaviour
 
     void Update()
     {
-        // Stop from checking upgrades in build cam Unlesss !
-        // if (ComponentManager.Instance.)
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (ComponentManager.Instance.lockCamera)
-            {
-                StartCoroutine(ComponentManager.Instance.ShowMessage("You Can't Upgrade A Building During A Round!"));
-                return;
-            }
             GetObjectWithRayCast();
         }
 
@@ -90,6 +83,12 @@ public class UpgradeController : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, RayRange, LayerMask.GetMask("whatIsBuilding")))
         {
+            // Checks if player is currently allowed (lockCamera is in regards to when a round is in progress)
+            if (ComponentManager.Instance.lockCamera)
+            {
+                StartCoroutine(ComponentManager.Instance.ShowMessage("You Can't Upgrade A Building During A Round!"));
+                return;
+            }
             UpgradeJsonHandler.BuildingName dataFromBuilding = default;
 
             building = default;

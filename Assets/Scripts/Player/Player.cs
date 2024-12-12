@@ -29,7 +29,7 @@ public class Player : MonoBehaviour, IDamageable
         }
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, GameObject whoOwMe = default)
     {
         health -= damage;
         lastDamageTime = Time.time;

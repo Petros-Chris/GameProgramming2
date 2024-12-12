@@ -16,7 +16,7 @@ public class EnemyMeleeWeapon : MonoBehaviour
             Debug.Log("Kill");
             if (hit.transform.TryGetComponent<IDamageable>(out IDamageable component))
             {
-                component.TakeDamage(damage);
+                component.TakeDamage(damage, gameObject);
             }
         }
         Debug.DrawRay(transform.position, transform.forward * 1f, Color.red, 1f);
@@ -30,7 +30,7 @@ public class EnemyMeleeWeapon : MonoBehaviour
         {
             if (collider.TryGetComponent<IDamageable>(out IDamageable component))
             {
-                component.TakeDamage(damage);
+                component.TakeDamage(damage, gameObject);
                 break;
             }
         }

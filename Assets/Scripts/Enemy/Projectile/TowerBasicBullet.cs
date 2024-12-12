@@ -22,7 +22,7 @@ public class TowerBasicBullet : MonoBehaviour
         {
             if (amountOfTimesDamageCanBeTrigged > 0)
             {
-                component.TakeDamage(damage);
+                component.TakeDamage(damage, gameObject);
                 amountOfTimesDamageCanBeTrigged--;
                 Destroy(gameObject, timeTillDeathAfterHit);
             }
