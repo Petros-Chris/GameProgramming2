@@ -12,6 +12,7 @@ public class Building : MonoBehaviour
     private int attackLevel = 0;
     public TowerAttack[] towerAttack; // Cooldown, Range
     public TowerGun[] towerGun; // Damage
+    private int emergencyAllySpawn;
 
     public bool SetMaxHealth(List<UpgradeJsonHandler.MaxHealth> jsonHealth)
     {
@@ -62,7 +63,14 @@ public class Building : MonoBehaviour
         SetAttackLevel(GetAttackLevel() + 1);
         return true;
     }
-
+    public int GetEmergencyAllySpawn()
+    {
+        return emergencyAllySpawn;
+    }
+    public void SetEmergencyAllySpawn(int localeas)
+    {
+        emergencyAllySpawn = localeas;
+    }
     public HealthBarScript getHealthBar()
     {
         return healthBar;

@@ -113,6 +113,42 @@
           ]
         }
       ]
+    },
+    {
+      "building": "Wall",
+      "upgrades": [
+        {
+          "upgradeName": "Maximum Health",
+          "upgradeIDName": "maxHealth",
+          "maxHealth": [
+            {
+              "level": 1,
+              "maxHealth": 1200,
+              "cost": 50
+            },
+            {
+              "level": 2,
+              "maxHealth": 2400,
+              "cost": 100
+            },
+            {
+              "level": 3,
+              "maxHealth": 3600,
+              "cost": 200
+            },
+            {
+              "level": 4,
+              "maxHealth": 4800,
+              "cost": 200
+            },
+            {
+              "level": 5,
+              "maxHealth": 6000,
+              "cost": 200
+            }
+          ]
+        }
+      ]
     }
   ]
 }

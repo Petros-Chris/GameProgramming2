@@ -10,7 +10,6 @@ public class Kingdom : Building, IDamageable
     private Vector3 SpawnPointForAlly;
     public bool allySpawnInTrouble = false;
     private int toggleOnce = 0;
-    private int emergencyAllySpawn = 0;
     UpgradeJsonHandler.Root root;
 
     void Start()
@@ -55,16 +54,15 @@ public class Kingdom : Building, IDamageable
         //     return;
         // }
         // Checks if max level reached
-        if (emergencyAllySpawn == 1)
+        if (GetEmergencyAllySpawn() == 2)
         {
             return;
         }
         // Sets new stats and adds the cost to the money
-        Debug.Log("Asdasd" + jsonEmergencyAlly[emergencyAllySpawn].state);
-        allySpawnInTrouble = jsonEmergencyAlly[emergencyAllySpawn].state;
+        allySpawnInTrouble = jsonEmergencyAlly[GetEmergencyAllySpawn()].state;
         // CurrencyManager.Instance.Currency -= jsonEmergencyAlly[emergencyAllySpawn].cost;
         // Sets new level
-        emergencyAllySpawn++;
+        SetEmergencyAllySpawn(GetEmergencyAllySpawn() + 1);
     }
 
     public void TakeDamage(float damage, GameObject whoOwMe = default)

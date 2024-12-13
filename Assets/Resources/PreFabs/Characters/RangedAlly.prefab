@@ -253,6 +253,7 @@ MonoBehaviour:
   Nozzle: {fileID: 3524201312362402920}
   currentState: 0
   animator: {fileID: 0}
+  fishKingdom: {fileID: 0}
 --- !u!95 &77366300304662408
 Animator:
   serializedVersion: 5
@@ -530,7 +531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f16b9d829683a574fba0cfbc3124eee5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offSet: {x: 0, y: 1.2, z: 0}
+  offSet: {x: 0, y: 0, z: 0}
 --- !u!1 &5840331874037749611
 GameObject:
   m_ObjectHideFlags: 0

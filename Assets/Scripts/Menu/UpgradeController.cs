@@ -104,6 +104,12 @@ public class UpgradeController : MonoBehaviour
                 dataFromBuilding = root.building.Find(b => b.building == "Tower");
                 upgrades = root.building.Find(b => b.building == "Tower").upgrades;
             }
+            else if (hit.collider.TryGetComponent(out Wall wall))
+            {
+                building = wall;
+                dataFromBuilding = root.building.Find(b => b.building == "Wall");
+                upgrades = root.building.Find(b => b.building == "Wall").upgrades;
+            }
 
             if (building == default)
             {
@@ -168,7 +174,6 @@ public class UpgradeController : MonoBehaviour
         // Checks if attack is empty
         if (upgrade.attack.Count != 0)
         {
-            Debug.Log("attack found");
             int index = building.GetAttackLevel() - 1;
             int nextIndex = building.GetAttackLevel();
 
@@ -185,7 +190,6 @@ public class UpgradeController : MonoBehaviour
         // Checks if maxHealth is empty
         else if (upgrade.maxHealth.Count != 0)
         {
-            Debug.Log("max health found");
             int index = building.GetHealthLevel() - 1;
             int nextIndex = building.GetHealthLevel();
 
@@ -196,7 +200,6 @@ public class UpgradeController : MonoBehaviour
             }
             else
             {
-                Debug.Log(index + " asdasd " + nextIndex);
                 fieldText.text = $"{upgrade.upgradeName}: {upgrade.maxHealth[index].maxHealth} -> {upgrade.maxHealth[nextIndex].maxHealth} Costs: {upgrade.maxHealth[nextIndex].cost}:";
             }
             // Creates a button with upgrade data
@@ -205,9 +208,19 @@ public class UpgradeController : MonoBehaviour
         // Checks if emergencyAllySpawn is empty
         else if (upgrade.emergencyAllySpawn.Count != 0)
         {
+            int index = building.GetEmergencyAllySpawn() - 1;
+            int nextIndex = building.GetEmergencyAllySpawn();
 
-            fieldText.text = $"{upgrade.upgradeName}: {upgrade.emergencyAllySpawn[0].state} -> {upgrade.emergencyAllySpawn[1].state} Costs: {upgrade.emergencyAllySpawn[1].cost}:";
-            CreateButton(upgrade.upgradeName, 0, 1, upgrade, yOffset + 10);
+            // Checks if it's max level
+            if (nextIndex == 2) // Its boolean so anything higher than 1 is impossible
+            {
+                fieldText.text = $"{upgrade.upgradeName}: {upgrade.emergencyAllySpawn[index].state} -> {upgrade.emergencyAllySpawn[index].state}:";
+            }
+            else
+            {
+                fieldText.text = $"{upgrade.upgradeName}: {upgrade.emergencyAllySpawn[index].state} -> {upgrade.emergencyAllySpawn[nextIndex].state} Costs: {upgrade.emergencyAllySpawn[nextIndex].cost}:";
+            }
+            CreateButton(upgrade.upgradeName, upgrade.emergencyAllySpawn[index].state ? 1 : 0, 1, upgrade, yOffset + 10);
         }
     }
 
@@ -267,7 +280,10 @@ public class UpgradeController : MonoBehaviour
     }
     void AddSpawnInTroubleUpgrade(int ch, Button button)
     {
-
+        if (building is Kingdom kingdom)
+        {
+            kingdom.SetEmergencyAllySpawn(upgrades[2].emergencyAllySpawn);
+        }
     }
     Camera WhichCameraInUse()
     {

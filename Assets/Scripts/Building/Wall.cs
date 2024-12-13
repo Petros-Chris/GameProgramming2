@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
-public class Tower : Building, IDamageable
+public class Wall : Building, IDamageable
 {
     UpgradeJsonHandler.Root root;
 
@@ -32,16 +32,10 @@ public class Tower : Building, IDamageable
     public void initalize()
     {
         root = UpgradeJsonHandler.ReadFile();
-        var upgrades = root.building.Find(b => b.building == "Tower").upgrades;
+        var upgrades = root.building.Find(b => b.building == "Wall").upgrades;
         foreach (var upgrade in upgrades)
         {
-            // It only runs one :O
-            if (upgrade.attack.Count != 0)
-            {
-                SetAttack(upgrade.attack);
-            }
-
-            else if (upgrade.maxHealth.Count != 0)
+            if (upgrade.maxHealth.Count != 0)
             {
                 // Set it as the first level
                 SetMaxHealth(upgrade.maxHealth);

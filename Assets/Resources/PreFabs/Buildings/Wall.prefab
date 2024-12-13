@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 8699426989899295494}
   - component: {fileID: 1014499706313962637}
   - component: {fileID: 3968886938189426907}
-  - component: {fileID: 5124211462277984222}
   - component: {fileID: 5301860229944042936}
+  - component: {fileID: 2614014147557024814}
   m_Layer: 9
   m_Name: Wall
   m_TagString: Untagged
@@ -109,20 +109,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5124211462277984222
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2618993229794458170}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffc0cbbe0fedd4044be20a644a109ef5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 600
-  maxHealth: 600
 --- !u!208 &5301860229944042936
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -139,6 +125,22 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &2614014147557024814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2618993229794458170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cabbd5c089285eb46bfcd89b1e89872e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  maxHealth: 0
+  towerAttack: []
+  towerGun: []
 --- !u!1 &3083486629234012294
 GameObject:
   m_ObjectHideFlags: 0
