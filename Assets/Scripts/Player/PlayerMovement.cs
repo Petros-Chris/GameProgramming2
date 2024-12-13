@@ -14,7 +14,6 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator;
 
     private int jumpCount;
-    //private bool readyToJump;
     public KeyCode jumpKey = KeyCode.Space;
     bool grounded;
     public Transform orientation;
@@ -22,6 +21,18 @@ public class PlayerMovement : MonoBehaviour
     float verticalInput;
     Vector3 moveDirection;
     Rigidbody rb;
+
+    [Header("Dash")]
+    public float dashSpeed = 25f;
+    public float dashDuration = 0.2f;
+    private bool isDashing;
+    private float dashCooldown = 1f;
+    private float dashTime;
+
+    [Header("Stun")]
+    public float stunDuration = 2f;
+    private bool isStunned;
+    private float stunTime;
 
     private void Start()
     {
@@ -32,7 +43,17 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (isStunned)
+        {
+            if (Time.time - stunTime >= stunDuration)
+            {
+                isStunned = false; // End stun after duration
+            }
+            return; // Skip movement if stunned
+        }
+
         animator.SetFloat("CharacterSpeed", rb.velocity.magnitude);
+        
         // Only process movement and jumping if the game is not paused or frozen
         if (GameMenu.playerFrozen)
         {
@@ -44,19 +65,25 @@ public class PlayerMovement : MonoBehaviour
         MyInput();
         SpeedControl();
         isGrounded();
+
+        // Dash input handling
+        if (Time.time >= dashTime + dashCooldown && Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            Dash();
+        }
     }
 
     private void FixedUpdate()
     {
-        MovePlayer();
+        if (!isDashing)
+        {
+            MovePlayer();
+        }
     }
 
     private void isGrounded()
     {
-        // Check if the player is grounded using a raycast
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
-
-        // Reset the jump count when the player touches the ground
         if (grounded)
         {
             rb.drag = groundDrag;
@@ -68,16 +95,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Handles player input (movement and jumping)
-    /// </summary>
     private void MyInput()
     {
-        // Get movement input
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
-        // Jump input handling
         if (Input.GetKeyDown(jumpKey) && jumpCount < 1)
         {
             Jump();
@@ -99,13 +121,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Prevents player from exceeding max speed
-    /// </summary>
     private void SpeedControl()
     {
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-
         if (flatVel.magnitude > moveSpeed)
         {
             Vector3 limitedVel = flatVel.normalized * moveSpeed;
@@ -115,21 +133,52 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump()
     {
-        // Only allow jump if jumpCount < 2 (ensures no third jump)
         if (jumpCount < 2)
         {
-            rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z); // Reset vertical velocity before jumping
+            rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z); // Reset vertical velocity
             rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
             animator.SetTrigger("Jumped");
         }
     }
 
+    private void Dash()
+    {
+        if (!isDashing)
+        {
+            isDashing = true;
+            dashTime = Time.time;
+            Vector3 dashDirection = transform.forward;
+            rb.velocity = new Vector3(dashDirection.x * dashSpeed, rb.velocity.y, dashDirection.z * dashSpeed);
+            Invoke("EndDash", dashDuration);
+        }
+    }
+
+    private void EndDash()
+    {
+        isDashing = false;
+    }
+
+    public void Stun()
+    {
+        if (!isStunned)
+        {
+            isStunned = true;
+            stunTime = Time.time;
+            rb.velocity = Vector3.zero; // Stop all movement during stun
+            Debug.Log("Player is stunned");
+        }
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
-        // Handle collisions, for example with enemies
-        if (collision.gameObject.TryGetComponent<EnemyAI>(out EnemyAI enemyComponent))
+        if (collision.gameObject.CompareTag("Enemy"))
         {
-            enemyComponent.TakeDamage(1, gameObject);
+            EnemyAI enemyComponent = collision.gameObject.GetComponent<EnemyAI>();
+            if (enemyComponent != null)
+            {
+                enemyComponent.TakeDamage(1, gameObject);
+                Stun();
+            }
         }
     }
 }
