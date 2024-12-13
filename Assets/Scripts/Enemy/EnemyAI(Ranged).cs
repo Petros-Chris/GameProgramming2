@@ -241,8 +241,26 @@ public class EnemyAI : MonoBehaviour, IDamageable
 
         healthBarScript.UpdateHealthBar(health, maxHealth);
 
+        if (health <= 0)
+        {
+            CurrencyManager.Instance.Currency += value;
+            Destroy(gameObject);
+        }
+        LookAtPainCausingPerson(whoOwMe);
+    }
+
+    private void LookAtPainCausingPerson(GameObject whoOwMe)
+    {
+        // If it happens while ai is in HeadToTower or chase mode
         if (currentState == StateType.HeadToTower || currentState == StateType.Chase)
         {
+            //Ignore player if you are already near a building
+            if (IsBuildingInRange(SightRange))
+            {
+                return;
+            }
+
+            // Check if near king dom
             if (!CurrentlyInLookCooldown)
             {
                 if (ally == null)
@@ -257,11 +275,6 @@ public class EnemyAI : MonoBehaviour, IDamageable
                     Invoke(nameof(ResetLookCooldown), 3);
                 }
             }
-        }
-        if (health <= 0)
-        {
-            CurrencyManager.Instance.Currency += value;
-            Destroy(gameObject);
         }
     }
 }

@@ -22,23 +22,26 @@ public class AllyAI : MonoBehaviour, IDamageable
     public float health, maxHealth = 100f;
     public Transform Nozzle;
     public StateTypeAlly currentState;
+    public Animator animator;
+    public GameObject fishKingdom;
 
     void Start()
     {
         Agent = GetComponent<NavMeshAgent>();
-
+        animator = GetComponent<Animator>();
         StateMachine = new StateMachineAlly();
         StateMachine.AddState(new PatrolStateAlly(this));
         StateMachine.AddState(new ChaseStateAlly(this));
         StateMachine.AddState(new AttackEnemyState(this));
+        fishKingdom = GameObject.Find("FishKingdom");
 
         StateMachine.TransitionToState(StateTypeAlly.Patrol);
     }
 
     void Update()
     {
-        StateMachine.Update(); //? Maybe some way to repair this after a script change
-        // Animator.SetFloat("CharacterSpeed", Agent.velocity.magnitude);
+        StateMachine.Update();
+        animator.SetFloat("speed", Agent.velocity.magnitude);
         currentState = StateMachine.GetCurrentStateType();
     }
 
@@ -146,7 +149,7 @@ public class AllyAI : MonoBehaviour, IDamageable
             {
                 return;
             }
-            
+
             if (IsEnemyInRange(SightRange))
             {
                 transform.LookAt(whoOwMe.transform);
@@ -157,5 +160,12 @@ public class AllyAI : MonoBehaviour, IDamageable
         {
             Destroy(gameObject);
         }
+    }
+
+    public bool IsSpotReachable(Vector3 targetPosition)
+    {
+        NavMeshPath path = new NavMeshPath();
+        Agent.CalculatePath(targetPosition, path);
+        return path.status == NavMeshPathStatus.PathComplete;
     }
 }

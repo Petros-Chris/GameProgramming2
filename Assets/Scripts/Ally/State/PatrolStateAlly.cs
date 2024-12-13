@@ -43,8 +43,16 @@ public class PatrolStateAlly : IStateAlly
 
     private void GenerateAndHeadToNewPoint()
     {
-        Vector3 point = new Vector3(Random.Range(8, 17), 1, Random.Range(0, -12));
-        aiController.Agent.destination = point;
+        Vector3 placeToProtect = aiController.fishKingdom.transform.position;
+        float protectxPos = placeToProtect.x;
+        float protectzPos = placeToProtect.z;
+
+        Vector3 point = new Vector3(Random.Range(protectxPos - 20, protectxPos + 20), 1, Random.Range(protectzPos - 20, protectzPos + 20));
+
+        if (aiController.IsSpotReachable(point))
+        {
+            aiController.Agent.destination = point;
+        }
     }
 }
 

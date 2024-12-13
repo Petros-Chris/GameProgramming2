@@ -108,6 +108,7 @@ public class WaveSystem : MonoBehaviour
     }
 
     //TODO: Make it where player needs to hit object to repair it into a useable building
+    //? Can spawn onto of player, but it doesn't seem to push them out of map so perhaps its fine
     public void ReviveAllTowers()
     {
         //TODO: Some kind of overlay to show that this building got destoried

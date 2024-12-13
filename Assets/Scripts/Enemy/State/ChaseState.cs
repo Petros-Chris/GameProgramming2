@@ -23,6 +23,13 @@ public class ChaseState : IState
         // If person does not exist
         if (aiController.ally == null)
         {
+            //Ignore player if you are already near a building
+            if (aiController.IsBuildingInRange(aiController.SightRange))
+            {
+                aiController.StateMachine.TransitionToState(StateType.HeadToTower);
+                return;
+            }
+
             // If ai has reached its final destination
             if (aiController.Agent.remainingDistance <= aiController.Agent.stoppingDistance)
             {
@@ -36,6 +43,13 @@ public class ChaseState : IState
         // If can not see person within sight
         if (!aiController.CanSeeEnemy(aiController.SightRange))
         {
+            //Ignore player if you are already near a building
+            if (aiController.IsBuildingInRange(aiController.SightRange))
+            {
+                aiController.StateMachine.TransitionToState(StateType.HeadToTower);
+                return;
+            }
+
             if (aiController.Agent.remainingDistance <= aiController.Agent.stoppingDistance)
             {
                 aiController.StateMachine.TransitionToState(StateType.HeadToTower);

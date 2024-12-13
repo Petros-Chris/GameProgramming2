@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask whatIsGround;
     private Animator animator;
 
-    private int jumpCount; 
+    private int jumpCount;
     //private bool readyToJump;
     public KeyCode jumpKey = KeyCode.Space;
     bool grounded;
@@ -34,12 +34,16 @@ public class PlayerMovement : MonoBehaviour
     {
         animator.SetFloat("CharacterSpeed", rb.velocity.magnitude);
         // Only process movement and jumping if the game is not paused or frozen
-        if (!GameMenu.playerFrozen)
+        if (GameMenu.playerFrozen)
         {
-            MyInput();
-            SpeedControl();
-            isGrounded();
+            horizontalInput = 0;
+            verticalInput = 0;
+            return;
         }
+
+        MyInput();
+        SpeedControl();
+        isGrounded();
     }
 
     private void FixedUpdate()
@@ -56,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
         if (grounded)
         {
             rb.drag = groundDrag;
-            jumpCount = 0; 
+            jumpCount = 0;
         }
         else
         {
@@ -74,7 +78,7 @@ public class PlayerMovement : MonoBehaviour
         verticalInput = Input.GetAxisRaw("Vertical");
 
         // Jump input handling
-        if (Input.GetKeyDown(jumpKey) && jumpCount < 1) 
+        if (Input.GetKeyDown(jumpKey) && jumpCount < 1)
         {
             Jump();
             jumpCount++;
