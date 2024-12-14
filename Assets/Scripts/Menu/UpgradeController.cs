@@ -67,7 +67,6 @@ public class UpgradeController : MonoBehaviour
         }
     }
 
-
     void GetObjectWithRayCast()
     {
         cameraToUse = WhichCameraInUse();

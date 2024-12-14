@@ -14,7 +14,6 @@ public class Gun : MonoBehaviour
     public static int magazineSize = 50;
     public float reloadTime = 3.0f;
     public float fireRate = 0.1f;
-
     public static int currentBullets;
     private bool isReloading = false;
     private float nextFireTime = 0f;
@@ -65,9 +64,7 @@ public class Gun : MonoBehaviour
         RaycastHit hit;
         var bullet = Instantiate(bulletTrail, Nozzle.position, Quaternion.identity);
         bullet.AddPosition(Nozzle.position);
-        {
-            bullet.transform.position = transform.position + (Nozzle.forward * 200);
-        }
+        bullet.transform.position = transform.position + (Nozzle.forward * 200);
 
         if (Physics.Raycast(FirePoint.position, FirePoint.forward, out hit, range))
         {

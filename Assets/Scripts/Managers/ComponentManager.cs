@@ -10,7 +10,7 @@ using System.Collections.Generic;
 public class ComponentManager : MonoBehaviour
 {
     public static ComponentManager Instance { get; private set; }
-    public List<GameObject> TowersDisabled;
+    public List<GameObject> buildingsDisabled;
     public bool hasPlayerDied;
     public Camera buildCam;
     public Camera playerCam;

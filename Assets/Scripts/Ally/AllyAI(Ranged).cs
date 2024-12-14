@@ -34,6 +34,7 @@ public class AllyAI : MonoBehaviour, IDamageable
         StateMachine.AddState(new ChaseStateAlly(this));
         StateMachine.AddState(new AttackEnemyState(this));
         fishKingdom = GameObject.Find("FishKingdom");
+        healthBarScript.UpdateHealthBar(health, maxHealth);
 
         StateMachine.TransitionToState(StateTypeAlly.Patrol);
     }

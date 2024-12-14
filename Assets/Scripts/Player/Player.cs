@@ -28,6 +28,11 @@ public class Player : MonoBehaviour, IDamageable
         healthBar = GameObject.Find("PlayerHealthBar").transform;
         lastDamageTime = Time.time;
         revivalCountdown = reviveTime;
+
+        if (healthBar.TryGetComponent<PlayerHealthBar>(out PlayerHealthBar HealthComponent))
+        {
+            HealthComponent.UpdateHealthBar(health, maxHealth);
+        }
     }
 
     void Update()

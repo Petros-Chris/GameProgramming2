@@ -34,7 +34,7 @@ public class TowerGun : MonoBehaviour
         while (Physics.Raycast(rayOrigin, rayDirection, out hit, remainingRange))
         {
 
-            if (((1 << hit.transform.gameObject.layer) & (whatIsBuilding | whatIsAlly)) != 0)
+            if (((1 << hit.transform.gameObject.layer) & (whatIsBuilding | whatIsAlly | LayerMask.GetMask("gateWall"))) != 0)
             {
 
                 remainingRange -= hit.distance;

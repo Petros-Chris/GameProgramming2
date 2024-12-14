@@ -176,7 +176,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4544621665582272773, guid: ce6be365833358a4990c1c2a1152736c, type: 3}
       propertyPath: m_CullingMask.m_Bits
-      value: 32759
+      value: 98295
       objectReference: {fileID: 0}
     - target: {fileID: 8049290795955170526, guid: ce6be365833358a4990c1c2a1152736c, type: 3}
       propertyPath: mesh
@@ -1007,27 +1007,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8845650548858499561, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
   m_PrefabInstance: {fileID: 365313739}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &367035818 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2150264769127135822, guid: fb79ba4295ebaa049aaf5e69d6a35898, type: 3}
-  m_PrefabInstance: {fileID: 1395893107}
-  m_PrefabAsset: {fileID: 0}
---- !u!208 &367035824
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 367035818}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
-  m_MoveThreshold: 0.1
-  m_Carve: 0
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0, z: 0}
-  m_TimeToStationary: 0.5
 --- !u!1 &397766856
 GameObject:
   m_ObjectHideFlags: 0
@@ -2479,10 +2458,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: FishKingdom
       objectReference: {fileID: 0}
-    - target: {fileID: 2150264769127135822, guid: fb79ba4295ebaa049aaf5e69d6a35898, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4440823292025215627, guid: fb79ba4295ebaa049aaf5e69d6a35898, type: 3}
       propertyPath: m_LocalPosition.x
       value: 84.42
@@ -2526,10 +2501,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2150264769127135822, guid: fb79ba4295ebaa049aaf5e69d6a35898, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 367035824}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb79ba4295ebaa049aaf5e69d6a35898, type: 3}
 --- !u!1001 &1421127126
 PrefabInstance:

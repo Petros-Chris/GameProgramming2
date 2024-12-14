@@ -112,15 +112,14 @@ public class WaveSystem : MonoBehaviour
     public void ReviveAllTowers()
     {
         //TODO: Some kind of overlay to show that this building got destoried
-        foreach (GameObject tower in ComponentManager.Instance.TowersDisabled)
+        foreach (GameObject building in ComponentManager.Instance.buildingsDisabled)
         {
-            tower.SetActive(true);
+            building.SetActive(true);
             // Giving object health 
-            Tower towerScript = tower.GetComponent<Tower>();
-            towerScript.health = 50; // towerScript.maxHealth if you want it to come back with max health
-            towerScript.getHealthBar().UpdateHealthBar(towerScript.health, towerScript.maxHealth);
+            Building buildingScript = building.GetComponent<Building>();
+            buildingScript.health = 50; // towerScript.maxHealth if you want it to come back with max health
+            buildingScript.getHealthBar().UpdateHealthBar(buildingScript.health, buildingScript.maxHealth);
         }
-
     }
 
     public void RevivePlayer()
@@ -231,7 +230,7 @@ public class WaveSystem : MonoBehaviour
 
     IEnumerator BeginIntermissionToNextWave()
     {
-        intermissionTimer = 30;
+        intermissionTimer = 90;
         Debug.Log("Intermission!");
         currentlyInIntermission = true;
         displaySlider = true;

@@ -50,6 +50,6 @@ public class Tower : Building, IDamageable
     }
     public void OnDisable()
     {
-        ComponentManager.Instance.TowersDisabled.Add(gameObject);
+        ComponentManager.Instance.buildingsDisabled.Add(gameObject);
     }
 }

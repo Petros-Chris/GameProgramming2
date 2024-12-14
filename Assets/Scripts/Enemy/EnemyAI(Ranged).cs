@@ -35,6 +35,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
     void Start()
     {
         Agent = GetComponent<NavMeshAgent>();
+        healthBarScript.UpdateHealthBar(health, maxHealth);
         // Animator = GetComponent<Animator>(); // Commented out since we're not using animations
         building = GetClosestBuilding();
         ally = GetClosestEnemy();
