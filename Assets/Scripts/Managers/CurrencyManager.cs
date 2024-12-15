@@ -9,7 +9,7 @@ public class CurrencyManager : MonoBehaviour
     public int Currency = 0;
     TextMeshProUGUI scoreText;
 
-    void Start()
+    void Awake()
     {
         GameObject gameObject = GameObject.FindWithTag("Score");
         scoreText = gameObject.GetComponent<TextMeshProUGUI>();

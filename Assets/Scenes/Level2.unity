@@ -1165,7 +1165,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4544621665582272773, guid: ce6be365833358a4990c1c2a1152736c, type: 3}
       propertyPath: m_CullingMask.m_Bits
-      value: 32759
+      value: 98295
       objectReference: {fileID: 0}
     - target: {fileID: 8049290795955170526, guid: ce6be365833358a4990c1c2a1152736c, type: 3}
       propertyPath: mesh
@@ -2078,7 +2078,9 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3149601187699082152, guid: fb79ba4295ebaa049aaf5e69d6a35898, type: 3}
+    - {fileID: 5202331677915166747, guid: fb79ba4295ebaa049aaf5e69d6a35898, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -2942,6 +2944,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2352928850537033903, guid: 9225e6c4388b5b14c8ae7ebafe6cb27f, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 131047
+      objectReference: {fileID: 0}
     - target: {fileID: 4490662820721668763, guid: 9225e6c4388b5b14c8ae7ebafe6cb27f, type: 3}
       propertyPath: m_Navigation.m_Mode
       value: 4
