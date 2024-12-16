@@ -405,6 +405,51 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &333608754
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 333608756}
+  - component: {fileID: 333608755}
+  m_Layer: 0
+  m_Name: SoundFXManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &333608755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 333608754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ae90d7e55f9b3c47979bcc70769bec5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundFXObject: {fileID: 6869252431926184811, guid: 52ddde3978ce7264fa6ee6852d74daac, type: 3}
+--- !u!4 &333608756
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 333608754}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &430968458 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2187624863316953210, guid: a5666a7a499bb8840b8eaefa139344f1, type: 3}
@@ -882,6 +927,19 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 258991988896546060, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
   m_PrefabInstance: {fileID: 1553505141}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &933491644 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8095386532339170113, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
+  m_PrefabInstance: {fileID: 1553505141}
+  m_PrefabAsset: {fileID: 0}
+--- !u!81 &933491653
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 933491644}
+  m_Enabled: 1
 --- !u!114 &944484303 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 754495422454298553, guid: 3ed8898366e13c74e841f81d569ad386, type: 3}
@@ -1679,6 +1737,26 @@ PrefabInstance:
       propertyPath: FirePoint
       value: 
       objectReference: {fileID: 1850925386}
+    - target: {fileID: 8318743889850480823, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
+      propertyPath: shootSoundClip
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8318743889850480823, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
+      propertyPath: shootSoundClips.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8318743889850480823, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
+      propertyPath: shootSoundClips.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 61eb481418d43d64585135ad39328cea, type: 3}
+    - target: {fileID: 8318743889850480823, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
+      propertyPath: shootSoundClips.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 6f7b6dfb0a01478488cfa0f8a31689ad, type: 3}
+    - target: {fileID: 8318743889850480823, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
+      propertyPath: shootSoundClips.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 61eb481418d43d64585135ad39328cea, type: 3}
     - target: {fileID: 9064120584290571093, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
       propertyPath: cam
       value: 
@@ -1686,7 +1764,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8095386532339170113, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 933491653}
   m_SourcePrefab: {fileID: 100100000, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
 --- !u!114 &1553505142 stripped
 MonoBehaviour:
@@ -3240,3 +3321,4 @@ SceneRoots:
   - {fileID: 6732079059597837100}
   - {fileID: 170621131}
   - {fileID: 3231537304702592505}
+  - {fileID: 333608756}
