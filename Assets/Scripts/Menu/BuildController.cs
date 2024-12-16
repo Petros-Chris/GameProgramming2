@@ -21,6 +21,7 @@ public class BuildController : MonoBehaviour
     private GameObject tower;
     private GameObject outline;
     private bool shouldOutline;
+    private bool shouldOutlineDelete;
     private Button button;
     private Renderer render;
     private int rotateAngle;
@@ -28,6 +29,7 @@ public class BuildController : MonoBehaviour
     private int priceOfObject;
     private int costRemaining;
     private Vector3 outOfBounds = new Vector3(0, -1000, 0);
+    public Material materiasdal;
 
     void Start()
     {
@@ -166,9 +168,99 @@ public class BuildController : MonoBehaviour
 
         shouldOutline = true;
         // setting the size of outline a little bigger than tower
-        Vector3 outlineSize = new Vector3(tower.transform.localScale.x + 1, 0.01f, tower.transform.localScale.z + 1);
+        Vector3 outlineSize = new Vector3(tower.transform.localScale.x + 0.4f, 0.01f, tower.transform.localScale.z + 0.4f);
         outline.transform.localScale = outlineSize;
         StartCoroutine(TowerOutline());
+    }
+
+    public void SelectedDeleteBtn()
+    {
+        shouldOutline = false;
+        shouldOutlineDelete = true;
+        StartCoroutine(HighlightTower());
+    }
+
+    public void DeSelectDeleteBtn()
+    {
+        shouldOutlineDelete = false;
+        if (!Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            return;
+        }
+
+        Ray ray = ComponentManager.Instance.buildCam.ScreenPointToRay(Input.mousePosition);
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            if (hit.collider.CompareTag("Kingdom"))
+            {
+                ComponentManager.Instance.CallCoroutine(ComponentManager.Instance.ShowMessage("You Can`t Delete The Kingdom! >:("));
+                return;
+            }
+
+            if (hit.collider.gameObject.layer == LayerMask.NameToLayer("whatIsBuilding"))
+            {
+                if (hit.collider.TryGetComponent(out Building building))
+                {
+                    CurrencyManager.Instance.Currency += building.GetMoneySpent();
+                }
+                Destroy(hit.transform.gameObject);
+            }
+        }
+    }
+
+    private IEnumerator HighlightTower()
+    {
+        Material hitMaterial = default;
+        Renderer rendersder = default;
+
+        while (shouldOutlineDelete && !Input.GetKeyDown(cancel))
+        {
+            // Deselects the button when user pauses the game
+            if (Input.GetKeyDown(GameMenu.pauseGame))
+            {
+                EventSystem.current.SetSelectedGameObject(null);
+                break;
+            }
+
+            Ray ray = ComponentManager.Instance.buildCam.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("whatIsBuilding"))
+                {
+                    if (rendersder == null || rendersder.gameObject != hit.collider.gameObject)
+                    {
+                        if (rendersder != null && hitMaterial != null)
+                        {
+                            rendersder.sharedMaterial = hitMaterial;
+                        }
+
+                        rendersder = hit.collider.gameObject.GetComponentInChildren<Renderer>();
+                        hitMaterial = rendersder.sharedMaterial;
+
+                        rendersder.sharedMaterial = materiasdal;
+                    }
+                }
+                // If its not whatIsBuilding and hitMaterial not default
+                else if (hitMaterial != default)
+                {
+                    // Sets it back to original and empties variable
+                    rendersder.sharedMaterial = hitMaterial;
+                    hitMaterial = default;
+                    rendersder = default;
+                }
+            }
+            yield return null;
+        }
+
+        if (hitMaterial != default && rendersder != null)
+        {
+            rendersder.sharedMaterial = hitMaterial;
+        }
     }
 
     bool IsThereAnyColliders()
@@ -221,12 +313,10 @@ public class BuildController : MonoBehaviour
         {
             if (Physics.Raycast(ray, out hit))
             {
-                Vector3 spawnLocation = new Vector3(hit.point.x, hit.point.y + 2.5f, hit.point.z);
+                Vector3 spawnLocation = new Vector3(hit.point.x, hit.point.y + 2.7f, hit.point.z);
 
                 Instantiate(tower, spawnLocation, angleToSpawnTower);
                 CurrencyManager.Instance.Currency -= priceOfObject;
-                // A bit resource intensive, likely worse for larger maps
-                //navMeshSurface.BuildNavMesh();
             }
         }
         else

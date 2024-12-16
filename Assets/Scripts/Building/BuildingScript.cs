@@ -10,6 +10,7 @@ public class Building : MonoBehaviour
     private HealthBarScript healthBar;
     private int healthLevel = 0;
     private int attackLevel = 0;
+    private int moneySpent = 0;
     public TowerAttack[] towerAttack; // Cooldown, Range
     public TowerGun[] towerGun; // Damage
     private int emergencyAllySpawn;
@@ -30,11 +31,18 @@ public class Building : MonoBehaviour
         maxHealth = jsonHealth[GetHealthLevel()].maxHealth;
         health = maxHealth; // Sets it to full
         getHealthBar().UpdateHealthBar(health, maxHealth);
-        // CurrencyManager.Instance.Currency -= jsonHealth[attackLevel].cost;
+
+        if (GetHealthLevel() != 0)
+        {
+            CurrencyManager.Instance.Currency -= jsonHealth[GetHealthLevel()].cost;
+        }
         // Sets new level
+        AddToMoneySpent(jsonHealth[GetHealthLevel()].cost);
+
         SetHealthLevel(GetHealthLevel() + 1);
         return true;
     }
+
     public bool SetAttack(List<UpgradeJsonHandler.Attack> jsonAttack)
     {
         // Checks if broke
@@ -52,17 +60,34 @@ public class Building : MonoBehaviour
         // Sets new stats and adds the cost to the money
         foreach (var tower in towerGun)
         {
-            tower.bulletDamage = jsonAttack[attackLevel].attack;
+            tower.bulletDamage = jsonAttack[GetAttackLevel()].attack;
         }
         foreach (var tower in towerAttack)
         {
-            tower.attackCooldown = jsonAttack[attackLevel].attackSpeed;
+            tower.attackCooldown = jsonAttack[GetAttackLevel()].attackSpeed;
         }
-        // CurrencyManager.Instance.Currency -= jsonAttack[attackLevel].cost;
+        if (GetAttackLevel() != 0)
+        {
+            CurrencyManager.Instance.Currency -= jsonAttack[GetAttackLevel()].cost;
+        }
         // Sets new level
+        AddToMoneySpent(jsonAttack[GetAttackLevel()].cost);
         SetAttackLevel(GetAttackLevel() + 1);
         return true;
     }
+
+    public int GetMoneySpent()
+    {
+        Debug.Log(moneySpent);
+        return moneySpent;
+    }
+
+    public void AddToMoneySpent(int amount)
+    {
+        moneySpent += amount;
+        Debug.Log(moneySpent);
+    }
+
     public int GetEmergencyAllySpawn()
     {
         return emergencyAllySpawn;

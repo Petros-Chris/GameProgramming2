@@ -62,6 +62,7 @@ public class Kingdom : Building, IDamageable
         allySpawnInTrouble = jsonEmergencyAlly[GetEmergencyAllySpawn()].state;
         // CurrencyManager.Instance.Currency -= jsonEmergencyAlly[emergencyAllySpawn].cost;
         // Sets new level
+        AddToMoneySpent(jsonEmergencyAlly[GetEmergencyAllySpawn()].cost);
         SetEmergencyAllySpawn(GetEmergencyAllySpawn() + 1);
     }
 

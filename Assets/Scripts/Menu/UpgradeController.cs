@@ -37,9 +37,6 @@ public class UpgradeController : MonoBehaviour
             { "Spawn Allies In Trouble", AddSpawnInTroubleUpgrade }
         };
         root = UpgradeJsonHandler.ReadFile();
-
-        // wavesToComplete = root.building[0].waves.Count;
-        // upgradeCanvas = GameObject.Find("UpgradeCanvas");
     }
 
     void Update()
