@@ -22,6 +22,7 @@ public class Sliding : MonoBehaviour
     public KeyCode slideKey = KeyCode.LeftControl;
     private float horizontalInput;
     private float verticalInput;
+    
 
 
     private void Start()

@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using DG.Tweening;
 public class CameraMovement : MonoBehaviour
 {
     public float sensX;
@@ -49,5 +49,10 @@ public class CameraMovement : MonoBehaviour
             // I think this is getting hit with gimbal lock :O
             mesh.rotation = Quaternion.Euler(0, yRotation, 0);
         }
+    }
+
+    public void DoFov(float endValue){
+        GetComponent<Camera>().DOFieldOfView(endValue, 0.25f);
+
     }
 }
