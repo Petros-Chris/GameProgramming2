@@ -302,6 +302,8 @@ MonoBehaviour:
   damage: 4
   reloadTime: 3
   fireRate: 0.1
+  shootSoundClips:
+  - {fileID: 8300000, guid: 61eb481418d43d64585135ad39328cea, type: 3}
   bulletTrail: {fileID: -3532444799092184316, guid: 7c4fdb9598a3a13418903244566024b5, type: 3}
 --- !u!114 &679875874968677028
 MonoBehaviour:
@@ -763,6 +765,10 @@ GameObject:
   - component: {fileID: 1366871249201615563}
   - component: {fileID: 8141725522499954722}
   - component: {fileID: 7051504874760652833}
+  - component: {fileID: 5512125854623061961}
+  - component: {fileID: 3474501888042048570}
+  - component: {fileID: 5542496744632599207}
+  - component: {fileID: 1109350206719898552}
   m_Layer: 11
   m_Name: Player
   m_TagString: Player
@@ -869,14 +875,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8095386532339170113}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b59692cfbae16d440925bff0307d200b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 7
-  groundDrag: 5
-  jumpForce: 8
+  groundDrag: 4
+  jumpForce: 12
   airMultiplier: 0.4
   playerHeight: 2
   whatIsGround:
@@ -884,6 +890,9 @@ MonoBehaviour:
     m_Bits: 64
   jumpKey: 32
   orientation: {fileID: 8845650548858499561}
+  dashSpeed: 25
+  dashDuration: 0.2
+  stunDuration: 2
 --- !u!54 &1366871249201615563
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -925,6 +934,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   maxHealth: 100
+  reviveTime: 5
+  reviveKey: 114
+  maxRevives: 3
+  revivalTimerText: {fileID: 0}
+  deathMessageText: {fileID: 0}
 --- !u!95 &7051504874760652833
 Animator:
   serializedVersion: 5
@@ -946,6 +960,92 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!81 &5512125854623061961
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8095386532339170113}
+  m_Enabled: 1
+--- !u!114 &3474501888042048570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8095386532339170113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0305d27f8c8c2cd4295c0d95d08d1960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 0
+  walkSpeed: 7
+  sprintSpeed: 10
+  slideSpeed: 30
+  dashSpeed: 15
+  speedIncreaseMultiplier: 1.5
+  slopeIncreaseMultiplier: 2.5
+  groundDrag: 4
+  playerCamera: {fileID: 0}
+  jumpForce: 8
+  jumpCooldown: 0.25
+  airMultiplier: 0.4
+  jumpCount: 0
+  crouchSpeed: 3.5
+  crouchYScale: 0.5
+  jumpKey: 32
+  sprintKey: 304
+  crouchKey: 99
+  playerHeight: 2
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 64
+  grounded: 0
+  maxSlopeAngle: 30
+  orientation: {fileID: 8845650548858499561}
+  state: 0
+  dashing: 0
+  sliding: 0
+--- !u!114 &5542496744632599207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8095386532339170113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9423f7734ce152841a0a2e46a48b30b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  orientation: {fileID: 8845650548858499561}
+  playerObj: {fileID: 1092436262760843725}
+  maxSlideTime: 0.75
+  slideForce: 200
+  slideYScale: 0.5
+  slideKey: 306
+--- !u!114 &1109350206719898552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8095386532339170113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e76b90757fe9a647beb7011f4fee03c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  orientation: {fileID: 8845650548858499561}
+  playerCam: {fileID: 0}
+  dashForce: 20
+  dashUpForce: 0
+  dashDuration: 0.25
+  dashCooldown: 1.5
+  dashKey: 101
+  disableGravity: 1
 --- !u!1001 &293480174931204839
 PrefabInstance:
   m_ObjectHideFlags: 0
