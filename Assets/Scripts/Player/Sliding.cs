@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Sliding : MonoBehaviour
 {
@@ -22,7 +23,8 @@ public class Sliding : MonoBehaviour
     public KeyCode slideKey = KeyCode.LeftControl;
     private float horizontalInput;
     private float verticalInput;
-    
+    private bool slide;
+
 
 
     private void Start()
@@ -38,8 +40,15 @@ public class Sliding : MonoBehaviour
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetKeyDown(slideKey) && (horizontalInput != 0 || verticalInput != 0) && pm.grounded)
+        if (Input.GetKey(slideKey) && (horizontalInput != 0 || verticalInput != 0) && pm.grounded )
+        {
             StartSlide();
+            // slide = true;
+        }
+        // if (Input.GetKeyUp(slideKey))
+        //     slide = false;
+
+
 
         if (Input.GetKeyUp(slideKey) && pm.sliding)
             StopSlide();
@@ -66,7 +75,7 @@ public class Sliding : MonoBehaviour
         Vector3 inputDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
         // sliding normal
-        if(!pm.OnSlope() || rb.velocity.y > -0.1f)
+        if (!pm.OnSlope() || rb.velocity.y > -0.1f)
         {
             rb.AddForce(inputDirection.normalized * slideForce, ForceMode.Force);
 

@@ -10,13 +10,16 @@ public class WallGate : Wall, IDamageable
     Vector3 closedPos = new Vector3(0, -0.98f, 0);
     Vector3 closedScale = new Vector3(0.5f, 3.6f, 4f);
     UpgradeJsonHandler.Root root;
+    public GameObject gate;
 
     void Start()
     {
+        Debug.Log("Aa");
         towerAttack = gameObject.GetComponentsInChildren<TowerAttack>();
         towerGun = gameObject.GetComponentsInChildren<TowerGun>();
         setHealthBar(gameObject.GetComponentInChildren<HealthBarScript>());
         Initalize();
+
         // InvokeRepeating("OpenGate", 1, 1);
     }
 
@@ -33,7 +36,7 @@ public class WallGate : Wall, IDamageable
 
         if (health <= 0)
         {
-            gameObject.SetActive(false);
+            StartCoroutine(PlayParticleAndDisable());
         }
     }
 
@@ -51,45 +54,31 @@ public class WallGate : Wall, IDamageable
         }
     }
 
-    void OnDestroy()
-    {
-        GameObject parent = gameObject.transform.parent.gameObject;
-        Destroy(parent);
-    }
-
     public void GateHandler()
     {
-        ally = GetClosestAlly(30);
+        ally = GetClosestAlly(5);
 
         if (ally == null)
         {
-            if (transform.localScale == openScale)
-            {
-                CloseGate();
-            }
-            return;
+            CloseGate();
         }
-
-        if (IsAllyInRange(5, ally))
+        else
         {
             OpenGate();
-        }
-        else if (!IsAllyInRange(7, ally))
-        {
-            CloseGate();
         }
         return;
     }
 
     public void CloseGate()
     {
-        transform.localScale = Vector3.Lerp(transform.localScale, closedScale, 2 * Time.deltaTime);
-        transform.localPosition = Vector3.Lerp(transform.localPosition, closedPos, 2 * Time.deltaTime);
+        gate.transform.localScale = Vector3.Lerp(gate.transform.localScale, closedScale, 0.05f);
+        gate.transform.localPosition = Vector3.Lerp(gate.transform.localPosition, closedPos, 0.05f);
     }
+    
     public void OpenGate()
     {
-        transform.localScale = Vector3.Lerp(transform.localScale, openScale, 2 * Time.deltaTime);
-        transform.localPosition = Vector3.Lerp(transform.localPosition, openPos, 2 * Time.deltaTime);
+        gate.transform.localScale = Vector3.Lerp(gate.transform.localScale, openScale, 0.05f);
+        gate.transform.localPosition = Vector3.Lerp(gate.transform.localPosition, openPos, 0.05f);
     }
 
     public void OnDisable()

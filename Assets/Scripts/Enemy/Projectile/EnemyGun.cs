@@ -51,6 +51,11 @@ public class EnemyGun : MonoBehaviour
             }
 
             IDamageable damageable = hit.transform.GetComponent<IDamageable>();
+
+            if (damageable == null)
+            {
+                damageable = hit.transform.GetComponentInChildren<IDamageable>();
+            }
             if (damageable != null)
             {
                 damageable.TakeDamage(bulletDamage, gameObject);

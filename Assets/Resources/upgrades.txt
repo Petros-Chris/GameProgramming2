@@ -124,7 +124,7 @@
             {
               "level": 1,
               "maxHealth": 1200,
-              "cost": 50
+              "cost": 100
             },
             {
               "level": 2,

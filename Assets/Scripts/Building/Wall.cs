@@ -8,7 +8,6 @@ using UnityEngine.SceneManagement;
 public class Wall : Building
 {
     UpgradeJsonHandler.Root root;
-    public GameObject gate;
     public Transform ally;
 
 

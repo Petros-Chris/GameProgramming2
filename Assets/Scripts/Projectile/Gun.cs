@@ -19,7 +19,7 @@ public class Gun : MonoBehaviour
     private float nextFireTime = 0f;
 
     [SerializeField] private AudioClip[] shootSoundClips;
-    
+
 
     public TrailRenderer bulletTrail;
 
@@ -68,10 +68,10 @@ public class Gun : MonoBehaviour
         var bullet = Instantiate(bulletTrail, Nozzle.position, Quaternion.identity);
         bullet.AddPosition(Nozzle.position);
         bullet.transform.position = transform.position + (Nozzle.forward * 200);
-        SoundFXManager.instance.PlayRandomSoundFXClip(shootSoundClips, transform, 0.5f );
+        SoundFXManager.instance.PlayRandomSoundFXClip(shootSoundClips, transform, 0.5f);
         if (Physics.Raycast(FirePoint.position, FirePoint.forward, out hit, range))
         {
-            
+
             //SoundFXManager.instance.PlaySoundFXClip(shootSoundClip, transform, 1f);
             // Debug remove for line to dissapear
             Debug.DrawRay(FirePoint.position, FirePoint.forward * hit.distance, Color.black, 5.0f);
@@ -108,10 +108,8 @@ public class Gun : MonoBehaviour
     {
         currentBullets = 0;
         isReloading = true;
-        Debug.Log("Reloading...");
         yield return new WaitForSeconds(reloadTime);
         currentBullets = magazineSize;
         isReloading = false;
-        Debug.Log("Reload Complete");
     }
 }

@@ -5,37 +5,42 @@ using UnityEngine;
 
 public class Dashing : MonoBehaviour
 {
-    [Header ("References")]
+    [Header("References")]
     public Transform orientation;
     public Transform playerCam;
     private Rigidbody rb;
     private PlayerMovementAdvanced pm;
 
 
-     [Header("Dash")]
-    public float dashForce;
-    public float dashUpForce;
-    public float dashDuration;
+    [Header("Dash")]
+    public float dashForce = 15;
+    public float dashUpForce = 0;
+    public float dashDuration = 2;
 
-    public float dashCooldown;
+    public float dashCooldown = 1.5f;
     private float dashCooldownTimer;
-    
+
     public KeyCode dashKey = KeyCode.E;
 
     public bool disableGravity = true;
 
 
-    public void Start(){
+    public void Start()
+    {
         rb = GetComponent<Rigidbody>();
         pm = GetComponent<PlayerMovementAdvanced>();
+        // orientation = GameObject.Find("Orientation").transform;
+        // playerCam = ComponentManager.Instance.playerCam.transform;
     }
-    private void Update(){
-         if (Input.GetKeyDown(KeyCode.E))
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
         {
             Dash();
         }
 
-        if(dashCooldownTimer > 0){
+        if (dashCooldownTimer > 0)
+        {
             dashCooldownTimer -= Time.deltaTime;
         }
 
@@ -44,10 +49,12 @@ public class Dashing : MonoBehaviour
 
     private void Dash()
     {
-        if(dashCooldownTimer > 0){
+        if (dashCooldownTimer > 0)
+        {
             return;
         }
-        else{
+        else
+        {
             dashCooldownTimer = dashCooldown;
         }
         pm.dashing = true;
@@ -59,9 +66,9 @@ public class Dashing : MonoBehaviour
 
         Vector3 forceToApply = direction * dashForce + orientation.up * dashUpForce;
 
-        if(disableGravity)
+        if (disableGravity)
             rb.useGravity = false;
-        
+
         delayedForceToApply = forceToApply;
         Invoke(nameof(DelayedDashForce), 0.025f);
 
@@ -70,31 +77,35 @@ public class Dashing : MonoBehaviour
     }
 
     private Vector3 delayedForceToApply;
-    private void DelayedDashForce(){
+    private void DelayedDashForce()
+    {
 
-        
+
 
         rb.AddForce(delayedForceToApply, ForceMode.Impulse);
     }
-       
-        private void ResetDash()
+
+    private void ResetDash()
     {
         pm.dashing = false;
 
-        if(disableGravity){
+        if (disableGravity)
+        {
             rb.useGravity = true;
         }
     }
 
-    private Vector3 GetDirection(Transform forwardT){
+    private Vector3 GetDirection(Transform forwardT)
+    {
         float horizontalInput = Input.GetAxisRaw("Horizontal");
         float verticalInput = Input.GetAxisRaw("Vertical");
-        
+
         Vector3 direction = new Vector3();
 
         direction = forwardT.forward * verticalInput + forwardT.right * horizontalInput;
 
-        if(verticalInput == 0 && horizontalInput == 0){
+        if (verticalInput == 0 && horizontalInput == 0)
+        {
 
             direction = forwardT.forward;
         }

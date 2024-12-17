@@ -46,13 +46,16 @@ public class Kingdom : Building, IDamageable
             }
         }
     }
+
     public void SetEmergencyAllySpawn(List<UpgradeJsonHandler.EmergencyAllySpawn> jsonEmergencyAlly)
     {
         // Checks if broke
-        // if (jsonEmergencyAlly[emergencyAllySpawn].cost > CurrencyManager.Instance.Currency)
-        // {
-        //     return;
-        // }
+        if (jsonEmergencyAlly[GetEmergencyAllySpawn()].cost > CurrencyManager.Instance.Currency && GetEmergencyAllySpawn() != 0)
+        {
+            int costRemaining = jsonEmergencyAlly[GetEmergencyAllySpawn()].cost - CurrencyManager.Instance.Currency;
+            ComponentManager.Instance.CallCoroutine(ComponentManager.Instance.ShowMessage("You need " + costRemaining + "$ more"));
+            return;
+        }
         // Checks if max level reached
         if (GetEmergencyAllySpawn() == 2)
         {
@@ -60,8 +63,11 @@ public class Kingdom : Building, IDamageable
         }
         // Sets new stats and adds the cost to the money
         allySpawnInTrouble = jsonEmergencyAlly[GetEmergencyAllySpawn()].state;
-        // CurrencyManager.Instance.Currency -= jsonEmergencyAlly[emergencyAllySpawn].cost;
-        // Sets new level
+        // To lazy to actually code the cost so I just made upgrades cost the same amount as placing
+        if (GetEmergencyAllySpawn() != 0)
+        {
+            CurrencyManager.Instance.Currency -= jsonEmergencyAlly[GetEmergencyAllySpawn()].cost;
+        }
         AddToMoneySpent(jsonEmergencyAlly[GetEmergencyAllySpawn()].cost);
         SetEmergencyAllySpawn(GetEmergencyAllySpawn() + 1);
     }
@@ -97,9 +103,10 @@ public class Kingdom : Building, IDamageable
         if (health <= 0)
         {
             MenuController.didKingdomDie = true;
-            Destroy(gameObject);
+            StartCoroutine(PlayParticleAndDisable(true));
         }
     }
+
     public void OnDestroy()
     {
         // If scene wasn't changing because building got destoryed

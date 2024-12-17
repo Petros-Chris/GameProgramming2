@@ -35,22 +35,9 @@ public class WaveSystem : MonoBehaviour
     void Start()
     {
         root = JsonHandler.ReadFileForWave("waves");
-        Debug.Log(root.difficulty[0].difficulty);
+        // Debug.Log(root.difficulty[0].difficulty);
         wavesToComplete = root.difficulty[0].waves.Count;
         waveText.text = "Wave: " + 0 + "/" + wavesToComplete;
-        // foreach (var difficulty in root.difficulty)
-        // {
-        //     print("difficulty Level: " + difficulty.difficulty);
-        //     foreach (var wave in difficulty.waves)
-        //     {
-        //         print("wave Num: " + wave.wave);
-        //         print("anmount of enemmiwas: " + wave.totalEnemies);
-        //         foreach (var enemy in wave.enemies)
-        //         {
-        //             print("count of type: " + enemy.count + " type of enemiesas: " + enemy.type);
-        //         }
-        //     }
-        // }
     }
 
     void Update()
@@ -111,15 +98,21 @@ public class WaveSystem : MonoBehaviour
     //? Can spawn onto of player, but it doesn't seem to push them out of map so perhaps its fine
     public void ReviveAllTowers()
     {
-        //TODO: Some kind of overlay to show that this building got destoried
         foreach (GameObject building in ComponentManager.Instance.buildingsDisabled)
         {
+            if (building == null)
+            {
+                // if game object was deleted
+                continue;
+            }
             building.SetActive(true);
             // Giving object health 
             Building buildingScript = building.GetComponent<Building>();
             buildingScript.health = 50; // towerScript.maxHealth if you want it to come back with max health
             buildingScript.getHealthBar().UpdateHealthBar(buildingScript.health, buildingScript.maxHealth);
         }
+        // So it won't attempt to fix the same buildings next round
+        ComponentManager.Instance.buildingsDisabled.Clear();
     }
 
     public void RevivePlayer()

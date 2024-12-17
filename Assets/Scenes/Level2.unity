@@ -1866,7 +1866,8 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 1850925383}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4127036725585092682, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

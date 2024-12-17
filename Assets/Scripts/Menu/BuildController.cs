@@ -206,6 +206,11 @@ public class BuildController : MonoBehaviour
                 {
                     CurrencyManager.Instance.Currency += building.GetMoneySpent();
                 }
+                else if (hit.collider.transform.parent.parent.TryGetComponent(out Building building1))
+                {
+                    CurrencyManager.Instance.Currency += building1.GetMoneySpent();
+                }
+
                 Destroy(hit.transform.gameObject);
             }
         }

@@ -9,13 +9,13 @@ public class Tower : Building, IDamageable
 {
     UpgradeJsonHandler.Root root;
 
+
     void Start()
     {
         setHealthBar(gameObject.GetComponentInChildren<HealthBarScript>());
         towerAttack = gameObject.GetComponentsInChildren<TowerAttack>();
         towerGun = gameObject.GetComponentsInChildren<TowerGun>();
         initalize();
-
     }
     public void TakeDamage(float damage, GameObject whoOwMe)
     {
@@ -25,7 +25,7 @@ public class Tower : Building, IDamageable
 
         if (health <= 0)
         {
-            gameObject.SetActive(false);
+            StartCoroutine(PlayParticleAndDisable());
         }
     }
 
