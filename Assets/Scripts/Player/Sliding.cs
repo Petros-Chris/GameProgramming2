@@ -40,16 +40,13 @@ public class Sliding : MonoBehaviour
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetKey(slideKey) && (horizontalInput != 0 || verticalInput != 0) && pm.grounded )
+        if (Input.GetKey(slideKey) && (horizontalInput != 0 || verticalInput != 0) && pm.grounded && !slide)
         {
             StartSlide();
-            // slide = true;
+            slide = true;
         }
-        // if (Input.GetKeyUp(slideKey))
-        //     slide = false;
-
-
-
+        if (Input.GetKeyUp(slideKey))
+            slide = false;
         if (Input.GetKeyUp(slideKey) && pm.sliding)
             StopSlide();
     }
