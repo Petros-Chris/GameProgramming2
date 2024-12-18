@@ -98,7 +98,7 @@ public class ComponentManager : MonoBehaviour
             // Switch cam back to player if true
             if (buildCam.gameObject.activeSelf)
             {
-                GameMenu.playerFrozen = false;
+                GameMenu.Instance.playerFrozen = false;
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
                 buildCam.gameObject.SetActive(false);
@@ -106,7 +106,7 @@ public class ComponentManager : MonoBehaviour
             }
             else
             {
-                GameMenu.playerFrozen = true;
+                GameMenu.Instance.playerFrozen = true;
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
                 buildCam.gameObject.SetActive(true);
@@ -116,7 +116,7 @@ public class ComponentManager : MonoBehaviour
     }
     public void SwitchToPlayerAndLockCamera(bool localLockCamera = true)
     {
-        GameMenu.playerFrozen = false;
+        GameMenu.Instance.playerFrozen = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         if (localLockCamera)

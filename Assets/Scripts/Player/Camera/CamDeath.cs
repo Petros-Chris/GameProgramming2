@@ -25,7 +25,7 @@ public class CamDeath : MonoBehaviour
     private void Update()
     {
         // Locks camera in out person
-        if (GameMenu.isPaused)
+        if (GameMenu.Instance.isPaused)
         {
             return;
         }

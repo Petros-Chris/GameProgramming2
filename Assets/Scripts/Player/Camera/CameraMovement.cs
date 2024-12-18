@@ -24,12 +24,12 @@ public class CameraMovement : MonoBehaviour
             mesh = playerObj.transform.Find("Incidental 70").gameObject.transform;
         }
         // Locks camera in first person
-        if (GameMenu.isPaused)
+        if (GameMenu.Instance.isPaused)
         {
             return;
         }
 
-        if (GameMenu.isUpdateMenuOpen)
+        if (GameMenu.Instance.isUpdateMenuOpen)
         {
             return;
         }
@@ -51,7 +51,8 @@ public class CameraMovement : MonoBehaviour
         }
     }
 
-    public void DoFov(float endValue){
+    public void DoFov(float endValue)
+    {
         GetComponent<Camera>().DOFieldOfView(endValue, 0.25f);
 
     }

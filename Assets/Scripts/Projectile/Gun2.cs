@@ -3,17 +3,17 @@ using UnityEngine;
 
 public class Gun2 : MonoBehaviour
 {
-    public GameObject ExplosionEffect; 
-    public Transform FirePoint; 
-    public float range = 100f; 
-    public float explosionRadius = 5f; 
+    public GameObject ExplosionEffect;
+    public Transform FirePoint;
+    public float range = 100f;
+    public float explosionRadius = 5f;
     public float damage = 45f;
-    public float fireCooldown = 5f; 
-    public float bulletRegenTime = 10f; 
-    public int maxBullets = 2; 
+    public float fireCooldown = 5f;
+    public float bulletRegenTime = 10f;
+    public int maxBullets = 2;
 
-    public static int currentBullets; 
-    private float nextFireTime = 0f; 
+    public static int currentBullets;
+    private float nextFireTime = 0f;
 
     void Start()
     {
@@ -23,7 +23,7 @@ public class Gun2 : MonoBehaviour
 
     void Update()
     {
-        if (GameMenu.isPaused || GameMenu.playerFrozen)
+        if (GameMenu.Instance.isPaused || GameMenu.Instance.playerFrozen)
         {
             return;
         }
@@ -41,7 +41,7 @@ public class Gun2 : MonoBehaviour
 
         if (Physics.Raycast(FirePoint.position, FirePoint.forward, out hit, range))
         {
-  
+
             if (ExplosionEffect != null)
             {
                 GameObject explosion = Instantiate(ExplosionEffect, hit.point, Quaternion.identity);

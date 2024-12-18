@@ -55,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("CharacterSpeed", rb.velocity.magnitude);
         
         // Only process movement and jumping if the game is not paused or frozen
-        if (GameMenu.playerFrozen)
+        if (GameMenu.Instance.playerFrozen)
         {
             horizontalInput = 0;
             verticalInput = 0;

@@ -115,7 +115,7 @@ public class UpgradeController : MonoBehaviour
 
             CleanUpPastPanel();
             upgradeCanvas.SetActive(true);
-            GameMenu.isUpdateMenuOpen = true; // Freeze player
+            GameMenu.Instance.isUpdateMenuOpen = true; // Freeze player
             FocusCursor(false); // Show mouse
 
             menuCreation = cameraToUse.transform.position;
@@ -303,7 +303,7 @@ public class UpgradeController : MonoBehaviour
     {
         upgradeCanvas.SetActive(false);
         shouldValuesBeUpdated = false;
-        GameMenu.isUpdateMenuOpen = false;
+        GameMenu.Instance.isUpdateMenuOpen = false;
         FocusCursor();
     }
     void FocusCursor(bool shouldI = true)

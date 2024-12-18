@@ -1722,44 +1722,19 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1850925383}
-    - target: {fileID: 6001431789966956408, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
-      propertyPath: jumpForce
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 6001431789966956408, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6001431789966956408, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
-      propertyPath: groundDrag
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 8095386532339170113, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 8141725522499954722, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
-      propertyPath: deathMessageText
-      value: 
-      objectReference: {fileID: 1375936332}
     - target: {fileID: 8318743889850480823, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
       propertyPath: FirePoint
       value: 
       objectReference: {fileID: 1850925386}
-    - target: {fileID: 8318743889850480823, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
-      propertyPath: shootSoundClips.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8318743889850480823, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
-      propertyPath: shootSoundClips.Array.data[0]
-      value: 
-      objectReference: {fileID: 8300000, guid: 61eb481418d43d64585135ad39328cea, type: 3}
     - target: {fileID: 9064120584290571093, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
       propertyPath: cam
       value: 
       objectReference: {fileID: 1850925383}
-    m_RemovedComponents:
-    - {fileID: 4127036725585092682, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -2807,7 +2782,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2529059705240978422, guid: fb7c785c2ece4f1478581385f007e173, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2955143458274249653, guid: fb7c785c2ece4f1478581385f007e173, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -3051,7 +3026,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23a61a76866ec654d8947c6e490f4686, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shopCanvas: {fileID: 0}
+  Canvas: {fileID: 0}
 --- !u!135 &3309131004447700383
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -761,11 +761,9 @@ GameObject:
   - component: {fileID: 128556553201143370}
   - component: {fileID: 4617153593820661397}
   - component: {fileID: 6762700773930605929}
-  - component: {fileID: 6001431789966956408}
   - component: {fileID: 1366871249201615563}
   - component: {fileID: 8141725522499954722}
   - component: {fileID: 7051504874760652833}
-  - component: {fileID: 5512125854623061961}
   - component: {fileID: 3474501888042048570}
   - component: {fileID: 5542496744632599207}
   - component: {fileID: 1109350206719898552}
@@ -868,31 +866,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6001431789966956408
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8095386532339170113}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b59692cfbae16d440925bff0307d200b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 7
-  groundDrag: 4
-  jumpForce: 12
-  airMultiplier: 0.4
-  playerHeight: 2
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 64
-  jumpKey: 32
-  orientation: {fileID: 8845650548858499561}
-  dashSpeed: 25
-  dashDuration: 0.2
-  stunDuration: 2
 --- !u!54 &1366871249201615563
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -934,11 +907,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   maxHealth: 100
-  reviveTime: 5
-  reviveKey: 114
-  maxRevives: 3
-  revivalTimerText: {fileID: 0}
-  deathMessageText: {fileID: 0}
 --- !u!95 &7051504874760652833
 Animator:
   serializedVersion: 5
@@ -960,14 +928,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!81 &5512125854623061961
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8095386532339170113}
-  m_Enabled: 1
 --- !u!114 &3474501888042048570
 MonoBehaviour:
   m_ObjectHideFlags: 0
