@@ -46,7 +46,7 @@ public class BuildController : MonoBehaviour
 
     private IEnumerator SpawnTowerRoutine()
     {
-        while (Input.GetKey(spawnMultiple) && !Input.GetKeyDown(GameMenu.pauseGame))
+        while (Input.GetKey(spawnMultiple) && !Input.GetKeyDown(GameMenu.Instance.pauseGame))
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -76,7 +76,7 @@ public class BuildController : MonoBehaviour
         while (shouldOutline && !Input.GetKeyDown(cancel))
         {
             // Deselects the button when user pauses the game
-            if (Input.GetKeyDown(GameMenu.pauseGame))
+            if (Input.GetKeyDown(GameMenu.Instance.pauseGame))
             {
                 EventSystem.current.SetSelectedGameObject(null);
                 break;
@@ -126,7 +126,7 @@ public class BuildController : MonoBehaviour
 
     public void DeSelect()
     {
-        if (GameMenu.isPaused)
+        if (GameMenu.Instance.isPaused)
         {
             shouldOutline = false;
             return;
@@ -154,7 +154,7 @@ public class BuildController : MonoBehaviour
 
     public void Selected()
     {
-        if (GameMenu.isPaused)
+        if (GameMenu.Instance.isPaused)
         {
             return;
         }
@@ -224,7 +224,7 @@ public class BuildController : MonoBehaviour
         while (shouldOutlineDelete && !Input.GetKeyDown(cancel))
         {
             // Deselects the button when user pauses the game
-            if (Input.GetKeyDown(GameMenu.pauseGame))
+            if (Input.GetKeyDown(GameMenu.Instance.pauseGame))
             {
                 EventSystem.current.SetSelectedGameObject(null);
                 break;

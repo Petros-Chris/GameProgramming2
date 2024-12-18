@@ -17,7 +17,7 @@ public class MenuController : MonoBehaviour
 
     public void RestartGame()
     {
-        GameMenu.ResumeGame();
+        GameMenu.Instance.ResumeGame();
         didKingdomDie = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }

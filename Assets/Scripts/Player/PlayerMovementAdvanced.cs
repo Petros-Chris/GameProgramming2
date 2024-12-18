@@ -49,17 +49,18 @@ public class PlayerMovementAdvanced : MonoBehaviour
     private RaycastHit slopeHit;
     private bool exitingSlope;
 
-   
-    
+
+
 
     public Transform orientation;
 
-    float horizontalInput;
-    float verticalInput;
+    public float horizontalInput;
+    public float verticalInput;
 
     Vector3 moveDirection;
 
     Rigidbody rb;
+
 
     public MovementState state;
     public enum MovementState
@@ -71,7 +72,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
         sliding,
         dashing,
         air
-        
+
     }
 
     public bool dashing;
@@ -96,9 +97,9 @@ public class PlayerMovementAdvanced : MonoBehaviour
     {
 
         animator.SetFloat("CharacterSpeed", rb.velocity.magnitude);
-        
+
         // Only process movement and jumping if the game is not paused or frozen
-        if (GameMenu.playerFrozen)
+        if (GameMenu.Instance.playerFrozen)
         {
             horizontalInput = 0;
             verticalInput = 0;
@@ -112,7 +113,8 @@ public class PlayerMovementAdvanced : MonoBehaviour
         StateHandler();
 
         // handle drag
-        if (grounded && state != MovementState.dashing){
+        if (grounded && state != MovementState.dashing)
+        {
             rb.drag = groundDrag;
             jumpCount = 0;
         }
@@ -120,15 +122,15 @@ public class PlayerMovementAdvanced : MonoBehaviour
             rb.drag = 0;
 
         playerCamera.DoFov(calculateFOV());
-        
-        
-           
+
+
+
     }
 
     private void FixedUpdate()
-    {   
+    {
         // Only process movement and jumping if the game is not paused or frozen
-        if (GameMenu.playerFrozen)
+        if (GameMenu.Instance.playerFrozen)
         {
             horizontalInput = 0;
             verticalInput = 0;
@@ -137,7 +139,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
         MovePlayer();
     }
 
-    
+
 
     private void MyInput()
     {
@@ -145,7 +147,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
         verticalInput = Input.GetAxisRaw("Vertical");
 
         // when to jump
-        if(Input.GetKey(jumpKey) && readyToJump && jumpCount < 1)
+        if (Input.GetKey(jumpKey) && readyToJump && jumpCount < 1)
         {
             readyToJump = false;
             Jump();
@@ -196,7 +198,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
         }
 
         // Mode - Sprinting
-        else if(grounded && Input.GetKey(sprintKey))
+        else if (grounded && Input.GetKey(sprintKey))
         {
             state = MovementState.sprinting;
             desiredMoveSpeed = sprintSpeed;
@@ -216,7 +218,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
         }
 
         // check if desiredMoveSpeed has changed drastically
-        if(Mathf.Abs(desiredMoveSpeed - lastDesiredMoveSpeed) > 100f && moveSpeed != 0)
+        if (Mathf.Abs(desiredMoveSpeed - lastDesiredMoveSpeed) > 100f && moveSpeed != 0)
         {
             StopAllCoroutines();
             StartCoroutine(SmoothlyLerpMoveSpeed());
@@ -259,8 +261,8 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     private void MovePlayer()
     {
-        if(state == MovementState.dashing)
-        return;
+        if (state == MovementState.dashing)
+            return;
         // calculate movement direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
@@ -274,11 +276,11 @@ public class PlayerMovementAdvanced : MonoBehaviour
         }
 
         // on ground
-        else if(grounded)
+        else if (grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
 
         // in air
-        else if(!grounded)
+        else if (!grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
 
         // turn gravity off while on slope
@@ -307,17 +309,18 @@ public class PlayerMovementAdvanced : MonoBehaviour
             }
         }
     }
-        
+
     private void Jump()
     {
         exitingSlope = true;
 
-        if (jumpCount < 2){
-        // reset y velocity
-        rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-        jumpCount++;
-        rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-        animator.SetTrigger("Jumped");
+        if (jumpCount < 2)
+        {
+            // reset y velocity
+            rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+            jumpCount++;
+            rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+            animator.SetTrigger("Jumped");
         }
     }
     private void ResetJump()
@@ -329,7 +332,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     public bool OnSlope()
     {
-        if(Physics.Raycast(transform.position, Vector3.down, out slopeHit, playerHeight * 0.5f + 0.3f))
+        if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, playerHeight * 0.5f + 0.3f))
         {
             float angle = Vector3.Angle(Vector3.up, slopeHit.normal);
             return angle < maxSlopeAngle && angle != 0;
@@ -343,18 +346,21 @@ public class PlayerMovementAdvanced : MonoBehaviour
         return Vector3.ProjectOnPlane(direction, slopeHit.normal).normalized;
     }
 
-    private float calculateFOV(){
+    private float calculateFOV()
+    {
         float minFOV = 60f;
-        float maxBaseFOV =64f;
+        float maxBaseFOV = 64f;
         float maxAbilityFOV = 75f;
 
         float fov = 60;
 
-        if(moveSpeed <= 7f){
+        if (moveSpeed <= 7f)
+        {
             fov = Mathf.Lerp(minFOV, maxBaseFOV, 7 / 15f);
 
         }
-        else{
+        else
+        {
             fov = Mathf.Lerp(maxBaseFOV, maxAbilityFOV, (moveSpeed - 7) / (15 - 7));
 
         }

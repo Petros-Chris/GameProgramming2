@@ -33,7 +33,7 @@ public class Gun : MonoBehaviour
     void Update()
     {
 
-        if (GameMenu.isPaused || GameMenu.playerFrozen || isReloading || GameMenu.isUpdateMenuOpen)
+        if (GameMenu.Instance.isPaused || GameMenu.Instance.playerFrozen || isReloading || GameMenu.Instance.isUpdateMenuOpen)
         {
             return;
         }
