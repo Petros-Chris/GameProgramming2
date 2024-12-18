@@ -221,6 +221,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BuildCamera
       objectReference: {fileID: 0}
+    - target: {fileID: 7464728969958070955, guid: 9225e6c4388b5b14c8ae7ebafe6cb27f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8215577874594463811, guid: 9225e6c4388b5b14c8ae7ebafe6cb27f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 20.661835
@@ -842,7 +846,9 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 37212758}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5512125854623061961, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
+    - {fileID: 6001431789966956408, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
     m_RemovedGameObjects:
     - {fileID: 2880317376116080308, guid: 757d45ecf43f19149b9c0970e83d6107, type: 3}
     m_AddedGameObjects: []

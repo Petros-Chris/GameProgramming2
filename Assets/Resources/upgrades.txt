@@ -123,7 +123,7 @@
           "maxHealth": [
             {
               "level": 1,
-              "maxHealth": 1200,
+              "maxHealth": 1600,
               "cost": 100
             },
             {

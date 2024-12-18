@@ -27,16 +27,15 @@ public class EnemyAI : MonoBehaviour, IDamageable
     public float health, maxHealth = 100f;
     public int value = 3;
     public Transform Nozzle;
-
+    public Animator animator;
     public float thinkingSpeed = 0.5f;
     public bool CurrentlyInLookCooldown = false;
-
 
     void Start()
     {
         Agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
         healthBarScript.UpdateHealthBar(health, maxHealth);
-        // Animator = GetComponent<Animator>(); // Commented out since we're not using animations
         building = GetClosestBuilding();
         ally = GetClosestEnemy();
         StateMachine = new StateMachine();
@@ -44,35 +43,14 @@ public class EnemyAI : MonoBehaviour, IDamageable
         StateMachine.AddState(new ChaseState(this));
         StateMachine.AddState(new AttackPlayerState(this));
         StateMachine.AddState(new AttackBuildingState(this));
-
         StateMachine.TransitionToState(StateType.HeadToTower);
-        // InvokeRepeating("UpdateStateMachine", 0f, 0.5f);
     }
+
     void Update()
     {
-        //Animator.SetFloat("CharacterSpeed", Agent.velocity.magnitude); //? Animation
-        // if (StateMachine == null)
-        // {
-        //     Start();
-        // }
-        // else
-        // {
         StateMachine.Update();
-        // }
+        animator.SetFloat("speed", Agent.velocity.magnitude);
         currentState = StateMachine.GetCurrentStateType();
-    }
-
-    void UpdateStateMachine()
-    {
-        if (StateMachine == null)
-        {
-            Start();
-        }
-        else
-        {
-            StateMachine.Update();
-            currentState = StateMachine.GetCurrentStateType();
-        }
     }
 
     public Transform GetClosestEnemy()
