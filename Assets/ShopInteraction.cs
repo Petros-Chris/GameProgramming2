@@ -4,61 +4,44 @@ using UnityEngine;
 
 public class ShopInteraction : MonoBehaviour
 {
-    public Canvas shopCanvas; // Reference to the shop canvas
-    public GameObject interactionPrompt; // Optional: "Press E to interact" UI
+    public Canvas Canvas; // Reference to the shop canvas
     private bool isPlayerInRange = false;
 
     void Start()
     {
-        if (shopCanvas != null)
+        if (Canvas != null)
         {
-            shopCanvas.enabled = false; // Ensure the Canvas is hidden at the start
-        }
-
-        if (interactionPrompt != null)
-        {
-            interactionPrompt.SetActive(false); // Ensure the prompt is hidden at the start
+            Canvas.enabled = false;
         }
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player")) // Check if the Player enters the trigger
+        Debug.Log("Trigger Entered: " + other.gameObject.name);
+        if (other.CompareTag("Player"))
         {
+            Debug.Log("Player detected in trigger!");
             isPlayerInRange = true;
-
-            if (interactionPrompt != null)
-            {
-                interactionPrompt.SetActive(true); // Show the prompt
-            }
+            Canvas.enabled = true;
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player")) // Check if the Player exits the trigger
+        Debug.Log("Trigger Exited: " + other.gameObject.name);
+        if (other.CompareTag("Player"))
         {
+            Debug.Log("Player exited trigger!");
             isPlayerInRange = false;
-
-            if (shopCanvas != null)
-            {
-                shopCanvas.enabled = false; // Hide the Canvas if active
-            }
-
-            if (interactionPrompt != null)
-            {
-                interactionPrompt.SetActive(false); // Hide the prompt
-            }
+            Canvas.enabled = false;
         }
-    }
 
-    void Update()
-    {
-        if (isPlayerInRange && Input.GetKeyDown(KeyCode.E)) // Check for interaction key
+        void Update()
         {
-            if (shopCanvas != null)
+            if (isPlayerInRange && Input.GetKeyDown(KeyCode.E))
             {
-                shopCanvas.enabled = !shopCanvas.enabled; // Toggle the Canvas
+                Debug.Log("Player interacting with the shop...");
+               
             }
         }
     }
