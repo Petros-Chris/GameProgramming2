@@ -58,6 +58,18 @@ public class Building : MonoBehaviour
 
     }
 
+    public void Heal(float healAmount)
+    {
+        health += healAmount;
+
+        getHealthBar().UpdateHealthBar(health, maxHealth);
+
+        if (health >= maxHealth)
+        {
+            health = maxHealth;
+        }
+    }
+
     public bool SetMaxHealth(List<UpgradeJsonHandler.MaxHealth> jsonHealth)
     {
         // Checks if broke

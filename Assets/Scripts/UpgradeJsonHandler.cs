@@ -58,8 +58,7 @@ public class UpgradeJsonHandler : MonoBehaviour
 
     public static Root ReadFile()
     {
-        string rawData = Resources.Load<TextAsset>("upgrades").text;
-
+        string rawData = File.ReadAllText(Application.streamingAssetsPath + "/upgrades.txt");
         Root data = JsonUtility.FromJson<Root>(rawData);
         return data;
     }

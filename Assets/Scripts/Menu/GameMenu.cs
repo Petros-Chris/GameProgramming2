@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameMenu : MonoBehaviour
 {
@@ -55,9 +56,7 @@ public class GameMenu : MonoBehaviour
     {
         Time.timeScale = 0;
         isPaused = true;
-
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        ComponentManager.Instance.FocusCursor(false);
         if (!ComponentManager.Instance.winScreenIsDisplayed)
         {
             gameMenu.SetActive(true);
@@ -68,10 +67,7 @@ public class GameMenu : MonoBehaviour
     {
         Time.timeScale = 1;
         isPaused = false;
-
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-
+        ComponentManager.Instance.FocusCursor();
         gameMenu.SetActive(false);
     }
 
@@ -79,9 +75,14 @@ public class GameMenu : MonoBehaviour
     {
         Time.timeScale = 1;
         isPaused = false;
+        ComponentManager.Instance.FocusCursor();
+    }
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+    public void AbandonKingdom()
+    {
+        ResumeGame();
+        ComponentManager.Instance.FocusCursor(false);
+        SceneManager.LoadScene(0);
     }
 
     public void OpenSetting()
