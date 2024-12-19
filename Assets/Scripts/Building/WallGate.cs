@@ -74,7 +74,7 @@ public class WallGate : Wall, IDamageable
         gate.transform.localScale = Vector3.Lerp(gate.transform.localScale, closedScale, 0.05f);
         gate.transform.localPosition = Vector3.Lerp(gate.transform.localPosition, closedPos, 0.05f);
     }
-    
+
     public void OpenGate()
     {
         gate.transform.localScale = Vector3.Lerp(gate.transform.localScale, openScale, 0.05f);

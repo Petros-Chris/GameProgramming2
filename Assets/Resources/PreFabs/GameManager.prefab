@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2739642967864136251}
   - component: {fileID: 2739825372903125160}
   - component: {fileID: 5893971419353995619}
+  - component: {fileID: 2151196522546882119}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -69,8 +70,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c05aa80588091b7469914270aab63a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPaused: 0
+  isSubMenuOpen: 0
+  pauseGame: 27
   gameMenu: {fileID: 0}
   settingMenu: {fileID: 0}
+  isUpdateMenuOpen: 0
+  playerFrozen: 0
 --- !u!114 &8087523252631052689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,7 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e71525be7b9c9704c847f2a9da499d84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TowersDisabled: []
+  buildingsDisabled: []
   hasPlayerDied: 0
   buildCam: {fileID: 0}
   playerCam: {fileID: 0}
@@ -156,3 +162,16 @@ MonoBehaviour:
   RangeInBuildMode: 30
   textPrefab: {fileID: 8772364616502238337, guid: 9245b94c03beddc489a527ddfee6f797, type: 3}
   button: {fileID: 4466258336149166010, guid: 4b29f152732931b4a91d7db7c967c98a, type: 3}
+--- !u!114 &2151196522546882119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3593505221204006684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbca29a9e12cb4049bb0005d30667623, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventory: {fileID: 6770844398025603171, guid: 2bb0c2aa9ac326344853212b6395a2ca, type: 3}

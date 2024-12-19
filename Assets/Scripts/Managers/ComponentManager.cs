@@ -1,11 +1,8 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using UnityEngine.AI;
-using Unity.AI.Navigation;
 using TMPro;
 using System.Collections.Generic;
+
 
 public class ComponentManager : MonoBehaviour
 {
@@ -28,8 +25,7 @@ public class ComponentManager : MonoBehaviour
     public GameObject panel;
     public GameObject winCanvas;
     public bool winScreenIsDisplayed;
-
-
+    public string difficultyLevel;
     void Awake()
     {
         messageText = message.GetComponent<TextMeshProUGUI>();
@@ -147,6 +143,14 @@ public class ComponentManager : MonoBehaviour
         panel.SetActive(false);
     }
 
+    public IEnumerator Reload(Weapon weapon)
+    {
+        weapon.isReloading = true;
+        yield return new WaitForSeconds(weapon.reloadTime);
+        weapon.currentBullets = weapon.magazineSize;
+        weapon.isReloading = false;
+    }
+
     public void CallCoroutine(IEnumerator coroutine)
     {
         StartCoroutine(coroutine);
@@ -156,5 +160,18 @@ public class ComponentManager : MonoBehaviour
     {
         winCanvas.SetActive(true);
         winScreenIsDisplayed = true;
+    }
+    public void FocusCursor(bool shouldI = true)
+    {
+        if (shouldI)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
     }
 }

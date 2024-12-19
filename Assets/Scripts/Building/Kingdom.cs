@@ -112,10 +112,9 @@ public class Kingdom : Building, IDamageable
         // If scene wasn't changing because building got destoryed
         if (MenuController.didKingdomDie)
         {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            ComponentManager.Instance.FocusCursor(false);
             MenuController.didKingdomDie = false;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            SceneManager.LoadScene("LoseScreen");
         }
     }
 }

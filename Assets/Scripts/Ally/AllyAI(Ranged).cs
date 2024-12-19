@@ -163,6 +163,18 @@ public class AllyAI : MonoBehaviour, IDamageable
         }
     }
 
+    public void Heal(float healAmount)
+    {
+        health += healAmount;
+
+        healthBarScript.UpdateHealthBar(health, maxHealth);
+
+        if (health >= maxHealth)
+        {
+            health = maxHealth;
+        }
+    }
+
     public bool IsSpotReachable(Vector3 targetPosition)
     {
         NavMeshPath path = new NavMeshPath();

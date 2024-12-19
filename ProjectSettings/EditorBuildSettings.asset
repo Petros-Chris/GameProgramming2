@@ -9,11 +9,17 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 3a6d3ace11dc418418d405f1664e691c
   - enabled: 1
+    path: Assets/Scenes/ChooseDifficulty.unity
+    guid: 635a9b94f00473948a7b8e2a9e768af6
+  - enabled: 1
+    path: Assets/Scenes/Level1.unity
+    guid: 6688308fd805f8b47969a940920adb7f
+  - enabled: 1
     path: Assets/Scenes/Level2.unity
     guid: e246457c2d9c33342897b56efc595b56
-  - enabled: 0
-    path: Assets/Scenes/Old.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/Level3.unity
+    guid: 15f123c6179289d4b82775e9ab1cd094
   - enabled: 1
     path: Assets/Scenes/LoseScreen.unity
     guid: e506ed36a55202944b2d93f74b41072b

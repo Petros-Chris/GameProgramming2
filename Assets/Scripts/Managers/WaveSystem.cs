@@ -1,8 +1,8 @@
 using System.Collections;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class WaveSystem : MonoBehaviour
 {
@@ -31,13 +31,26 @@ public class WaveSystem : MonoBehaviour
     private GameObject enemyToCreate;
     private GameObject playerToCreate;
     public Vector3 wherePlayerSpawn = new Vector3(52, 0.9f, 22);
+    JsonHandler.DifficultyLevel difficultyLevel;
+    int worldLevelInt;
+    bool winDisplayed;
 
     void Start()
     {
+        Scene currentScene = SceneManager.GetActiveScene();
+        string worldLevelStr = currentScene.name.Replace("Level", "");
         root = JsonHandler.ReadFileForWave("waves");
-        // Debug.Log(root.difficulty[0].difficulty);
-        wavesToComplete = root.difficulty[0].waves.Count;
+        worldLevelInt = int.Parse(worldLevelStr) - 1; // Remember that it is a array so it starts at 0 instead of 1
+        difficultyLevel = root.level[worldLevelInt].difficulty[DifficultyHandler.Instance.ReturnDifficultyInInt()];
+        wavesToComplete = difficultyLevel.waves.Count;
         waveText.text = "Wave: " + 0 + "/" + wavesToComplete;
+
+        SaveScene.DataToSave playerData = SaveScene.ReadSaveFile();
+        // Stops it from moving the scene save down because player restarts after beating level 
+        if (playerData.worldLevel < SceneManager.GetActiveScene().buildIndex)
+        {
+            SaveScene.Save(SceneManager.GetActiveScene().buildIndex, DifficultyHandler.Instance.ReturnDifficultyInInt());
+        }
     }
 
     void Update()
@@ -80,10 +93,12 @@ public class WaveSystem : MonoBehaviour
                 }
             }
 
-            if (!EnemiesLeft() && !waveInProgress && isLastRound)
+            if (!EnemiesLeft() && !waveInProgress && isLastRound && !winDisplayed)
             {
                 ComponentManager.Instance.lockCamera = false;
                 ComponentManager.Instance.DisplayWinScreen();
+                SaveScene.Save(SceneManager.GetActiveScene().buildIndex + 1, DifficultyHandler.Instance.ReturnDifficultyInInt());
+                winDisplayed = true;
             }
 
             // If all enemies have spawned and coroutine is not currently running
@@ -94,8 +109,7 @@ public class WaveSystem : MonoBehaviour
         }
     }
 
-    //TODO: Make it where player needs to hit object to repair it into a useable building
-    //? Can spawn onto of player, but it doesn't seem to push them out of map so perhaps its fine
+    //? Can spawn on top of player, but it doesn't seem to push them out of map so perhaps its fine
     public void ReviveAllTowers()
     {
         foreach (GameObject building in ComponentManager.Instance.buildingsDisabled)
@@ -186,8 +200,7 @@ public class WaveSystem : MonoBehaviour
         int count = 0;
         float timer2 = 0;
 
-        var easyMode = root.difficulty[0];
-        var wave = easyMode.waves[round - 1];
+        var wave = difficultyLevel.waves[round - 1];
         var waveNumber = wave.wave;
         waveText.text = "Wave: " + waveNumber + "/" + wavesToComplete;
         var totalEnemiesInRound = wave.totalEnemies;

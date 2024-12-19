@@ -1,52 +1,26 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Gun : MonoBehaviour
+public class HealGun : Weapon
 {
-    public GameObject HitPoint;
-    public GameObject Fire;
-    public Transform FirePoint;
-    public Transform Nozzle;
-    public float range = 100f;
-    public float damage = 4f;
-    public static int magazineSize = 50;
-    public float reloadTime = 3.0f;
-    public float fireRate = 0.1f;
-    public static int currentBullets;
-    private bool isReloading = false;
-    private float nextFireTime = 0f;
 
-    [SerializeField] private String shootingPath;
-
-
-
-    public TrailRenderer bulletTrail;
-
-    private KeyCode reloadKey = KeyCode.R;
-
-    void Start()
+    new void Start()
     {
- 
-        shootingPath = "PlayerShoot";
+        base.Start();
         currentBullets = magazineSize;
+        audioPath = "PlayerShoot";
     }
 
     void Update()
     {
-
         if (GameMenu.Instance.isPaused || GameMenu.Instance.playerFrozen || isReloading || GameMenu.Instance.isUpdateMenuOpen)
         {
             return;
         }
-
-        if (FirePoint == null)
-        {
-            FirePoint = ComponentManager.Instance.playerCam.transform;
-        }
-
 
         if (Input.GetButton("Fire1") && Time.time >= nextFireTime && currentBullets > 0)
         {
@@ -54,15 +28,14 @@ public class Gun : MonoBehaviour
             Shoot();
         }
 
-
         if (currentBullets <= 0 && !isReloading)
         {
-            StartCoroutine(Reload());
+            ComponentManager.Instance.CallCoroutine(ComponentManager.Instance.Reload(gameObject.GetComponent<Weapon>()));
         }
 
         if (Input.GetKeyDown(reloadKey) && !isReloading && currentBullets != magazineSize)
         {
-            StartCoroutine(Reload());
+            ComponentManager.Instance.CallCoroutine(ComponentManager.Instance.Reload(gameObject.GetComponent<Weapon>()));
         }
     }
 
@@ -73,12 +46,10 @@ public class Gun : MonoBehaviour
         bullet.AddPosition(Nozzle.position);
         bullet.transform.position = transform.position + (Nozzle.forward * 200);
 
-        SoundFXManager.instance.prepareSoundFXClip(shootingPath, transform, 0.5f);
+        SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 0.5f);
 
         if (Physics.Raycast(FirePoint.position, FirePoint.forward, out hit, range))
         {
-
-            //SoundFXManager.instance.PlaySoundFXClip(shootSoundClip, transform, 1f);
             // Debug remove for line to dissapear
             Debug.DrawRay(FirePoint.position, FirePoint.forward * hit.distance, Color.black, 5.0f);
 
@@ -90,10 +61,10 @@ public class Gun : MonoBehaviour
             }
 
 
-            EnemyAI enemy = hit.transform.GetComponent<EnemyAI>();
-            if (enemy != null)
+            IDamageable ally = hit.transform.GetComponent<IDamageable>();
+            if (ally != null)
             {
-                enemy.TakeDamage(damage, gameObject);
+                ally.Heal(damage);
             }
         }
 
@@ -108,14 +79,5 @@ public class Gun : MonoBehaviour
         }
 
         currentBullets--;
-    }
-
-    IEnumerator Reload()
-    {
-        currentBullets = 0;
-        isReloading = true;
-        yield return new WaitForSeconds(reloadTime);
-        currentBullets = magazineSize;
-        isReloading = false;
     }
 }

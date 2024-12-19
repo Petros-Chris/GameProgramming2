@@ -9,6 +9,10 @@ public class ThisPartCanGetHurt : MonoBehaviour, IDamageable
     {
         wallGate.TakeDamage(damage, whoOwMe);
     }
+    public void Heal(float healAmount)
+    {
+        wallGate.Heal(healAmount);
+    }
     void OnDestroy()
     {
         GameObject parent = gameObject.transform.parent.parent.gameObject;

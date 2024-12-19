@@ -59,7 +59,7 @@ public class UpgradeController : MonoBehaviour
                 // So it stops checking the distance
                 menuCreation = default;
                 CloseUpgradeMenu();
-                FocusCursor();
+                ComponentManager.Instance.FocusCursor();
             }
         }
     }
@@ -106,6 +106,12 @@ public class UpgradeController : MonoBehaviour
                 dataFromBuilding = root.building.Find(b => b.building == "Wall");
                 upgrades = root.building.Find(b => b.building == "Wall").upgrades;
             }
+            else if (hit.collider.transform.parent.parent.TryGetComponent(out Building building1))
+            {
+                building = building1;
+                dataFromBuilding = root.building.Find(b => b.building == "Wall");
+                upgrades = root.building.Find(b => b.building == "Wall").upgrades;
+            }
 
             if (building == default)
             {
@@ -116,7 +122,7 @@ public class UpgradeController : MonoBehaviour
             CleanUpPastPanel();
             upgradeCanvas.SetActive(true);
             GameMenu.Instance.isUpdateMenuOpen = true; // Freeze player
-            FocusCursor(false); // Show mouse
+            ComponentManager.Instance.FocusCursor(false); // Show mouse
 
             menuCreation = cameraToUse.transform.position;
 
@@ -304,20 +310,7 @@ public class UpgradeController : MonoBehaviour
         upgradeCanvas.SetActive(false);
         shouldValuesBeUpdated = false;
         GameMenu.Instance.isUpdateMenuOpen = false;
-        FocusCursor();
-    }
-    void FocusCursor(bool shouldI = true)
-    {
-        if (shouldI)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
+        ComponentManager.Instance.FocusCursor();
     }
     public bool IsPlayerInMenuCreationRange()
     {

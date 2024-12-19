@@ -1,19 +1,11 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class JsonHandler : MonoBehaviour
 {
-    public class DataToSave
-    {
-        public int frameRate;
-        public int vsyncOption;
-    }
-
+    [System.Serializable]
     public class WaveData
     {
         public String difficulty;
@@ -44,42 +36,41 @@ public class JsonHandler : MonoBehaviour
     }
 
     [System.Serializable]
-    public class Root
+    public class WorldLevel
     {
+        public int level;
         public List<DifficultyLevel> difficulty;
     }
 
     [System.Serializable]
-    public class Test
+    public class Root
     {
-        public int round;
-        public List<EnemyGroup> enemy;
+        public List<WorldLevel> level;
     }
 
-    public static void Save(int frameRate = 0, int vsyncOption = 1)
-    {
-        // Debug.Log("Saving to" + Application.dataPath);
+    // public static void Save(int frameRate = 0, int vsyncOption = 1)
+    // {
+    // Debug.Log("Saving to" + Application.dataPath);
 
-        DataToSave dataToSave = new DataToSave
-        {
-            frameRate = frameRate,
-            vsyncOption = vsyncOption,
-        };
+    //     DataToSave dataToSave = new DataToSave
+    //     {
+    //         frameRate = frameRate,
+    //         vsyncOption = vsyncOption,
+    //     };
 
-        string json = JsonUtility.ToJson(dataToSave);
-        File.WriteAllText(Application.dataPath + "/settings.txt", json);
-    }
+    //     string json = JsonUtility.ToJson(dataToSave);
+    //     File.WriteAllText(Application.dataPath + "/settings.txt", json);
+    // }
 
-    public static DataToSave ReadFile(String fileNameToRead)
-    {
-        String rawData = File.ReadAllText(Application.dataPath + "/" + fileNameToRead + ".txt");
-        DataToSave data = JsonUtility.FromJson<DataToSave>(rawData);
-        return data;
-    }
+    // public static DataToSave ReadFile(String fileNameToRead)
+    // {
+    //     String rawData = File.ReadAllText(Application.dataPath + "/" + fileNameToRead + ".txt");
+    //     DataToSave data = JsonUtility.FromJson<DataToSave>(rawData);
+    //     return data;
+    // }
     public static Root ReadFileForWave(String fileNameToRead = "wavesaaaa")
     {
-        String rawData = Resources.Load<TextAsset>(fileNameToRead).text;
-
+        string rawData = File.ReadAllText(Application.streamingAssetsPath + "/" + fileNameToRead + ".txt");
         Root data = JsonUtility.FromJson<Root>(rawData);
         return data;
     }

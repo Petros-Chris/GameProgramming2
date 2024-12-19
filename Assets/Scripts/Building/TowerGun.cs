@@ -50,10 +50,10 @@ public class TowerGun : MonoBehaviour
                 Destroy(particle, 1.0f);
             }
 
-            IDamageable damageable = hit.transform.GetComponent<IDamageable>();
-            if (damageable != null)
+            EnemyAI enemy = hit.transform.GetComponent<EnemyAI>();
+            if (enemy != null)
             {
-                damageable.TakeDamage(bulletDamage, gameObject);
+                enemy.TakeDamage(bulletDamage, gameObject);
             }
             break;
         }

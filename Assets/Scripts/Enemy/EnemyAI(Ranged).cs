@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
-public class EnemyAI : MonoBehaviour, IDamageable
+public class EnemyAI : MonoBehaviour
 {
     public HealthBarScript healthBarScript;
     public StateMachine StateMachine { get; set; }
