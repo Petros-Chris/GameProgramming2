@@ -19,7 +19,8 @@ public class Gun : MonoBehaviour
     private bool isReloading = false;
     private float nextFireTime = 0f;
 
-    [SerializeField] private String audioPath;
+    [SerializeField] private String shootingPath;
+
 
 
     public TrailRenderer bulletTrail;
@@ -28,7 +29,8 @@ public class Gun : MonoBehaviour
 
     void Start()
     {
-        audioPath = "PlayerShoot";
+ 
+        shootingPath = "PlayerShoot";
         currentBullets = magazineSize;
     }
 
@@ -71,7 +73,7 @@ public class Gun : MonoBehaviour
         bullet.AddPosition(Nozzle.position);
         bullet.transform.position = transform.position + (Nozzle.forward * 200);
 
-        SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 0.5f);
+        SoundFXManager.instance.prepareSoundFXClip(shootingPath, transform, 0.5f);
 
         if (Physics.Raycast(FirePoint.position, FirePoint.forward, out hit, range))
         {

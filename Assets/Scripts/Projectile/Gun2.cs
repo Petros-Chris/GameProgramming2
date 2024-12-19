@@ -15,8 +15,11 @@ public class Gun2 : MonoBehaviour
     public static int currentBullets;
     private float nextFireTime = 0f;
 
+    private string explosionSoundPath;
+
     void Start()
     {
+        explosionSoundPath = "ExplosionGun";
         currentBullets = maxBullets;
         StartCoroutine(RegenerateBullets());
     }
@@ -44,6 +47,7 @@ public class Gun2 : MonoBehaviour
 
             if (ExplosionEffect != null)
             {
+                SoundFXManager.instance.prepareSoundFXClip(explosionSoundPath, transform, 0.5f);
                 GameObject explosion = Instantiate(ExplosionEffect, hit.point, Quaternion.identity);
                 Destroy(explosion, 2.0f);
             }
@@ -55,6 +59,7 @@ public class Gun2 : MonoBehaviour
                 EnemyAI enemy = nearbyObject.GetComponent<EnemyAI>();
                 if (enemy != null)
                 {
+                  
                     enemy.TakeDamage(damage, gameObject);
                 }
             }
