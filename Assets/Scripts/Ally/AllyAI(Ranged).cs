@@ -24,7 +24,8 @@ public class AllyAI : MonoBehaviour, IDamageable
     public StateTypeAlly currentState;
     public Animator animator;
     public GameObject fishKingdom;
-
+    private string[] audioPath = {"Damage1","Damage2","Damage1"};
+    private string[] audioPath2 = {"Death1","Death2","Death3"};
     void Start()
     {
         Agent = GetComponent<NavMeshAgent>();
@@ -140,6 +141,9 @@ public class AllyAI : MonoBehaviour, IDamageable
     /// <param name="damage">How much damage the enemy is going to take</param>
     public void TakeDamage(float damage, GameObject whoOwMe)
     {
+        if(SoundFXManager.instance.chancePlaySound(10)){
+             SoundFXManager.instance.prepareSoundFXClipArray(audioPath, transform, 0.5f);
+        }
         health -= damage;
 
         healthBarScript.UpdateHealthBar(health, maxHealth);
@@ -159,6 +163,9 @@ public class AllyAI : MonoBehaviour, IDamageable
 
         if (health <= 0)
         {
+           if(SoundFXManager.instance.chancePlaySound(20)){
+             SoundFXManager.instance.prepareSoundFXClipArray(audioPath2, transform, 0.5f);
+        }
             Destroy(gameObject);
         }
     }

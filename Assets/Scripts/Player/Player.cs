@@ -9,6 +9,9 @@ public class Player : MonoBehaviour, IDamageable
     private float lastDamageTime;
     private bool isRegenerating;
 
+    private string[] audioPath = {"Damage1","Damage2","Damage1"};
+    private string[] audioPath2 = {"Death1","Death2","Death3"};
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +31,9 @@ public class Player : MonoBehaviour, IDamageable
 
     public void TakeDamage(float damage, GameObject whoOwMe = default)
     {
+        if(SoundFXManager.instance.chancePlaySound(3)){
+             SoundFXManager.instance.prepareSoundFXClipArray(audioPath, transform, 0.5f);
+        }
         health -= damage;
         lastDamageTime = Time.time;
 
@@ -37,6 +43,7 @@ public class Player : MonoBehaviour, IDamageable
         }
         if (health <= 0)
         {
+            SoundFXManager.instance.prepareSoundFXClipArray(audioPath2, transform, 0.5f);
             Destroy(gameObject);
             ComponentManager.Instance.hasPlayerDied = true;
             // Switch cameras

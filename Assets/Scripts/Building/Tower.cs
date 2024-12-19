@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class Tower : Building, IDamageable
 {
     UpgradeJsonHandler.Root root;
-
+    public string audioPath = "TowerDamage";
 
     void Start()
     {
@@ -19,6 +19,7 @@ public class Tower : Building, IDamageable
     }
     public void TakeDamage(float damage, GameObject whoOwMe)
     {
+        SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 0.5f);
         health -= damage;
 
         getHealthBar().UpdateHealthBar(health, maxHealth);

@@ -62,6 +62,7 @@ public class Gun : Weapon
             EnemyAI enemy = hit.transform.GetComponent<EnemyAI>();
             if (enemy != null)
             {
+                
                 enemy.TakeDamage(damage, gameObject);
             }
         }

@@ -11,9 +11,11 @@ public class Kingdom : Building, IDamageable
     public bool allySpawnInTrouble = false;
     private int toggleOnce = 0;
     UpgradeJsonHandler.Root root;
-
+    public string audioPath = "TowerDamage";
+    public string audioPath2 = "AllySpawn";
     void Start()
     {
+
         ally = ComponentManager.Instance.defaultAlly;
         setHealthBar(gameObject.GetComponentInChildren<HealthBarScript>());
         SpawnPointForAlly = new Vector3(transform.position.x, transform.position.y, transform.position.z + -2);
@@ -74,6 +76,7 @@ public class Kingdom : Building, IDamageable
 
     public void TakeDamage(float damage, GameObject whoOwMe = default)
     {
+        SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 0.5f);
         health -= damage;
 
         getHealthBar().UpdateHealthBar(health, maxHealth);
@@ -85,7 +88,9 @@ public class Kingdom : Building, IDamageable
         {
             for (int i = 0; i < 4; i++)
             {
+                SoundFXManager.instance.prepareSoundFXClip(audioPath2, transform, 0.5f);
                 Instantiate(ally, SpawnPointForAlly, transform.rotation);
+                
             }
             toggleOnce++;
         }
@@ -95,6 +100,7 @@ public class Kingdom : Building, IDamageable
 
             for (int i = 0; i < 7; i++)
             {
+                SoundFXManager.instance.prepareSoundFXClip(audioPath2, transform, 0.5f);
                 Instantiate(ally, SpawnPointForAlly, transform.rotation);
             }
             toggleOnce++;

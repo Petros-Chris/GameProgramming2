@@ -15,7 +15,7 @@ public class Settings : MonoBehaviour
     public TextMeshProUGUI vsyncNumber;
     public string soundPath;
     public bool eggsMode;
-
+    private string audioPath = "GUI";
     bool toggleCount;
 
     void Start()
@@ -99,6 +99,7 @@ public class Settings : MonoBehaviour
     //TODO: Get it to see the isOn in the toggle itself
     public void DisplayFps(bool isOn)
     {
+        SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 1f);
         toggleCount = !toggleCount;
         fpsDisplay.SetActive(toggleCount);
     }
@@ -106,6 +107,7 @@ public class Settings : MonoBehaviour
     //TODO: Get it to see the isOn in the toggle itself
     public void ToggleScreen()
     {
+        SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 1f);
         Screen.fullScreen = !Screen.fullScreen;
 
         // if (!Screen.fullScreen)
@@ -120,10 +122,12 @@ public class Settings : MonoBehaviour
 
     public void ChangeScreenResoultion()
     {
+        SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 1f);
         Screen.SetResolution(640, 480, false);
     }
 
     public void ChangeEggsMode(){
+        SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 1f);
         eggsMode = !eggsMode;
         if(eggsMode){
             soundPath = "EggsSoundFX";

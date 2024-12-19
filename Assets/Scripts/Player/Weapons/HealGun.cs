@@ -12,7 +12,7 @@ public class HealGun : Weapon
     {
         base.Start();
         currentBullets = magazineSize;
-        audioPath = "PlayerShoot";
+        audioPath = "BuildingUpgrade";
     }
 
     void Update()

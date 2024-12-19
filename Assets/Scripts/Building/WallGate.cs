@@ -11,7 +11,7 @@ public class WallGate : Wall, IDamageable
     Vector3 closedScale = new Vector3(0.5f, 3.6f, 4f);
     UpgradeJsonHandler.Root root;
     public GameObject gate;
-
+    public string audioPath = "TowerDamage";
     void Start()
     {
         Debug.Log("Aa");
@@ -30,6 +30,7 @@ public class WallGate : Wall, IDamageable
 
     public void TakeDamage(float damage, GameObject whoOwMe = null)
     {
+        SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 0.5f);
         health -= damage;
 
         getHealthBar().UpdateHealthBar(health, maxHealth);

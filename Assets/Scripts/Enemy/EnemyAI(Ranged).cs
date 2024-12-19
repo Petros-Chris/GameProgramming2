@@ -30,6 +30,8 @@ public class EnemyAI : MonoBehaviour
     public Animator animator;
     public float thinkingSpeed = 0.5f;
     public bool CurrentlyInLookCooldown = false;
+    private string[] audioPath = {"Damage1","Damage2","Damage1"};
+    private string[] audioPath2 = {"Death1","Death2","Death3"};
 
     void Start()
     {
@@ -216,12 +218,18 @@ public class EnemyAI : MonoBehaviour
     /// <param name="damage">How much damage the enemy is going to take</param>
     public void TakeDamage(float damage, GameObject whoOwMe)
     {
+        if(SoundFXManager.instance.chancePlaySound(3)){
+             SoundFXManager.instance.prepareSoundFXClipArray(audioPath, transform, 0.5f);
+        }
         health -= damage;
 
         healthBarScript.UpdateHealthBar(health, maxHealth);
 
         if (health <= 0)
         {
+            if(SoundFXManager.instance.chancePlaySound(5)){
+             SoundFXManager.instance.prepareSoundFXClipArray(audioPath2, transform, 0.5f);
+        }
             CurrencyManager.Instance.Currency += value;
             Destroy(gameObject);
         }

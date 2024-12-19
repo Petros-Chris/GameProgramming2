@@ -16,6 +16,7 @@ public class Building : MonoBehaviour
     private int emergencyAllySpawn;
     private ParticleSystem spawnParticle;
     private ParticleSystem deathParticle;
+     public string audioPath = "TowerDestroy";
 
     void OnEnable()
     {
@@ -35,6 +36,7 @@ public class Building : MonoBehaviour
     {
         if (GetDeathParticle() == null)
         {
+            SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 0.5f);
             Transform particleTransform = transform.Find("DestoryParticle");
 
             // Exits if it can't find the particle
