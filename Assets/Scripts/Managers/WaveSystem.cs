@@ -41,7 +41,14 @@ public class WaveSystem : MonoBehaviour
         string worldLevelStr = currentScene.name.Replace("Level", "");
         root = JsonHandler.ReadFileForWave("waves");
         worldLevelInt = int.Parse(worldLevelStr) - 1; // Remember that it is a array so it starts at 0 instead of 1
-        difficultyLevel = root.level[worldLevelInt].difficulty[DifficultyHandler.Instance.ReturnDifficultyInInt()];
+        if (DifficultyHandler.Instance != null)
+        {
+            difficultyLevel = root.level[worldLevelInt].difficulty[DifficultyHandler.Instance.ReturnDifficultyInInt()];
+        }
+        else
+        {
+            difficultyLevel = root.level[worldLevelInt].difficulty[1]; // Default to medium
+        }
         wavesToComplete = difficultyLevel.waves.Count;
         waveText.text = "Wave: " + 0 + "/" + wavesToComplete;
 
@@ -49,7 +56,14 @@ public class WaveSystem : MonoBehaviour
         // Stops it from moving the scene save down because player restarts after beating level 
         if (playerData.worldLevel < SceneManager.GetActiveScene().buildIndex)
         {
-            SaveScene.Save(SceneManager.GetActiveScene().buildIndex, DifficultyHandler.Instance.ReturnDifficultyInInt());
+            if (DifficultyHandler.Instance != null)
+            {
+                SaveScene.Save(SceneManager.GetActiveScene().buildIndex, DifficultyHandler.Instance.ReturnDifficultyInInt());
+            }
+            else
+            {
+                SaveScene.Save(SceneManager.GetActiveScene().buildIndex, 1); // Default to medium
+            }
         }
     }
 
