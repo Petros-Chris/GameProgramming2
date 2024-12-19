@@ -1,6 +1,5 @@
 using System.Collections;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -42,15 +41,15 @@ public class WaveSystem : MonoBehaviour
         string worldLevelStr = currentScene.name.Replace("Level", "");
         root = JsonHandler.ReadFileForWave("waves");
         worldLevelInt = int.Parse(worldLevelStr) - 1; // Remember that it is a array so it starts at 0 instead of 1
-        Debug.Log(root.level[worldLevelInt].difficulty[ComponentManager.Instance.ReturnDifficultyInInt()]);
-        difficultyLevel = root.level[worldLevelInt].difficulty[ComponentManager.Instance.ReturnDifficultyInInt()];
+        difficultyLevel = root.level[worldLevelInt].difficulty[DifficultyHandler.Instance.ReturnDifficultyInInt()];
         wavesToComplete = difficultyLevel.waves.Count;
         waveText.text = "Wave: " + 0 + "/" + wavesToComplete;
-        // Save to the beginning of the level
+
         SaveScene.DataToSave playerData = SaveScene.ReadSaveFile();
+        // Stops it from moving the scene save down because player restarts after beating level 
         if (playerData.worldLevel < SceneManager.GetActiveScene().buildIndex)
         {
-            SaveScene.Save(SceneManager.GetActiveScene().buildIndex, ComponentManager.Instance.ReturnDifficultyInInt());
+            SaveScene.Save(SceneManager.GetActiveScene().buildIndex, DifficultyHandler.Instance.ReturnDifficultyInInt());
         }
     }
 
@@ -98,7 +97,7 @@ public class WaveSystem : MonoBehaviour
             {
                 ComponentManager.Instance.lockCamera = false;
                 ComponentManager.Instance.DisplayWinScreen();
-                SaveScene.Save(SceneManager.GetActiveScene().buildIndex + 1, ComponentManager.Instance.ReturnDifficultyInInt());
+                SaveScene.Save(SceneManager.GetActiveScene().buildIndex + 1, DifficultyHandler.Instance.ReturnDifficultyInInt());
                 winDisplayed = true;
             }
 

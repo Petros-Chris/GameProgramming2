@@ -191,7 +191,7 @@ MonoBehaviour:
   lastAllyPos: {x: 0, y: 0, z: 0}
   SightRange: 20
   maxAngle: 60
-  AttackRange: 3
+  AttackRange: 4
   attackCooldown: 1
   EnemyLayer:
     serializedVersion: 2

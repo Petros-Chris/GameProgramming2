@@ -190,7 +190,7 @@ MonoBehaviour:
   weapon: {fileID: 8026685342796093465}
   lastAllyPos: {x: 0, y: 0, z: 0}
   SightRange: 20
-  maxAngle: 200
+  maxAngle: 60
   AttackRange: 10
   attackCooldown: 1
   EnemyLayer:

@@ -43,5 +43,38 @@ public class MenuController : MonoBehaviour
     {
         Application.Quit();
     }
+    public void ContinueWhereYouLeftOff()
+    {
+        SaveScene.DataToSave playerData = SaveScene.ReadSaveFile();
+
+        // Im converting the string I made into a int back into a string here ;(
+        switch (playerData.difficultyLevel)
+        {
+            case 0:
+                DifficultyHandler.Instance.difficultyLevel = "EasyMode";
+                break;
+            case 1:
+                DifficultyHandler.Instance.difficultyLevel = "MediumMode";
+                break;
+            case 2:
+                DifficultyHandler.Instance.difficultyLevel = "HardMode";
+                break;
+            case 3:
+                DifficultyHandler.Instance.difficultyLevel = "DeathMode";
+                break;
+        }
+        // Exclude the last scene, which is currently set to be the lose screen
+        int levelAmount = SceneManager.sceneCountInBuildSettings - 1;
+        Debug.Log(levelAmount);
+        Debug.Log(" HI HI player" + playerData.worldLevel);
+        if (playerData.worldLevel >= levelAmount || playerData.worldLevel <= 0)
+        {
+            // Restart as the game is done, not started, or the file was tampered with
+            StartGame();
+            return;
+        }
+        // Loads the last level the player was in
+        SceneManager.LoadScene(playerData.worldLevel);
+    }
 }
 

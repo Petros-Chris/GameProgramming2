@@ -1,10 +1,8 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using TMPro;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement;
+
 
 public class ComponentManager : MonoBehaviour
 {
@@ -175,76 +173,5 @@ public class ComponentManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
-    }
-
-    public void SelectDifficulty()
-    {
-        Button button = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
-        switch (button.name)
-        {
-            case "EasyMode":
-                difficultyLevel = "EasyMode";
-                break;
-            case "MediumMode":
-                difficultyLevel = "MediumMode";
-                break;
-            case "HardMode":
-                difficultyLevel = "HardMode";
-                break;
-            case "DeathMode":
-                difficultyLevel = "DeathMode";
-                break;
-        }
-        // Goes Next Level
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-    }
-
-    public int ReturnDifficultyInInt()
-    {
-        switch (difficultyLevel)
-        {
-            case "EasyMode":
-                return 0;
-            case "MediumMode":
-                return 1;
-            case "HardMode":
-                return 2;
-            case "DeathMode":
-                return 3;
-        }
-        // Defaults to normal
-        return 1;
-    }
-
-    public void ContinueWhereYouLeftOff()
-    {
-        SaveScene.DataToSave playerData = SaveScene.ReadSaveFile();
-
-        // Im converting the string I made into a int back into a string here ;(
-        switch (playerData.difficultyLevel)
-        {
-            case 0:
-                difficultyLevel = "EasyMode";
-                break;
-            case 1:
-                difficultyLevel = "MediumMode";
-                break;
-            case 2:
-                difficultyLevel = "HardMode";
-                break;
-            case 3:
-                difficultyLevel = "DeathMode";
-                break;
-        }
-        // Exclude the last scene, which is currently set to be the lose screen
-        int levelAmount = SceneManager.sceneCountInBuildSettings - 1;
-        if (playerData.worldLevel >= levelAmount || playerData.worldLevel < 0)
-        {
-            // Restart as the game is done or the file was tampered with
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-            SaveScene.Save(0, 0);
-        }
-        // Loads the last level the player was in
-        SceneManager.LoadScene(playerData.worldLevel);
     }
 }
