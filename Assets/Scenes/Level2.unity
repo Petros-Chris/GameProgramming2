@@ -3245,13 +3245,33 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 977220439}
     - target: {fileID: 3280070967641056430, guid: a5666a7a499bb8840b8eaefa139344f1, type: 3}
-      propertyPath: m_Value
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3280070967641056430, guid: a5666a7a499bb8840b8eaefa139344f1, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 977220439}
+    - target: {fileID: 3466221975335995165, guid: a5666a7a499bb8840b8eaefa139344f1, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3466221975335995165, guid: a5666a7a499bb8840b8eaefa139344f1, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3466221975335995165, guid: a5666a7a499bb8840b8eaefa139344f1, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 977220439}
+    - target: {fileID: 3466221975335995165, guid: a5666a7a499bb8840b8eaefa139344f1, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangeEggsMode
+      objectReference: {fileID: 0}
+    - target: {fileID: 3466221975335995165, guid: a5666a7a499bb8840b8eaefa139344f1, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Settings, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3466221975335995165, guid: a5666a7a499bb8840b8eaefa139344f1, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3664664199836416223, guid: a5666a7a499bb8840b8eaefa139344f1, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -3547,6 +3567,10 @@ PrefabInstance:
       propertyPath: fpsSlider
       value: 
       objectReference: {fileID: 430968458}
+    - target: {fileID: 6027331093200307310, guid: 8de0fd34093877344a86effe9a6b1c4e, type: 3}
+      propertyPath: soundPath
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6027331093200307310, guid: 8de0fd34093877344a86effe9a6b1c4e, type: 3}
       propertyPath: fpsDisplay
       value: 

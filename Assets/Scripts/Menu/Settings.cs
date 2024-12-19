@@ -1,5 +1,6 @@
 using System;
 using TMPro;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,11 +15,15 @@ public class Settings : MonoBehaviour
     // Slider
     public Slider vsyncSlider;
     public TextMeshProUGUI vsyncNumber;
+    public string soundPath;
+    public bool eggsMode;
 
     bool toggleCount;
 
     void Start()
     {
+        eggsMode = false;
+        soundPath = "SoundFX";
         ChangeFrameRate();
         ChangeVsync();
         JsonHandler.Save();
@@ -112,5 +117,15 @@ public class Settings : MonoBehaviour
     public void ChangeScreenResoultion()
     {
         Screen.SetResolution(640, 480, false);
+    }
+
+    public void ChangeEggsMode(){
+        eggsMode = !eggsMode;
+        if(eggsMode){
+            soundPath = "EggsSoundFX";
+        }else{
+            soundPath = "SoundFX";
+        }
+
     }
 }

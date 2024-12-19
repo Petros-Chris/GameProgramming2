@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,7 +19,7 @@ public class Gun : MonoBehaviour
     private bool isReloading = false;
     private float nextFireTime = 0f;
 
-    [SerializeField] private AudioClip[] shootSoundClips;
+    [SerializeField] private String audioPath;
 
 
     public TrailRenderer bulletTrail;
@@ -27,6 +28,7 @@ public class Gun : MonoBehaviour
 
     void Start()
     {
+        audioPath = "PlayerShoot";
         currentBullets = magazineSize;
     }
 
@@ -68,7 +70,9 @@ public class Gun : MonoBehaviour
         var bullet = Instantiate(bulletTrail, Nozzle.position, Quaternion.identity);
         bullet.AddPosition(Nozzle.position);
         bullet.transform.position = transform.position + (Nozzle.forward * 200);
-        SoundFXManager.instance.PlayRandomSoundFXClip(shootSoundClips, transform, 0.5f);
+
+        SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 0.5f);
+
         if (Physics.Raycast(FirePoint.position, FirePoint.forward, out hit, range))
         {
 
