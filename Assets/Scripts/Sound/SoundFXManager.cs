@@ -11,6 +11,7 @@ public class SoundFXManager : MonoBehaviour
     public string soundPath = "SoundFX"; // TODO: make settings exist everywhere
     //public float volume = 1f;
     [SerializeField] private AudioSource soundFXObject;
+    [SerializeField] private AudioSource musicObject;
     private void Awake()
     {
         if (instance == null)
@@ -94,7 +95,7 @@ public class SoundFXManager : MonoBehaviour
 
     public void PlayGlobalSound(AudioClip audioClip, Transform spawnTransform, float volume)
     {
-        AudioSource audioSource = Instantiate(soundFXObject, spawnTransform.position, Quaternion.identity);
+        AudioSource audioSource = Instantiate(musicObject, spawnTransform.position, Quaternion.identity);
 
         audioSource.clip = audioClip;
 

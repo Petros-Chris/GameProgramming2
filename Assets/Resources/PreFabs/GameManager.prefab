@@ -9,11 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2727316332280294315}
-  - component: {fileID: 6027331093200307310}
   - component: {fileID: 2204347928522057673}
   - component: {fileID: 8087523252631052689}
   - component: {fileID: 6642137757006228474}
-  - component: {fileID: 2739642967864136251}
   - component: {fileID: 2739825372903125160}
   - component: {fileID: 5893971419353995619}
   - component: {fileID: 2151196522546882119}
@@ -39,25 +37,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6027331093200307310
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3593505221204006684}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01090f524d7682448bad8f80782e7dd3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  vsyncOptions: 0
-  frameRate: 60
-  fpsSlider: {fileID: 0}
-  fpsNumber: {fileID: 0}
-  fpsDisplay: {fileID: 0}
-  vsyncSlider: {fileID: 0}
-  vsyncNumber: {fileID: 0}
 --- !u!114 &2204347928522057673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,20 +96,7 @@ MonoBehaviour:
   panel: {fileID: 0}
   winCanvas: {fileID: 0}
   winScreenIsDisplayed: 0
---- !u!114 &2739642967864136251
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3593505221204006684}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a35c62c513524b43b61a671af6fcc04, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pollingTime: 0.5
-  uiText: {fileID: 0}
+  difficultyLevel: 
 --- !u!114 &2739825372903125160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,4 +140,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbca29a9e12cb4049bb0005d30667623, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  button: {fileID: 0}
   inventory: {fileID: 6770844398025603171, guid: 2bb0c2aa9ac326344853212b6395a2ca, type: 3}

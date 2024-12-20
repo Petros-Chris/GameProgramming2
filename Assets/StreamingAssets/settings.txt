@@ -1,1 +1,1 @@
-{"displayFps":true,"fullScreen":false,"eggsMode":false,"frameRate":0,"vSyncLevel":1}
+{"displayFps":true,"fullScreen":false,"eggsMode":true,"frameRate":0,"vSyncLevel":1}

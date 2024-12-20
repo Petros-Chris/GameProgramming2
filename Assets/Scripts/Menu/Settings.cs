@@ -20,6 +20,13 @@ public class Settings : MonoBehaviour
     public Toggle eggsModeToggle;
     public Button applyChangesBtn;
 
+    public GameObject masterVolumeGO;
+    public Slider masterVolume;
+    public GameObject soundFxVolumeGO;
+    public Slider soundFxVolume;
+    public GameObject musicVolumeGO;
+    public Slider musicVolume;
+
 
     public string soundPath;
     private string audioPath = "GUI";
@@ -113,6 +120,20 @@ public class Settings : MonoBehaviour
         applyChangesBtn.onClick.AddListener(ApplySettingsAndSave);
         exitSettings = GameObject.Find("CloseSettingButton").GetComponent<Button>();
         exitSettings.onClick.AddListener(CloseSetting);
+
+        masterVolumeGO = GameObject.Find("MasterVolume");
+        masterVolume = masterVolumeGO.GetComponent<Slider>();
+        masterVolume.onValueChanged.AddListener(SetMasterVolume);
+
+        soundFxVolumeGO = GameObject.Find("SoundFxVolume");
+        soundFxVolume = soundFxVolumeGO.GetComponent<Slider>();
+        soundFxVolume.onValueChanged.AddListener(SetSoundFXVolume);
+
+        musicVolumeGO = GameObject.Find("MusicVolume");
+        musicVolume = musicVolumeGO.GetComponent<Slider>();
+        musicVolume.onValueChanged.AddListener(SetMasterVolume);
+
+
 
         // Gets everything from file
         settings = SaveSetting.LoadUserSettings();
@@ -290,14 +311,14 @@ public class Settings : MonoBehaviour
 
     public void SetMasterVolume(float level)
     {
-
+        audioMixer.SetFloat("masterVolume", Mathf.Log10(level) * 20f);
     }
     public void SetSoundFXVolume(float level)
     {
-
+        audioMixer.SetFloat("soundFxVolume", Mathf.Log10(level) * 20f);
     }
     public void SetMusicVolume(float level)
     {
-
+        audioMixer.SetFloat("musicVolume", Mathf.Log10(level) * 20f);
     }
 }
