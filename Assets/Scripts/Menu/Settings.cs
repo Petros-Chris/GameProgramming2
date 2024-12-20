@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 
 public class Settings : MonoBehaviour
@@ -17,6 +18,7 @@ public class Settings : MonoBehaviour
     public bool eggsMode;
     private string audioPath = "GUI";
     bool toggleCount;
+    [SerializeField] private AudioMixer audioMixer;
 
     void Start()
     {
@@ -132,5 +134,15 @@ public class Settings : MonoBehaviour
         {
             soundPath = "SoundFX";
         }
+    }
+
+    public void SetMasterVolume(float level){
+
+    }
+    public void SetSoundFXVolume(float level){
+
+    }
+    public void SetMusicVolume(float level){
+
     }
 }
