@@ -12,6 +12,9 @@ public class WallGate : Wall, IDamageable
     UpgradeJsonHandler.Root root;
     public GameObject gate;
     public string audioPath = "TowerDamage";
+    public string audioPath2 = "DoorOpening";
+    public string audioPath3 = "DoorClosing";
+
     void Start()
     {
         Debug.Log("Aa");
@@ -72,12 +75,14 @@ public class WallGate : Wall, IDamageable
 
     public void CloseGate()
     {
+        //SoundFXManager.instance.PrepareSoundFXClip(audioPath3, transform, 0.5f);
         gate.transform.localScale = Vector3.Lerp(gate.transform.localScale, closedScale, 0.05f);
         gate.transform.localPosition = Vector3.Lerp(gate.transform.localPosition, closedPos, 0.05f);
     }
 
     public void OpenGate()
     {
+        //SoundFXManager.instance.PrepareSoundFXClip(audioPath2, transform, 0.5f);
         gate.transform.localScale = Vector3.Lerp(gate.transform.localScale, openScale, 0.05f);
         gate.transform.localPosition = Vector3.Lerp(gate.transform.localPosition, openPos, 0.05f);
     }

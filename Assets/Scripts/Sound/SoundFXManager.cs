@@ -23,7 +23,7 @@ public class SoundFXManager : MonoBehaviour
             soundPath = "SoundFX";
     }
 
-    public void PrepareSoundFXClip(string audioClip, Transform spawnTransform, float volume, bool isGlobal = false)
+    public void PrepareSoundFXClip(string audioClip, Transform spawnTransform, float volume, bool isGlobal = false, bool isLoop = false)
     {
         string path;
         if (GameObject.Find("GameManager"))
@@ -37,11 +37,14 @@ public class SoundFXManager : MonoBehaviour
             Debug.LogError($"AudioClip not found at path: {path}. Ensure the path is correct and the file is in the Resources folder.");
         }
 
-        if (isGlobal)
+        if (isGlobal && isLoop)
         {
             PlayGlobalSound(clip, spawnTransform, volume);
             return;
+        }else if(isGlobal && !isLoop){
+            PlayGlobalSoundNoLoop(clip, spawnTransform, volume);
         }
+        
 
         PlaySoundFXClip(clip, spawnTransform, volume);
 
@@ -107,6 +110,21 @@ public class SoundFXManager : MonoBehaviour
     {
         audioSource.Stop();
         Destroy(audioSource.gameObject);
+    }
+
+    public void PlayGlobalSoundNoLoop(AudioClip audioClip, Transform spawnTransform, float volume)
+    {
+        AudioSource audioSource = Instantiate(soundFXObject, spawnTransform.position, Quaternion.identity);
+
+        audioSource.clip = audioClip;
+
+        audioSource.volume = volume;
+
+        audioSource.spread = 360;
+
+        audioSource.Play();
+
+        globalAudioObject = audioSource;
     }
 
     public void PlayRandomSoundFXClip(AudioClip[] audioClip, Transform spawnTransform, float volume)

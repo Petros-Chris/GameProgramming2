@@ -31,6 +31,7 @@ public class BuildController : MonoBehaviour
     private Vector3 outOfBounds = new Vector3(0, -1000, 0);
     public Material materiasdal;
     private string audioPath = "GUI";
+    private string audioPath2 = "BuildingPlaced";
 
     void Start()
     {
@@ -323,6 +324,7 @@ public class BuildController : MonoBehaviour
         {
             if (Physics.Raycast(ray, out hit))
             {
+                SoundFXManager.instance.PrepareSoundFXClip(audioPath2, transform, 0.5f);
                 Vector3 spawnLocation = new Vector3(hit.point.x, hit.point.y + 2.7f, hit.point.z);
 
                 Instantiate(tower, spawnLocation, angleToSpawnTower);
