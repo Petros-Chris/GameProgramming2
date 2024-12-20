@@ -1,5 +1,7 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour, IDamageable
 {
@@ -9,16 +11,38 @@ public class Player : MonoBehaviour, IDamageable
     private float lastDamageTime;
     private bool isRegenerating;
 
-    private string[] audioPath = {"Damage1","Damage2","Damage1"};
-    private string[] audioPath2 = {"Death1","Death2","Death3"};
+    private string[] audioPath = { "Damage1", "Damage2", "Damage3" };
+    private string[] audioPath2 = { "Death1", "Death2", "Death3" };
+
+    [Header("Revival Settings")]
+    public float reviveTime = 5f;
+    private bool isDead = false;
+    private float revivalCountdown;
+    public int maxRevives = 3;
+    private int revivalCount = 0;
+    public KeyCode reviveKey = KeyCode.R;
+
+    [Header("UI Elements")]
+    public Text revivalTimerText;
+    public Text deathMessageText;
 
     // Start is called before the first frame update
     void Start()
     {
         healthBar = GameObject.Find("PlayerHealthBar").transform;
-        //ComponentManager.deathCam.gameObject.SetActive(false);
         lastDamageTime = Time.time;
+        revivalCountdown = reviveTime;
+
+        if (revivalTimerText != null)
+        {
+            revivalTimerText.gameObject.SetActive(false);
+        }
+        if (deathMessageText != null)
+        {
+            deathMessageText.gameObject.SetActive(false);
+        }
     }
+
     void Update()
     {
         ComponentManager.Instance.ToggleBuildPlayerMode();
@@ -27,13 +51,22 @@ public class Player : MonoBehaviour, IDamageable
         {
             StartCoroutine(RegenerateHealth());
         }
+
+        if (isDead)
+        {
+            HandleRevivalCountdown();
+        }
     }
 
     public void TakeDamage(float damage, GameObject whoOwMe = default)
     {
-        if(SoundFXManager.instance.chancePlaySound(3)){
-             SoundFXManager.instance.PrepareSoundFXClipArray(audioPath, transform, 0.5f);
+        if (isDead) return;
+
+        if (SoundFXManager.instance.chancePlaySound(3))
+        {
+            SoundFXManager.instance.PrepareSoundFXClipArray(audioPath, transform, 0.5f);
         }
+
         health -= damage;
         lastDamageTime = Time.time;
 
@@ -41,15 +74,99 @@ public class Player : MonoBehaviour, IDamageable
         {
             HealthComponent.UpdateHealthBar(health, maxHealth);
         }
-        if (health <= 0)
+
+        if (health <= 0 && !isDead)
         {
-            SoundFXManager.instance.PrepareSoundFXClipArray(audioPath2, transform, 0.5f);
-            Destroy(gameObject);
-            ComponentManager.Instance.hasPlayerDied = true;
-            // Switch cameras
-            ComponentManager.Instance.deathCam.gameObject.SetActive(true);
-            ComponentManager.Instance.playerCam.gameObject.SetActive(false); // If we change the player to have camera on body, this should be removed else it will make error
+            Die();
         }
+    }
+
+    private void Die()
+    {
+        isDead = true;
+        revivalCountdown = reviveTime;
+
+        // Play death sound
+        SoundFXManager.instance.PrepareSoundFXClipArray(audioPath2, transform, 0.5f);
+
+        // Switch cameras
+        ComponentManager.Instance.hasPlayerDied = true;
+        ComponentManager.Instance.deathCam.gameObject.SetActive(true);
+        ComponentManager.Instance.playerCam.gameObject.SetActive(false);
+
+        // Display death message and activate revival UI
+        if (deathMessageText != null)
+        {
+            deathMessageText.text = "You have died!";
+            deathMessageText.gameObject.SetActive(true);
+        }
+
+        if (revivalTimerText != null)
+        {
+            revivalTimerText.gameObject.SetActive(true);
+        }
+
+        Debug.Log("Player has died. Reviving in " + reviveTime + " seconds...");
+    }
+
+    private void HandleRevivalCountdown()
+    {
+        if (revivalCountdown > 0)
+        {
+            revivalCountdown -= Time.deltaTime;
+            if (revivalTimerText != null)
+            {
+                revivalTimerText.text = "Reviving in " + Mathf.Ceil(revivalCountdown) + " seconds";
+            }
+        }
+        else if (revivalCount < maxRevives)
+        {
+            Revive();
+        }
+
+        if (Input.GetKeyDown(reviveKey) && revivalCount < maxRevives)
+        {
+            Revive();
+        }
+    }
+
+    private void Revive()
+    {
+        if (revivalCount >= maxRevives)
+        {
+            Debug.Log("Maximum revives reached.");
+            if (deathMessageText != null)
+            {
+                deathMessageText.text = "Game Over!";
+            }
+            SceneManager.LoadScene("LoseScreen");
+            return;
+        }
+
+        health = maxHealth / 2;
+        if (healthBar.TryGetComponent<PlayerHealthBar>(out PlayerHealthBar HealthComponent))
+        {
+            HealthComponent.UpdateHealthBar(health, maxHealth);
+        }
+
+        isDead = false;
+        revivalCountdown = reviveTime;
+        revivalCount++;
+
+        // Reactivate player camera and controls
+        ComponentManager.Instance.deathCam.gameObject.SetActive(false);
+        ComponentManager.Instance.playerCam.gameObject.SetActive(true);
+
+        if (deathMessageText != null)
+        {
+            deathMessageText.gameObject.SetActive(false);
+        }
+        if (revivalTimerText != null)
+        {
+            revivalTimerText.gameObject.SetActive(false);
+        }
+
+        Debug.Log("Player revived! Revival count: " + revivalCount);
     }
 
     private IEnumerator RegenerateHealth()
@@ -78,6 +195,7 @@ public class Player : MonoBehaviour, IDamageable
         isRegenerating = false;
     }
 }
+
 
 /*
 was getting annoyed with the dying so i just put it here for now
