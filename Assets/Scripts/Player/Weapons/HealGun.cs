@@ -25,7 +25,7 @@ public class HealGun : Weapon
         if (Input.GetButton("Fire1") && Time.time >= nextFireTime && currentBullets > 0)
         {
             nextFireTime = Time.time + fireRate;
-            Shoot();
+            HealLink();
         }
 
         if (currentBullets <= 0 && !isReloading)
@@ -39,14 +39,14 @@ public class HealGun : Weapon
         }
     }
 
-    void Shoot()
+    void HealLink()
     {
         RaycastHit hit;
         var bullet = Instantiate(bulletTrail, Nozzle.position, Quaternion.identity);
         bullet.AddPosition(Nozzle.position);
         bullet.transform.position = transform.position + (Nozzle.forward * 200);
 
-        SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 0.5f);
+        SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 0.5f);
 
         if (Physics.Raycast(FirePoint.position, FirePoint.forward, out hit, range))
         {
@@ -64,7 +64,14 @@ public class HealGun : Weapon
             IDamageable ally = hit.transform.GetComponent<IDamageable>();
             if (ally != null)
             {
-                ally.Heal(damage);
+                if (!ComponentManager.Instance.lockCamera)
+                {
+                    ally.Heal(damage * 8);
+                }
+                else
+                {
+                    ally.Heal(damage);
+                }
             }
         }
 

@@ -43,14 +43,7 @@ public class WaveSystem : MonoBehaviour
         string worldLevelStr = currentScene.name.Replace("Level", "");
         root = JsonHandler.ReadFileForWave("waves");
         worldLevelInt = int.Parse(worldLevelStr) - 1; // Remember that it is a array so it starts at 0 instead of 1
-        if (DifficultyHandler.Instance != null)
-        {
-            difficultyLevel = root.level[worldLevelInt].difficulty[DifficultyHandler.Instance.ReturnDifficultyInInt()];
-        }
-        else
-        {
-            difficultyLevel = root.level[worldLevelInt].difficulty[1]; // Default to medium
-        }
+        difficultyLevel = root.level[worldLevelInt].difficulty[DifficultyHandler.Instance.ReturnDifficultyInInt()];
         wavesToComplete = difficultyLevel.waves.Count;
         waveText.text = "Wave: " + 0 + "/" + wavesToComplete;
 
@@ -58,14 +51,7 @@ public class WaveSystem : MonoBehaviour
         // Stops it from moving the scene save down because player restarts after beating level 
         if (playerData.worldLevel < SceneManager.GetActiveScene().buildIndex)
         {
-            if (DifficultyHandler.Instance != null)
-            {
-                SaveScene.Save(SceneManager.GetActiveScene().buildIndex, DifficultyHandler.Instance.ReturnDifficultyInInt());
-            }
-            else
-            {
-                SaveScene.Save(SceneManager.GetActiveScene().buildIndex, 1); // Default to medium
-            }
+            SaveScene.Save(SceneManager.GetActiveScene().buildIndex, DifficultyHandler.Instance.ReturnDifficultyInInt());
         }
     }
 
@@ -82,6 +68,8 @@ public class WaveSystem : MonoBehaviour
             // If no enemies are left and the round is not in progess
             if (!EnemiesLeft() && !waveInProgress && !isLastRound)
             {
+                if (SoundFXManager.instance.globalAudioObject != default)
+                    SoundFXManager.instance.DestroyGlobalSound(SoundFXManager.instance.globalAudioObject);
                 // Allows the player to switch into build mode again
                 ComponentManager.Instance.lockCamera = false;
 
@@ -111,6 +99,9 @@ public class WaveSystem : MonoBehaviour
 
             if (!EnemiesLeft() && !waveInProgress && isLastRound && !winDisplayed)
             {
+                if (SoundFXManager.instance.globalAudioObject != default)
+                    SoundFXManager.instance.DestroyGlobalSound(SoundFXManager.instance.globalAudioObject);
+
                 ComponentManager.Instance.lockCamera = false;
                 ComponentManager.Instance.DisplayWinScreen();
                 SaveScene.Save(SceneManager.GetActiveScene().buildIndex + 1, DifficultyHandler.Instance.ReturnDifficultyInInt());
@@ -174,7 +165,7 @@ public class WaveSystem : MonoBehaviour
             {
                 timer += Time.deltaTime;
                 slider.value = timer;
-                if (timer >= 4)
+                if (timer >= 2)
                 {
                     BeginWave();
                     RewardMoney(intermissionTimer);
@@ -208,6 +199,7 @@ public class WaveSystem : MonoBehaviour
         round++;
         ComponentManager.Instance.SwitchToPlayerAndLockCamera();
         ComponentManager.Instance.CallCoroutine(ComponentManager.Instance.ShowMessage("Round Starting!"));
+        SoundFXManager.instance.PrepareSoundFXClip("inGameSound", transform, 1f, true);
         StartCoroutine(SpawnWave());
     }
 
@@ -253,6 +245,7 @@ public class WaveSystem : MonoBehaviour
 
     IEnumerator BeginIntermissionToNextWave()
     {
+
         intermissionTimer = 90;
         Debug.Log("Intermission!");
         currentlyInIntermission = true;

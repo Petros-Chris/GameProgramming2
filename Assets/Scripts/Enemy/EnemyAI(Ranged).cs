@@ -219,7 +219,7 @@ public class EnemyAI : MonoBehaviour
     public void TakeDamage(float damage, GameObject whoOwMe)
     {
         if(SoundFXManager.instance.chancePlaySound(3)){
-             SoundFXManager.instance.prepareSoundFXClipArray(audioPath, transform, 0.5f);
+             SoundFXManager.instance.PrepareSoundFXClipArray(audioPath, transform, 0.5f);
         }
         health -= damage;
 
@@ -228,7 +228,7 @@ public class EnemyAI : MonoBehaviour
         if (health <= 0)
         {
             if(SoundFXManager.instance.chancePlaySound(5)){
-             SoundFXManager.instance.prepareSoundFXClipArray(audioPath2, transform, 0.5f);
+             SoundFXManager.instance.PrepareSoundFXClipArray(audioPath2, transform, 0.5f);
         }
             CurrencyManager.Instance.Currency += value;
             Destroy(gameObject);

@@ -36,7 +36,7 @@ public class Building : MonoBehaviour
     {
         if (GetDeathParticle() == null)
         {
-            SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 0.5f);
+            SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 0.5f);
             Transform particleTransform = transform.Find("DestoryParticle");
 
             // Exits if it can't find the particle

@@ -44,7 +44,7 @@ public class Gun : Weapon
         bullet.AddPosition(Nozzle.position);
         bullet.transform.position = transform.position + (Nozzle.forward * 200);
 
-        SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 0.5f);
+        SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 0.5f);
 
         if (Physics.Raycast(FirePoint.position, FirePoint.forward, out hit, range))
         {

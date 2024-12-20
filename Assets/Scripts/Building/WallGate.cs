@@ -30,7 +30,7 @@ public class WallGate : Wall, IDamageable
 
     public void TakeDamage(float damage, GameObject whoOwMe = null)
     {
-        SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 0.5f);
+        SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 0.5f);
         health -= damage;
 
         getHealthBar().UpdateHealthBar(health, maxHealth);

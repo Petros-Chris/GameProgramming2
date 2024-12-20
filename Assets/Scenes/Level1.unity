@@ -384,6 +384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ae90d7e55f9b3c47979bcc70769bec5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  globalAudioObject: {fileID: 0}
   soundFXObject: {fileID: 6869252431926184811, guid: 52ddde3978ce7264fa6ee6852d74daac, type: 3}
 --- !u!4 &356127997
 Transform:
@@ -1437,6 +1438,14 @@ PrefabInstance:
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1451875520}
+    - target: {fileID: 3466221975335995165, guid: a5666a7a499bb8840b8eaefa139344f1, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1451875520}
+    - target: {fileID: 3466221975335995165, guid: a5666a7a499bb8840b8eaefa139344f1, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangeEggsMode
+      objectReference: {fileID: 0}
     - target: {fileID: 3664664199836416223, guid: a5666a7a499bb8840b8eaefa139344f1, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -1845,6 +1854,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 783447475}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1242058992
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1242058994}
+  - component: {fileID: 1242058993}
+  m_Layer: 0
+  m_Name: DifficultyHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1242058993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1242058992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce5407cf8fbf353469ac411b997bba95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  difficultyLevel: MediumMode
+--- !u!4 &1242058994
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1242058992}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 59.062363, y: 3.898385, z: 29.725277}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1359757050
 GameObject:
   m_ObjectHideFlags: 0
@@ -2120,6 +2174,10 @@ PrefabInstance:
       propertyPath: upgradeCanvas
       value: 
       objectReference: {fileID: 1913014579}
+    - target: {fileID: 6027331093200307310, guid: 8de0fd34093877344a86effe9a6b1c4e, type: 3}
+      propertyPath: eggsMode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6027331093200307310, guid: 8de0fd34093877344a86effe9a6b1c4e, type: 3}
       propertyPath: fpsNumber
       value: 
@@ -2975,6 +3033,7 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 3149601187699082152, guid: fb79ba4295ebaa049aaf5e69d6a35898, type: 3}
     - {fileID: 5202331677915166747, guid: fb79ba4295ebaa049aaf5e69d6a35898, type: 3}
+    - {fileID: 8817528843948566651, guid: fb79ba4295ebaa049aaf5e69d6a35898, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4440823292025215627, guid: fb79ba4295ebaa049aaf5e69d6a35898, type: 3}
@@ -3014,3 +3073,4 @@ SceneRoots:
   - {fileID: 1006774513}
   - {fileID: 989760740}
   - {fileID: 220087136}
+  - {fileID: 1242058994}
