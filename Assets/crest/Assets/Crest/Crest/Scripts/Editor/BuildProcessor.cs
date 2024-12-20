@@ -25,7 +25,7 @@ namespace Crest
     ///   stripping (eg _CAUSTICS_ON). We determine this by checking the keywords used in the ocean material.
     /// - the meniscus keyword (CREST_MENISCUS) which is set on the underwater renderer.
     /// </summary>
-    class BuildProcessor : IPreprocessShaders, IProcessSceneWithReport, IPreprocessBuildWithReport, IPostprocessBuildWithReport
+    class BuildProcessor : IPreprocessShaders, IProcessSceneWithReport, IPostprocessBuildWithReport
     {
         public int callbackOrder => 0;
         readonly List<Material> _oceanMaterials = new List<Material>();
@@ -75,34 +75,34 @@ namespace Crest
         int shaderVarientStrippedCount = 0;
 #endif
 
-        public void OnPreprocessBuild(BuildReport report)
-        {
-            // Full coverage (Resources only).
-            foreach (var material in Resources.LoadAll("", typeof(Material)).Cast<Material>())
-            {
-                if (IsWaterMaterial(material) && !_oceanMaterials.Contains(material))
-                {
-                    _oceanMaterials.Add(material);
-                }
-            }
+//         public void OnPreprocessBuild(BuildReport report)
+//         {
+//             // Full coverage (Resources only).
+//             foreach (var material in Resources.LoadAll("", typeof(Material)).Cast<Material>())
+//             {
+//                 if (IsWaterMaterial(material) && !_oceanMaterials.Contains(material))
+//                 {
+//                     _oceanMaterials.Add(material);
+//                 }
+//             }
 
-#if CREST_UNITY_ADDRESSABLES
-            // Full coverage (Addressables only).
-            List<AddressableAssetEntry> assets = new List<AddressableAssetEntry>();
-            AddressableAssetSettingsDefaultObject.Settings?.GetAllAssets(assets, includeSubObjects: true);
-            foreach (var asset in assets)
-            {
-                if (asset.parentGroup.GetSchema<BundledAssetGroupSchema>()?.IncludeInBuild == true)
-                {
-                    var material = asset.MainAsset as Material;
-                    if (IsWaterMaterial(material) && !_oceanMaterials.Contains(material))
-                    {
-                        _oceanMaterials.Add(material);
-                    }
-                }
-            }
-#endif
-        }
+// #if CREST_UNITY_ADDRESSABLES
+//             // Full coverage (Addressables only).
+//             List<AddressableAssetEntry> assets = new List<AddressableAssetEntry>();
+//             AddressableAssetSettingsDefaultObject.Settings?.GetAllAssets(assets, includeSubObjects: true);
+//             foreach (var asset in assets)
+//             {
+//                 if (asset.parentGroup.GetSchema<BundledAssetGroupSchema>()?.IncludeInBuild == true)
+//                 {
+//                     var material = asset.MainAsset as Material;
+//                     if (IsWaterMaterial(material) && !_oceanMaterials.Contains(material))
+//                     {
+//                         _oceanMaterials.Add(material);
+//                     }
+//                 }
+//             }
+// #endif
+//         }
 
         public void OnProcessScene(Scene scene, BuildReport report)
         {

@@ -89,8 +89,13 @@ public class GameMenu : MonoBehaviour
 
     public void OpenSetting()
     {
+        if (settingMenu == null)
+        {
+            settingMenu = Settings.Instance.settingMenuInstance;
+        }
         SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 1f);
-        gameMenu.SetActive(false);
+        if (gameMenu != null)
+            gameMenu.SetActive(false);
         settingMenu.SetActive(true);
         isSubMenuOpen = true;
     }

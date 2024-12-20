@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class MenuController : MonoBehaviour
 {
@@ -7,7 +9,7 @@ public class MenuController : MonoBehaviour
     private string audioPath = "GUI";
     public void StartGame()
     {
-        SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 1f);
+        // SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 1f);
         SaveScene.Save(0, 0);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
@@ -81,6 +83,28 @@ public class MenuController : MonoBehaviour
         }
         // Loads the last level the player was in
         SceneManager.LoadScene(playerData.worldLevel);
+    }
+
+    public void SelectDifficulty()
+    {
+        Button button = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
+        switch (button.name)
+        {
+            case "EasyMode":
+                DifficultyHandler.Instance.difficultyLevel = "EasyMode";
+                break;
+            case "MediumMode":
+                DifficultyHandler.Instance.difficultyLevel = "MediumMode";
+                break;
+            case "HardMode":
+                DifficultyHandler.Instance.difficultyLevel = "HardMode";
+                break;
+            case "DeathMode":
+                DifficultyHandler.Instance.difficultyLevel = "DeathMode";
+                break;
+        }
+        // Goes Next Level
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }
 
