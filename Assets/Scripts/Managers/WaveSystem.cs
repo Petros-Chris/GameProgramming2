@@ -140,7 +140,7 @@ public class WaveSystem : MonoBehaviour
     {
         if (ComponentManager.Instance.hasPlayerDied)
         {
-            SoundFXManager.instance.prepareSoundFXClip(audioPath2, transform, 0.5f);
+            SoundFXManager.instance.PrepareSoundFXClip(audioPath2, transform, 0.5f);
             playerToCreate = Resources.Load<GameObject>("Prefabs/Characters/Player");
 
             Instantiate(playerToCreate, wherePlayerSpawn, Quaternion.identity);
@@ -256,7 +256,7 @@ public class WaveSystem : MonoBehaviour
             yield return new WaitForSeconds(1f);
             EnemyOrTimerText.text = "Time Until Next Round " + --intermissionTimer;
             if(intermissionTimer == 5){
-                    SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 0.5f);
+                    SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 0.5f);
             }
         }
         EnemyOrTimerText.text = "Round Starting!";
