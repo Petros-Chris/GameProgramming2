@@ -5,6 +5,7 @@ using UnityEngine;
 public class SoundFXManager : MonoBehaviour
 {
     public static SoundFXManager instance;
+    public AudioSource globalAudioObject;
 
     Settings gameManager;
     //public float volume = 1f;
@@ -18,7 +19,7 @@ public class SoundFXManager : MonoBehaviour
         gameManager = GameObject.Find("GameManager").GetComponent<Settings>();
     }
 
-    public void prepareSoundFXClip(string audioClip, Transform spawnTransform, float volume)
+    public void PrepareSoundFXClip(string audioClip, Transform spawnTransform, float volume, bool isGlobal = false)
     {
         string path = "Sounds/" + gameManager.soundPath + "/" + audioClip;
         AudioClip clip = Resources.Load<AudioClip>(path);
@@ -26,11 +27,18 @@ public class SoundFXManager : MonoBehaviour
         {
             Debug.LogError($"AudioClip not found at path: {path}. Ensure the path is correct and the file is in the Resources folder.");
         }
+
+        if (isGlobal)
+        {
+            PlayGlobalSound(clip, spawnTransform, volume);
+            return;
+        }
+
         PlaySoundFXClip(clip, spawnTransform, volume);
 
     }
 
-    public void prepareSoundFXClipArray(string[] audioClip, Transform spawnTransform, float volume)
+    public void PrepareSoundFXClipArray(string[] audioClip, Transform spawnTransform, float volume)
     {
         AudioClip[] clip = new AudioClip[audioClip.Length];
         for (int i = 0; i < audioClip.Length; i++)
@@ -67,7 +75,29 @@ public class SoundFXManager : MonoBehaviour
         float clipLength = audioSource.clip.length;
 
         Destroy(audioSource.gameObject, clipLength);
+    }
 
+    public void PlayGlobalSound(AudioClip audioClip, Transform spawnTransform, float volume)
+    {
+        AudioSource audioSource = Instantiate(soundFXObject, spawnTransform.position, Quaternion.identity);
+
+        audioSource.clip = audioClip;
+
+        audioSource.volume = volume;
+        
+        audioSource.loop = true;
+
+        audioSource.spread = 360;
+
+        audioSource.Play();
+
+        globalAudioObject = audioSource;
+    }
+
+    public void DestroyGlobalSound(AudioSource audioSource)
+    {
+        audioSource.Stop();
+        Destroy(audioSource.gameObject);
     }
 
     public void PlayRandomSoundFXClip(AudioClip[] audioClip, Transform spawnTransform, float volume)

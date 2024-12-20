@@ -76,7 +76,7 @@ public class Kingdom : Building, IDamageable
 
     public void TakeDamage(float damage, GameObject whoOwMe = default)
     {
-        SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 0.5f);
+        SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 0.5f);
         health -= damage;
 
         getHealthBar().UpdateHealthBar(health, maxHealth);
@@ -88,7 +88,7 @@ public class Kingdom : Building, IDamageable
         {
             for (int i = 0; i < 4; i++)
             {
-                SoundFXManager.instance.prepareSoundFXClip(audioPath2, transform, 0.5f);
+                SoundFXManager.instance.PrepareSoundFXClip(audioPath2, transform, 0.5f);
                 Instantiate(ally, SpawnPointForAlly, transform.rotation);
                 
             }
@@ -100,7 +100,7 @@ public class Kingdom : Building, IDamageable
 
             for (int i = 0; i < 7; i++)
             {
-                SoundFXManager.instance.prepareSoundFXClip(audioPath2, transform, 0.5f);
+                SoundFXManager.instance.PrepareSoundFXClip(audioPath2, transform, 0.5f);
                 Instantiate(ally, SpawnPointForAlly, transform.rotation);
             }
             toggleOnce++;

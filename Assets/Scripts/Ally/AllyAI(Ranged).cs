@@ -142,7 +142,7 @@ public class AllyAI : MonoBehaviour, IDamageable
     public void TakeDamage(float damage, GameObject whoOwMe)
     {
         if(SoundFXManager.instance.chancePlaySound(10)){
-             SoundFXManager.instance.prepareSoundFXClipArray(audioPath, transform, 0.5f);
+             SoundFXManager.instance.PrepareSoundFXClipArray(audioPath, transform, 0.5f);
         }
         health -= damage;
 
@@ -164,7 +164,7 @@ public class AllyAI : MonoBehaviour, IDamageable
         if (health <= 0)
         {
            if(SoundFXManager.instance.chancePlaySound(20)){
-             SoundFXManager.instance.prepareSoundFXClipArray(audioPath2, transform, 0.5f);
+             SoundFXManager.instance.PrepareSoundFXClipArray(audioPath2, transform, 0.5f);
         }
             Destroy(gameObject);
         }

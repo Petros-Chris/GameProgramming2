@@ -6,13 +6,14 @@ using UnityEngine.UI;
 public class DifficultyHandler : MonoBehaviour
 {
     public static DifficultyHandler Instance { get; private set; }
-    public string difficultyLevel;
+    public string difficultyLevel = "MediumMode";
 
-    void Start()
+    void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {

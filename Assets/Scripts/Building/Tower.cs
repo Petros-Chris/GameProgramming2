@@ -19,7 +19,7 @@ public class Tower : Building, IDamageable
     }
     public void TakeDamage(float damage, GameObject whoOwMe)
     {
-        SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 0.5f);
+        SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 0.5f);
         health -= damage;
 
         getHealthBar().UpdateHealthBar(health, maxHealth);

@@ -3,7 +3,12 @@ guid: d6871501bf6e0684a9993315c9e66329
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CrownMat
+    second: {fileID: 2100000, guid: 8bd5a62d7d531f94991f72954a4abd05, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

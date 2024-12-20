@@ -81,7 +81,7 @@ public class GameMenu : MonoBehaviour
 
     public void AbandonKingdom()
     {
-        SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 1f);
+        SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 1f);
         ResumeGame();
         ComponentManager.Instance.FocusCursor(false);
         SceneManager.LoadScene(0);
@@ -89,7 +89,7 @@ public class GameMenu : MonoBehaviour
 
     public void OpenSetting()
     {
-        SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 1f);
+        SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 1f);
         gameMenu.SetActive(false);
         settingMenu.SetActive(true);
         isSubMenuOpen = true;
@@ -97,7 +97,7 @@ public class GameMenu : MonoBehaviour
 
     public void CloseSetting()
     {
-        SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 1f);
+        SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 1f);
         settingMenu.SetActive(false);
         gameMenu.SetActive(true);
         isSubMenuOpen = false;
@@ -105,7 +105,7 @@ public class GameMenu : MonoBehaviour
 
     public void ResetPlayerPosition()
     {
-        SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 1f);
+        SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 1f);
         GameObject player = GameObject.Find("Player");
         PlayerMovementAdvanced movement = player.GetComponent<PlayerMovementAdvanced>();
         GameObject fishKingdom = GameObject.Find("FishKingdom");

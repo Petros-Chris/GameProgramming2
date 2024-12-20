@@ -264,7 +264,7 @@ public class UpgradeController : MonoBehaviour
 
     void UpgradeBuildingHealth(int ch, Button button)
     {
-        SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 1f);
+        SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 1f);
         if (building.SetMaxHealth(upgrades[0].maxHealth))
         {
             //TODO: Somehow make the button remmeber last state
@@ -276,7 +276,7 @@ public class UpgradeController : MonoBehaviour
     }
     void UpgradeBuildingAttack(int ch, Button button)
     {
-        SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 1f);
+        SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 1f);
         // This 1 took me 40 mins to debug :"(
         if (building.SetAttack(upgrades[1].attack))
         {
@@ -285,7 +285,7 @@ public class UpgradeController : MonoBehaviour
     }
     void AddSpawnInTroubleUpgrade(int ch, Button button)
     {
-        SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 1f);
+        SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 1f);
         if (building is Kingdom kingdom)
         {
             kingdom.SetEmergencyAllySpawn(upgrades[2].emergencyAllySpawn);
@@ -311,7 +311,7 @@ public class UpgradeController : MonoBehaviour
     }
     public void CloseUpgradeMenu()
     {
-        SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 1f);
+        SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 1f);
         upgradeCanvas.SetActive(false);
         shouldValuesBeUpdated = false;
         GameMenu.Instance.isUpdateMenuOpen = false;

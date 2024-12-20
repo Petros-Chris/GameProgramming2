@@ -40,14 +40,14 @@ public class RocketGun : Weapon
 
     void ExplosiveShot()
     {  
-        SoundFXManager.instance.prepareSoundFXClip(audioPath2, transform, 0.5f);
+        SoundFXManager.instance.PrepareSoundFXClip(audioPath2, transform, 0.5f);
         RaycastHit hit;
         if (Physics.Raycast(FirePoint.position, FirePoint.forward, out hit, range))
         {
            
             if (ExplosionEffect != null)
             {
-                 SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 0.5f);
+                 SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 0.5f);
                 GameObject explosion = Instantiate(ExplosionEffect, hit.point, Quaternion.identity);
                 Destroy(explosion, 2.0f);
             }

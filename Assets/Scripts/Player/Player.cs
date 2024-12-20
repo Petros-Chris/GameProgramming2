@@ -32,7 +32,7 @@ public class Player : MonoBehaviour, IDamageable
     public void TakeDamage(float damage, GameObject whoOwMe = default)
     {
         if(SoundFXManager.instance.chancePlaySound(3)){
-             SoundFXManager.instance.prepareSoundFXClipArray(audioPath, transform, 0.5f);
+             SoundFXManager.instance.PrepareSoundFXClipArray(audioPath, transform, 0.5f);
         }
         health -= damage;
         lastDamageTime = Time.time;
@@ -43,7 +43,7 @@ public class Player : MonoBehaviour, IDamageable
         }
         if (health <= 0)
         {
-            SoundFXManager.instance.prepareSoundFXClipArray(audioPath2, transform, 0.5f);
+            SoundFXManager.instance.PrepareSoundFXClipArray(audioPath2, transform, 0.5f);
             Destroy(gameObject);
             ComponentManager.Instance.hasPlayerDied = true;
             // Switch cameras

@@ -161,7 +161,7 @@ public class BuildController : MonoBehaviour
         {
             return;
         }
-        SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 1f);
+        SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 1f);
         button = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
         string towerName = button.name.Replace("Btn", "");
 
@@ -179,7 +179,7 @@ public class BuildController : MonoBehaviour
 
     public void SelectedDeleteBtn()
     {
-        SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 1f);
+        SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 1f);
         shouldOutline = false;
         shouldOutlineDelete = true;
         StartCoroutine(HighlightTower());

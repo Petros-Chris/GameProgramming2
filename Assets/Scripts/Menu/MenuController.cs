@@ -7,14 +7,14 @@ public class MenuController : MonoBehaviour
     private string audioPath = "GUI";
     public void StartGame()
     {
-        SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 1f);
+        SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 1f);
         SaveScene.Save(0, 0);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public void GoNextLevel()
     {
-        SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 1f);
+        SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 1f);
         GameMenu.Instance.ResumeGame();
         ComponentManager.Instance.FocusCursor(false);
         // Go back to main menu as there is no game left (skips loseScreen)
@@ -31,13 +31,13 @@ public class MenuController : MonoBehaviour
 
     public void PlayAgain()
     {
-        SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 1f);
+        SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 1f);
         SceneManager.LoadScene(0);
     }
 
     public void RestartGame()
     {
-        SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 1f);
+        SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 1f);
         GameMenu.Instance.ResumeGame();
         didKingdomDie = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -45,12 +45,12 @@ public class MenuController : MonoBehaviour
 
     public void ExitGame()
     {
-        SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 1f);
+        SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 1f);
         Application.Quit();
     }
     public void ContinueWhereYouLeftOff()
     {
-        SoundFXManager.instance.prepareSoundFXClip(audioPath, transform, 1f);
+        SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 1f);
         SaveScene.DataToSave playerData = SaveScene.ReadSaveFile();
 
         // Im converting the string I made into a int back into a string here ;(
