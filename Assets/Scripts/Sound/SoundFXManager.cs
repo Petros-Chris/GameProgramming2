@@ -8,7 +8,7 @@ public class SoundFXManager : MonoBehaviour
     public AudioSource globalAudioObject;
 
     Settings gameManager;
-    string soundPath; // TODO: make settings exist everywhere
+    public string soundPath = "SoundFX"; // TODO: make settings exist everywhere
     //public float volume = 1f;
     [SerializeField] private AudioSource soundFXObject;
     private void Awake()
@@ -16,11 +16,14 @@ public class SoundFXManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-        if (GameObject.Find("GameManager"))
-            gameManager = GameObject.Find("GameManager").GetComponent<Settings>();
         else
-            soundPath = "SoundFX";
+        {
+            Destroy(gameObject);
+        }
+
+        gameManager = GameObject.Find("DifficultyController").GetComponent<Settings>();
     }
 
     public void PrepareSoundFXClip(string audioClip, Transform spawnTransform, float volume, bool isGlobal = false, bool isLoop = false)
@@ -41,13 +44,13 @@ public class SoundFXManager : MonoBehaviour
         {
             PlayGlobalSound(clip, spawnTransform, volume);
             return;
-        }else if(isGlobal && !isLoop){
+        }
+        else if (isGlobal && !isLoop)
+        {
             PlayGlobalSoundNoLoop(clip, spawnTransform, volume);
         }
-        
 
         PlaySoundFXClip(clip, spawnTransform, volume);
-
     }
 
     public void PrepareSoundFXClipArray(string[] audioClip, Transform spawnTransform, float volume)

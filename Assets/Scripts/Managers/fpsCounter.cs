@@ -13,6 +13,14 @@ public class FramerateCounter : MonoBehaviour
 
     void Update()
     {
+        if (uiText == null)
+        {
+            if (Settings.Instance.fpsGuiInstance != null)
+            {
+                uiText = Settings.Instance.fpsGuiInstance.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+            }
+        }
+
         m_AccumulatedDeltaTime += Time.deltaTime;
         m_AccumulatedFrameCount++;
 

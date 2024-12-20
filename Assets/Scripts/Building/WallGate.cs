@@ -28,7 +28,8 @@ public class WallGate : Wall, IDamageable
 
     void Update()
     {
-        GateHandler();
+        InvokeRepeating("GateHandler", 0, 1);
+        GateMovement();
     }
 
     public void TakeDamage(float damage, GameObject whoOwMe = null)
@@ -71,6 +72,20 @@ public class WallGate : Wall, IDamageable
             OpenGate();
         }
         return;
+    }
+
+    public void GateMovement()
+    {
+        // if (mewo == 1)
+        // {
+        //     Debug.Log("Play Close Sound!");
+        //     mewo++;
+        // }
+        // else if (mewo2 == 1)
+        // {
+        //     Debug.Log("Play Open Sound!");
+        //     mewo2++;
+        // }
     }
 
     public void CloseGate()

@@ -1,7 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public class DifficultyHandler : MonoBehaviour
 {
@@ -19,28 +16,6 @@ public class DifficultyHandler : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-
-    public void SelectDifficulty()
-    {
-        Button button = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
-        switch (button.name)
-        {
-            case "EasyMode":
-                Instance.difficultyLevel = "EasyMode";
-                break;
-            case "MediumMode":
-                Instance.difficultyLevel = "MediumMode";
-                break;
-            case "HardMode":
-                Instance.difficultyLevel = "HardMode";
-                break;
-            case "DeathMode":
-                Instance.difficultyLevel = "DeathMode";
-                break;
-        }
-        // Goes Next Level
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public int ReturnDifficultyInInt()

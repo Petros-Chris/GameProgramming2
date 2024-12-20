@@ -6,105 +6,230 @@ using UnityEngine.Audio;
 
 public class Settings : MonoBehaviour
 {
-    public int vsyncOptions = 0;
-    public int frameRate = 0;
+    public static Settings Instance { get; private set; }
+    public GameObject settingsMenu;
+    public GameObject fpsSliderGO;
     public Slider fpsSlider;
     public TextMeshProUGUI fpsNumber;
-    public GameObject fpsDisplay;
-    // Slider
-    public Slider vsyncSlider;
-    public TextMeshProUGUI vsyncNumber;
+    public GameObject fpsDisplay; // To show player current fps in game
+    public GameObject vSyncSliderGO;
+    public Slider vSyncSlider;
+    public TextMeshProUGUI vSyncNumber;
+    public Toggle displayFpsToggle;
+    public Toggle screenModeToggle;
+    public Toggle eggsModeToggle;
+    public Button applyChangesBtn;
+
+
     public string soundPath;
-    public bool eggsMode;
     private string audioPath = "GUI";
-    bool toggleCount;
     [SerializeField] private AudioMixer audioMixer;
+
+    SaveSetting.DataToSave settings;
+    SaveSetting.DataToSave fileSettings;
+    private GameObject settingsMenuPrefab;
+    private GameObject fpsDisplayOnDashboard;
+    private Button exitSettings;
+
+    public GameObject fpsGuiInstance;
+    public GameObject settingMenuInstance;
+
+    // public int vSyncOptions = 0;
+    // public int frameRate = 0;
+    int changeVSync;
+    int frameRate;
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        settingsMenuPrefab = Resources.Load<GameObject>("PreFabs/GUI/SettingMenu");
+        fpsDisplayOnDashboard = Resources.Load<GameObject>("PreFabs/GUI/FpsGui");
+
+        Setup();
+
+    }
 
     void Start()
     {
-        eggsMode = false;
-        soundPath = "SoundFX";
-        ChangeFrameRate();
-        ChangeVsync();
+        // ChangeFrameRate();
+        // ChangeVsync();
+
+        // fileSettings = SaveSetting.LoadUserSettings();
+        // ApplySettings(false);
         // JsonHandler.Save();
         // JsonHandler.DataToSave data = JsonHandler.ReadFile("settings");
         // frameRate = data.frameRate;
         // vsyncOptions = data.vsyncOption;
     }
 
-    public void ChangeFrameRate()
+    void Update()
     {
-        frameRate = (int)fpsSlider.value;
+        if (settingsMenu == null)
+            Setup();
+    }
 
-        if (vsyncOptions != 0)
+    public void Setup()
+    {
+        if (settingsMenu == default)
         {
-            vsyncNumber.text = "Off";
-            QualitySettings.vSyncCount = 0;
-            vsyncSlider.value = 0;
+            settingMenuInstance = Instantiate(settingsMenuPrefab, Vector3.zero, Quaternion.identity);
+            settingMenuInstance.name = "SettingMenu";
+            fpsGuiInstance = Instantiate(fpsDisplayOnDashboard, Vector3.zero, Quaternion.identity);
+            fpsGuiInstance.name = "FpsGui";
+        }
+        settingsMenu = settingMenuInstance;
+        fpsDisplay = fpsGuiInstance;
+
+        // Initalizes fps sldier related things at the beginning
+        fpsSliderGO = GameObject.Find("FpsSlider");
+        fpsSlider = fpsSliderGO.GetComponent<Slider>();
+        fpsSlider.onValueChanged.AddListener(ChangeFrameRate);
+        fpsNumber = fpsSliderGO.transform.Find("Fps").gameObject.GetComponent<TextMeshProUGUI>();
+
+        // Initalizes vsync sldier related things at the beginning
+        vSyncSliderGO = GameObject.Find("VSyncSlider");
+        vSyncSlider = vSyncSliderGO.GetComponent<Slider>();
+        vSyncSlider.onValueChanged.AddListener(ChangeVSync);
+        vSyncNumber = vSyncSliderGO.transform.Find("VSync").gameObject.GetComponent<TextMeshProUGUI>();
+
+        displayFpsToggle = GameObject.Find("DisplayFpsToggle").GetComponent<Toggle>();
+        displayFpsToggle.onValueChanged.AddListener(DisplayFps);
+        screenModeToggle = GameObject.Find("FullScreenToggle").GetComponent<Toggle>();
+        screenModeToggle.onValueChanged.AddListener(ToggleScreen);
+        eggsModeToggle = GameObject.Find("EggsToggle").GetComponent<Toggle>();
+        eggsModeToggle.onValueChanged.AddListener(ChangeEggsMode);
+
+        applyChangesBtn = GameObject.Find("SaveSettingsBtn").GetComponent<Button>();
+        applyChangesBtn.onClick.AddListener(ApplySettingsAndSave);
+        exitSettings = GameObject.Find("CloseSettingButton").GetComponent<Button>();
+        exitSettings.onClick.AddListener(CloseSetting);
+
+        // Gets everything from file
+        settings = SaveSetting.LoadUserSettings();
+        // Initalizes it
+        ApplySettings();
+        settingsMenu.SetActive(false);
+    }
+
+    private void CloseSetting()
+    {
+        if (GameMenu.Instance != null)
+        {
+            GameMenu.Instance.CloseSetting();
+            return;
+        }
+        //Fall Back
+        SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 1f);
+        settingsMenu.SetActive(false);
+    }
+
+    private void ChangeFrameRate(float a)
+    {
+        settings.frameRate = (int)fpsSlider.value;
+        FrameRateApply();
+    }
+
+    public void FrameRateApply(bool apply = false)
+    {
+        if (settings.vSyncLevel != 0 && settings.frameRate != 0)
+        {
+            vSyncNumber.text = "Off";
+            if (apply)
+                QualitySettings.vSyncCount = 0;
+            vSyncSlider.value = 0;
+            settings.vSyncLevel = 0;
         }
 
         if (fpsSlider.value == 9)
         {
             fpsNumber.text = "Unlimited";
-            Application.targetFrameRate = 0;
+            if (apply)
+                Application.targetFrameRate = 0;
+            settings.frameRate = 0;
         }
         else
         {
-            fpsNumber.text = frameRate.ToString();
-            Application.targetFrameRate = frameRate;
+            fpsNumber.text = settings.frameRate.ToString();
+            if (apply)
+                Application.targetFrameRate = settings.frameRate;
         }
     }
 
-    //Doesn't seem to change anything
-    public void ChangeVsync()
+    public void ChangeVSync(float a)
     {
-        vsyncOptions = (int)vsyncSlider.value;
+        settings.vSyncLevel = (int)vSyncSlider.value;
+        VSyncApply();
+    }
 
-        if (frameRate != 0)
+    public void VSyncApply(bool apply = false)
+    {
+        if (settings.frameRate != 0 && settings.vSyncLevel != 0)
         {
             fpsNumber.text = "Unlimited";
-            Application.targetFrameRate = 0;
+            if (apply)
+                Application.targetFrameRate = 0;
             fpsSlider.value = 0;
+            settings.frameRate = 0;
         }
 
-        switch (vsyncOptions)
+        switch (settings.vSyncLevel)
         {
             case 0:
-                QualitySettings.vSyncCount = 0;
-                vsyncNumber.text = "Off";
+                if (apply)
+                    QualitySettings.vSyncCount = 0;
+                vSyncNumber.text = "Off";
+                settings.vSyncLevel = 0;
                 break;
             case 1:
-                QualitySettings.vSyncCount = 1;
-                vsyncNumber.text = "Refresh Rate";
+                if (apply)
+                    QualitySettings.vSyncCount = 1;
+                vSyncNumber.text = "Refresh Rate";
+                settings.vSyncLevel = 1;
                 break;
             case 2:
-                QualitySettings.vSyncCount = 2;
-                vsyncNumber.text = "1/2 Refresh Rate";
+                if (apply)
+                    QualitySettings.vSyncCount = 2;
+                vSyncNumber.text = "1/2 Refresh Rate";
+                settings.vSyncLevel = 2;
                 break;
             case 3:
-                QualitySettings.vSyncCount = 3;
-                vsyncNumber.text = "1/3 Refresh Rate";
+                if (apply)
+                    QualitySettings.vSyncCount = 3;
+                vSyncNumber.text = "1/3 Refresh Rate";
+                settings.vSyncLevel = 3;
                 break;
             case 4:
-                QualitySettings.vSyncCount = 4;
-                vsyncNumber.text = "1/4 Refresh Rate";
+                if (apply)
+                    QualitySettings.vSyncCount = 4;
+                vSyncNumber.text = "1/4 Refresh Rate";
+                settings.vSyncLevel = 4;
                 break;
         }
     }
 
-    //TODO: Get it to see the isOn in the toggle itself
     public void DisplayFps(bool isOn)
     {
-        SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 1f);
-        toggleCount = !toggleCount;
-        fpsDisplay.SetActive(toggleCount);
+        if (SoundFXManager.instance != null)
+            SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 1f);
+        settings.displayFps = isOn;
     }
 
-    //TODO: Get it to see the isOn in the toggle itself
-    public void ToggleScreen()
+    public void ToggleScreen(bool isOn)
     {
-        SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 1f);
-        Screen.fullScreen = !Screen.fullScreen;
+        if (SoundFXManager.instance != null)
+            SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 1f);
+        settings.fullScreen = isOn;
+        // Screen.fullScreen = isOn;
 
         // if (!Screen.fullScreen)
         // {
@@ -115,18 +240,26 @@ public class Settings : MonoBehaviour
         //     Screen.SetResolution(Display.main.systemWidth, Display.main.systemHeight, true);
         // }
     }
-
     public void ChangeScreenResoultion()
     {
-        SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 1f);
+        if (SoundFXManager.instance != null)
+            SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 1f);
         Screen.SetResolution(640, 480, false);
     }
 
-    public void ChangeEggsMode()
+    public void ChangeEggsMode(bool isOn)
     {
-        SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 1f);
-        eggsMode = !eggsMode;
-        if (eggsMode)
+        if (SoundFXManager.instance != null)
+            SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 1f);
+        settings.eggsMode = isOn;
+    }
+
+    public void ApplySettings()
+    {
+        fpsDisplay.SetActive(settings.displayFps);
+        Screen.fullScreen = settings.fullScreen;
+
+        if (settings.eggsMode)
         {
             soundPath = "EggsSoundFX";
         }
@@ -134,15 +267,37 @@ public class Settings : MonoBehaviour
         {
             soundPath = "SoundFX";
         }
+
+        vSyncSlider.value = settings.vSyncLevel;
+        fpsSlider.value = settings.frameRate;
+
+        VSyncApply(true);
+        FrameRateApply(true);
+
+        // Updates all toggles to reflect the proper values
+        displayFpsToggle.isOn = settings.displayFps;
+        screenModeToggle.isOn = settings.fullScreen;
+        eggsModeToggle.isOn = settings.eggsMode;
+
+        // TODO: have player confirm settings before saving them incase it is bad
     }
 
-    public void SetMasterVolume(float level){
+    public void ApplySettingsAndSave()
+    {
+        ApplySettings();
+        SaveSetting.Save(settings.displayFps, settings.fullScreen, settings.eggsMode, settings.frameRate, settings.vSyncLevel);
+    }
+
+    public void SetMasterVolume(float level)
+    {
 
     }
-    public void SetSoundFXVolume(float level){
+    public void SetSoundFXVolume(float level)
+    {
 
     }
-    public void SetMusicVolume(float level){
+    public void SetMusicVolume(float level)
+    {
 
     }
 }
