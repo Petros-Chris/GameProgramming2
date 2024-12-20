@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 63b3bc0d3461d1441b7fb48854350a38, type: 2}
+  - {fileID: 2100000, guid: 92b14026d9b4fa642b3c7d0c81d5b3aa, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -260,3 +260,4 @@ MonoBehaviour:
   reloadKey: 114
   ExplosionEffect: {fileID: 8662618904407489197, guid: 7c5cb6ec6b53a304b8a693b00fd7fb52, type: 3}
   explosionRadius: 10
+  audioPath2: 
