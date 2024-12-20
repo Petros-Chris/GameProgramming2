@@ -1944,6 +1944,8 @@ MonoBehaviour:
   waveText: {fileID: 944484303}
   EnemyOrTimerText: {fileID: 1649381547}
   wherePlayerSpawn: {x: 52, y: 0.9, z: 22}
+  audioPath: CountDownStartRound
+  audioPath2: PlayerRespawn
 --- !u!4 &1874242760
 Transform:
   m_ObjectHideFlags: 0
@@ -2651,6 +2653,14 @@ PrefabInstance:
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 977220439}
+    - target: {fileID: 3466221975335995165, guid: a5666a7a499bb8840b8eaefa139344f1, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 977220439}
+    - target: {fileID: 3466221975335995165, guid: a5666a7a499bb8840b8eaefa139344f1, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangeEggsMode
+      objectReference: {fileID: 0}
     - target: {fileID: 3664664199836416223, guid: a5666a7a499bb8840b8eaefa139344f1, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
