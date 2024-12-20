@@ -89,12 +89,6 @@ public class Settings : MonoBehaviour
                 break;
         }
     }
-    /*
-                {"wave":2,"totalEnemies":20,"enemies":[{"type":"Ranged","count":20}]},
-            {"wave":3,"totalEnemies":30,"enemies":[{"type":"Ranged","count":30}]},
-            {"wave":4,"totalEnemies":40,"enemies":[{"type":"Ranged","count":40}]},
-            {"wave":5,"totalEnemies":50,"enemies":[{"type":"Ranged","count":50}]},
-            {"wave":6,"totalEnemies":60,"enemies":[{"type":"Ranged","count":60}]}*/
 
     //TODO: Get it to see the isOn in the toggle itself
     public void DisplayFps(bool isOn)
@@ -126,14 +120,17 @@ public class Settings : MonoBehaviour
         Screen.SetResolution(640, 480, false);
     }
 
-    public void ChangeEggsMode(){
+    public void ChangeEggsMode()
+    {
         SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 1f);
         eggsMode = !eggsMode;
-        if(eggsMode){
+        if (eggsMode)
+        {
             soundPath = "EggsSoundFX";
-        }else{
+        }
+        else
+        {
             soundPath = "SoundFX";
         }
-
     }
 }
