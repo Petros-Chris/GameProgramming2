@@ -16,7 +16,7 @@ public class Weapon : MonoBehaviour
     public int currentBullets;
     public bool isReloading = false;
     public float nextFireTime = 0f;
-    [SerializeField] public string audioPath;
+    [SerializeField] public string audioPath0;
     public TrailRenderer bulletTrail;
     public KeyCode reloadKey = KeyCode.R;
 

@@ -138,7 +138,6 @@ GameObject:
   - component: {fileID: 2600154367595371476}
   - component: {fileID: 1695365785684498074}
   - component: {fileID: 8833428608496302843}
-  - component: {fileID: 8680405024205980135}
   m_Layer: 8
   m_Name: WeaponHead
   m_TagString: Untagged
@@ -256,33 +255,6 @@ MonoBehaviour:
   currentBullets: 0
   isReloading: 0
   nextFireTime: 0
-  audioPath: 
-  bulletTrail: {fileID: -3532444799092184316, guid: 7c4fdb9598a3a13418903244566024b5, type: 3}
-  reloadKey: 114
---- !u!114 &8680405024205980135
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8260616452319048364}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41f4ff1811c95944089d319b652a8266, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HitPoint: {fileID: 8662618904407489197, guid: 513ae5b6720ac7b41bbce90212e444d3, type: 3}
-  Fire: {fileID: 1768110566680697574, guid: 5a07cf734e9b87344b8f4689b67a75d9, type: 3}
-  FirePoint: {fileID: 0}
-  Nozzle: {fileID: 0}
-  range: 100
-  damage: 30
-  magazineSize: 5
-  reloadTime: 3
-  fireRate: 1
-  currentBullets: 0
-  isReloading: 0
-  nextFireTime: 0
-  audioPath: 
-  bulletTrail: {fileID: -3532444799092184316, guid: 7c4fdb9598a3a13418903244566024b5, type: 3}
+  audioPath0: 
+  bulletTrail: {fileID: -3532444799092184316, guid: d9e31b006fbdd5741b47d6e5e001dac3, type: 3}
   reloadKey: 114

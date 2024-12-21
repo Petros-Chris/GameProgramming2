@@ -28,23 +28,17 @@ public class Settings : MonoBehaviour
     public Slider musicVolume;
 
 
-    public string soundPath;
+    public string pathForSound;
     private string audioPath = "GUI";
     [SerializeField] private AudioMixer audioMixer;
 
     SaveSetting.DataToSave settings;
-    SaveSetting.DataToSave fileSettings;
     private GameObject settingsMenuPrefab;
     private GameObject fpsDisplayOnDashboard;
     private Button exitSettings;
 
     public GameObject fpsGuiInstance;
     public GameObject settingMenuInstance;
-
-    // public int vSyncOptions = 0;
-    // public int frameRate = 0;
-    int changeVSync;
-    int frameRate;
 
     void Awake()
     {
@@ -58,25 +52,10 @@ public class Settings : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
+        audioMixer = Resources.Load<AudioMixer>("MainMixer");
         settingsMenuPrefab = Resources.Load<GameObject>("PreFabs/GUI/SettingMenu");
         fpsDisplayOnDashboard = Resources.Load<GameObject>("PreFabs/GUI/FpsGui");
-
         Setup();
-
-    }
-
-    void Start()
-    {
-        // ChangeFrameRate();
-        // ChangeVsync();
-
-        // fileSettings = SaveSetting.LoadUserSettings();
-        // ApplySettings(false);
-        // JsonHandler.Save();
-        // JsonHandler.DataToSave data = JsonHandler.ReadFile("settings");
-        // frameRate = data.frameRate;
-        // vsyncOptions = data.vsyncOption;
     }
 
     void Update()
@@ -97,43 +76,40 @@ public class Settings : MonoBehaviour
         settingsMenu = settingMenuInstance;
         fpsDisplay = fpsGuiInstance;
 
-        // Initalizes fps sldier related things at the beginning
+        // Initializes fps slider related things
         fpsSliderGO = GameObject.Find("FpsSlider");
         fpsSlider = fpsSliderGO.GetComponent<Slider>();
         fpsSlider.onValueChanged.AddListener(ChangeFrameRate);
         fpsNumber = fpsSliderGO.transform.Find("Fps").gameObject.GetComponent<TextMeshProUGUI>();
-
-        // Initalizes vsync sldier related things at the beginning
+        // Initializes vsync slider related things
         vSyncSliderGO = GameObject.Find("VSyncSlider");
         vSyncSlider = vSyncSliderGO.GetComponent<Slider>();
         vSyncSlider.onValueChanged.AddListener(ChangeVSync);
         vSyncNumber = vSyncSliderGO.transform.Find("VSync").gameObject.GetComponent<TextMeshProUGUI>();
-
+        // Initializes masterVolume slider
+        masterVolumeGO = GameObject.Find("MasterVolume");
+        masterVolume = masterVolumeGO.GetComponent<Slider>();
+        masterVolume.onValueChanged.AddListener(SetMasterVolume);
+        // Initializes soundFxVolume slider
+        soundFxVolumeGO = GameObject.Find("SoundFxVolume");
+        soundFxVolume = soundFxVolumeGO.GetComponent<Slider>();
+        soundFxVolume.onValueChanged.AddListener(SetSoundFXVolume);
+        // Initializes musicVolume slider
+        musicVolumeGO = GameObject.Find("MusicVolume");
+        musicVolume = musicVolumeGO.GetComponent<Slider>();
+        musicVolume.onValueChanged.AddListener(SetMusicVolume);
+        // Initializes all checkboxes
         displayFpsToggle = GameObject.Find("DisplayFpsToggle").GetComponent<Toggle>();
         displayFpsToggle.onValueChanged.AddListener(DisplayFps);
         screenModeToggle = GameObject.Find("FullScreenToggle").GetComponent<Toggle>();
         screenModeToggle.onValueChanged.AddListener(ToggleScreen);
         eggsModeToggle = GameObject.Find("EggsToggle").GetComponent<Toggle>();
         eggsModeToggle.onValueChanged.AddListener(ChangeEggsMode);
-
+        // Initializes all buttons
         applyChangesBtn = GameObject.Find("SaveSettingsBtn").GetComponent<Button>();
         applyChangesBtn.onClick.AddListener(ApplySettingsAndSave);
         exitSettings = GameObject.Find("CloseSettingButton").GetComponent<Button>();
         exitSettings.onClick.AddListener(CloseSetting);
-
-        masterVolumeGO = GameObject.Find("MasterVolume");
-        masterVolume = masterVolumeGO.GetComponent<Slider>();
-        masterVolume.onValueChanged.AddListener(SetMasterVolume);
-
-        soundFxVolumeGO = GameObject.Find("SoundFxVolume");
-        soundFxVolume = soundFxVolumeGO.GetComponent<Slider>();
-        soundFxVolume.onValueChanged.AddListener(SetSoundFXVolume);
-
-        musicVolumeGO = GameObject.Find("MusicVolume");
-        musicVolume = musicVolumeGO.GetComponent<Slider>();
-        musicVolume.onValueChanged.AddListener(SetMasterVolume);
-
-
 
         // Gets everything from file
         settings = SaveSetting.LoadUserSettings();
@@ -282,19 +258,26 @@ public class Settings : MonoBehaviour
 
         if (settings.eggsMode)
         {
-            soundPath = "EggsSoundFX";
+            pathForSound = "EggsSoundFX";
         }
         else
         {
-            soundPath = "SoundFX";
+            pathForSound = "SoundFX";
         }
 
+        // Updates all sliders to reflect the proper values
         vSyncSlider.value = settings.vSyncLevel;
         fpsSlider.value = settings.frameRate;
-
+        masterVolume.value = settings.masterVolume;
+        soundFxVolume.value = settings.masterFxVolume;
+        musicVolume.value = settings.musicVolume;
+        // Set the audio level
+        audioMixer.SetFloat("masterVolume", Mathf.Log10(settings.masterVolume) * 20f);
+        audioMixer.SetFloat("soundFxVolume", Mathf.Log10(settings.masterFxVolume) * 20f);
+        audioMixer.SetFloat("musicVolume", Mathf.Log10(settings.musicVolume) * 20f);
+        // Set the vsync and frame rate value
         VSyncApply(true);
         FrameRateApply(true);
-
         // Updates all toggles to reflect the proper values
         displayFpsToggle.isOn = settings.displayFps;
         screenModeToggle.isOn = settings.fullScreen;
@@ -306,19 +289,22 @@ public class Settings : MonoBehaviour
     public void ApplySettingsAndSave()
     {
         ApplySettings();
-        SaveSetting.Save(settings.displayFps, settings.fullScreen, settings.eggsMode, settings.frameRate, settings.vSyncLevel);
+        SaveSetting.Save(settings.displayFps, settings.fullScreen, settings.eggsMode, settings.frameRate, settings.vSyncLevel, settings.masterVolume, settings.masterFxVolume, settings.musicVolume);
     }
 
     public void SetMasterVolume(float level)
     {
-        audioMixer.SetFloat("masterVolume", Mathf.Log10(level) * 20f);
+        // Mathf.Log10(level) * 20f
+        settings.masterVolume = level;
     }
+
     public void SetSoundFXVolume(float level)
     {
-        audioMixer.SetFloat("soundFxVolume", Mathf.Log10(level) * 20f);
+        settings.masterFxVolume = level;
     }
+
     public void SetMusicVolume(float level)
     {
-        audioMixer.SetFloat("musicVolume", Mathf.Log10(level) * 20f);
+        settings.musicVolume = level;
     }
 }

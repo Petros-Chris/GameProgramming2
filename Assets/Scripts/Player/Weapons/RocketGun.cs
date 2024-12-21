@@ -9,7 +9,7 @@ public class RocketGun : Weapon
     {
         base.Start();
         currentBullets = magazineSize;
-        audioPath = "ExplosionGun";
+        audioPath0 = "ExplosionGun";
         audioPath2 = "BarrelExploding";
     }
 
@@ -47,7 +47,7 @@ public class RocketGun : Weapon
            
             if (ExplosionEffect != null)
             {
-                 SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 0.5f);
+                 SoundFXManager.instance.PrepareSoundFXClip(audioPath0, transform, 0.5f);
                 GameObject explosion = Instantiate(ExplosionEffect, hit.point, Quaternion.identity);
                 Destroy(explosion, 2.0f);
             }

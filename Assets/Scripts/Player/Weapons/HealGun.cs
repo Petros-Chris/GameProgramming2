@@ -12,7 +12,7 @@ public class HealGun : Weapon
     {
         base.Start();
         currentBullets = magazineSize;
-        audioPath = "BuildingUpgrade";
+        audioPath0 = "BuildingUpgrade";
     }
 
     void Update()
@@ -46,7 +46,7 @@ public class HealGun : Weapon
         bullet.AddPosition(Nozzle.position);
         bullet.transform.position = transform.position + (Nozzle.forward * 200);
 
-        SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 0.5f);
+        SoundFXManager.instance.PrepareSoundFXClip(audioPath0, transform, 0.5f);
 
         if (Physics.Raycast(FirePoint.position, FirePoint.forward, out hit, range))
         {

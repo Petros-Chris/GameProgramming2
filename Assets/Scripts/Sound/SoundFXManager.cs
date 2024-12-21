@@ -6,10 +6,8 @@ public class SoundFXManager : MonoBehaviour
 {
     public static SoundFXManager instance;
     public AudioSource globalAudioObject;
-
     Settings gameManager;
-    public string soundPath = "SoundFX"; // TODO: make settings exist everywhere
-    //public float volume = 1f;
+    private string soundPath = "SoundFX";
     [SerializeField] private AudioSource soundFXObject;
     [SerializeField] private AudioSource musicObject;
     private void Awake()
@@ -22,16 +20,18 @@ public class SoundFXManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
-
+        soundFXObject = Resources.Load<AudioSource>("PreFabs/Sounds/SoundFXObject");
+        musicObject = Resources.Load<AudioSource>("PreFabs/Sounds/MusicObject");
         gameManager = GameObject.Find("DifficultyController").GetComponent<Settings>();
     }
 
-    public void PrepareSoundFXClip(string audioClip, Transform spawnTransform, float volume, bool isGlobal = false, bool isLoop = false)
+    public void PrepareSoundFXClip(string audioClip, Transform spawnTransform, float volume, bool isGlobal = false, bool isLoop = false, bool isMusic = false)
     {
         string path;
         if (GameObject.Find("GameManager"))
-            path = "Sounds/" + gameManager.soundPath + "/" + audioClip;
+            path = "Sounds/" + gameManager.pathForSound + "/" + audioClip;
         else
             path = "Sounds/" + soundPath + "/" + audioClip;
 
@@ -48,6 +48,12 @@ public class SoundFXManager : MonoBehaviour
         }
         else if (isGlobal && !isLoop)
         {
+            if (!isMusic)
+            {
+                PlayGlobalMusic(clip, spawnTransform, volume);
+                return;
+            }
+
             PlayGlobalSoundNoLoop(clip, spawnTransform, volume);
         }
 
@@ -59,7 +65,7 @@ public class SoundFXManager : MonoBehaviour
         AudioClip[] clip = new AudioClip[audioClip.Length];
         for (int i = 0; i < audioClip.Length; i++)
         {
-            string path = "Sounds/" + gameManager.soundPath + "/" + audioClip[i];
+            string path = "Sounds/" + gameManager.pathForSound + "/" + audioClip[i];
             clip[i] = Resources.Load<AudioClip>(path);
             if (clip == null)
             {
@@ -102,6 +108,21 @@ public class SoundFXManager : MonoBehaviour
         audioSource.volume = volume;
 
         audioSource.loop = true;
+
+        audioSource.spread = 360;
+
+        audioSource.Play();
+
+        globalAudioObject = audioSource;
+    }
+
+    public void PlayGlobalMusic(AudioClip audioClip, Transform spawnTransform, float volume)
+    {
+        AudioSource audioSource = Instantiate(musicObject, spawnTransform.position, Quaternion.identity);
+
+        audioSource.clip = audioClip;
+
+        audioSource.volume = volume;
 
         audioSource.spread = 360;
 

@@ -11,9 +11,8 @@ public class WallGate : Wall, IDamageable
     Vector3 closedScale = new Vector3(0.5f, 3.6f, 4f);
     UpgradeJsonHandler.Root root;
     public GameObject gate;
-    public string audioPath = "TowerDamage";
-    public string audioPath2 = "DoorOpening";
-    public string audioPath3 = "DoorClosing";
+    // public string audioPath2 = "DoorOpening";
+    // public string audioPath3 = "DoorClosing";
 
     void Start()
     {
@@ -22,14 +21,11 @@ public class WallGate : Wall, IDamageable
         towerGun = gameObject.GetComponentsInChildren<TowerGun>();
         setHealthBar(gameObject.GetComponentInChildren<HealthBarScript>());
         Initalize();
-
-        // InvokeRepeating("OpenGate", 1, 1);
     }
 
     void Update()
     {
-        InvokeRepeating("GateHandler", 0, 1);
-        GateMovement();
+        GateHandler();
     }
 
     public void TakeDamage(float damage, GameObject whoOwMe = null)
@@ -41,6 +37,7 @@ public class WallGate : Wall, IDamageable
 
         if (health <= 0)
         {
+            SoundFXManager.instance.PrepareSoundFXClip(audioPath3, transform, 0.5f);
             StartCoroutine(PlayParticleAndDisable());
         }
     }
@@ -72,20 +69,6 @@ public class WallGate : Wall, IDamageable
             OpenGate();
         }
         return;
-    }
-
-    public void GateMovement()
-    {
-        // if (mewo == 1)
-        // {
-        //     Debug.Log("Play Close Sound!");
-        //     mewo++;
-        // }
-        // else if (mewo2 == 1)
-        // {
-        //     Debug.Log("Play Open Sound!");
-        //     mewo2++;
-        // }
     }
 
     public void CloseGate()

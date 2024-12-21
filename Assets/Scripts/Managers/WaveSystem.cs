@@ -71,12 +71,13 @@ public class WaveSystem : MonoBehaviour
             // If no enemies are left and the round is not in progess
             if (!EnemiesLeft() && !waveInProgress && !isLastRound)
             {
-                
+
                 if (SoundFXManager.instance.globalAudioObject != default)
                     SoundFXManager.instance.DestroyGlobalSound(SoundFXManager.instance.globalAudioObject);
-                    if(round != 0){
+                if (round != 0)
+                {
                     SoundFXManager.instance.PrepareSoundFXClip(audioPath4, transform, 0.5f, true, false);
-                    }
+                }
                 // Allows the player to switch into build mode again
                 ComponentManager.Instance.lockCamera = false;
 
@@ -126,7 +127,8 @@ public class WaveSystem : MonoBehaviour
     //? Can spawn on top of player, but it doesn't seem to push them out of map so perhaps its fine
     public void ReviveAllTowers()
     {
-        SoundFXManager.instance.PrepareSoundFXClip(audioPath5, transform, 0.5f, true);
+        if (SoundFXManager.instance != null)
+            SoundFXManager.instance.PrepareSoundFXClip(audioPath5, transform, 0.5f, true);
         foreach (GameObject building in ComponentManager.Instance.buildingsDisabled)
         {
             if (building == null)
@@ -207,8 +209,21 @@ public class WaveSystem : MonoBehaviour
         round++;
         ComponentManager.Instance.SwitchToPlayerAndLockCamera();
         ComponentManager.Instance.CallCoroutine(ComponentManager.Instance.ShowMessage("Round Starting!"));
-        SoundFXManager.instance.PrepareSoundFXClip("inGameSound", transform, 1f, true, true);
+        Debug.Log("AAA");
+        StartCoroutine(DestroyAllGlobalAudio());
         StartCoroutine(SpawnWave());
+    }
+
+    public IEnumerator DestroyAllGlobalAudio()
+    {
+        while (SoundFXManager.instance.globalAudioObject)
+        {
+            Debug.Log("MEOW");
+            SoundFXManager.instance.DestroyGlobalSound(SoundFXManager.instance.globalAudioObject);
+            yield return null;
+        }
+        SoundFXManager.instance.PrepareSoundFXClip("StartRound", transform, 1f, true);
+        SoundFXManager.instance.PrepareSoundFXClip("inGameSound", transform, 1f, true, true);
     }
 
     IEnumerator SpawnWave()
@@ -260,14 +275,11 @@ public class WaveSystem : MonoBehaviour
         displaySlider = true;
         while (intermissionTimer > 0)
         {
-            
             yield return new WaitForSeconds(1f);
             EnemyOrTimerText.text = "Time Until Next Round " + --intermissionTimer;
-            if(intermissionTimer == 6){
-                    SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 0.5f, true);
-            }
-            if(intermissionTimer == 1){
-                    SoundFXManager.instance.PrepareSoundFXClip(audioPath3, transform, 0.5f, true);
+            if (intermissionTimer == 6)
+            {
+                SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 0.5f, true);
             }
         }
         EnemyOrTimerText.text = "Round Starting!";

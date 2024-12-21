@@ -8,7 +8,6 @@ using UnityEngine.SceneManagement;
 public class Tower : Building, IDamageable
 {
     UpgradeJsonHandler.Root root;
-    public string audioPath = "TowerDamage";
 
     void Start()
     {
@@ -26,6 +25,7 @@ public class Tower : Building, IDamageable
 
         if (health <= 0)
         {
+            SoundFXManager.instance.PrepareSoundFXClip(audioPath3, transform, 0.5f);
             StartCoroutine(PlayParticleAndDisable());
         }
     }

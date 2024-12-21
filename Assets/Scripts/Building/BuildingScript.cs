@@ -16,7 +16,8 @@ public class Building : MonoBehaviour
     private int emergencyAllySpawn;
     private ParticleSystem spawnParticle;
     private ParticleSystem deathParticle;
-     public string audioPath = "TowerDestroy";
+    public string audioPath = "TowerDamage";
+    public string audioPath3 = "TowerDestroy";
 
     void OnEnable()
     {

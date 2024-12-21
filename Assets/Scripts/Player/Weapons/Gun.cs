@@ -10,9 +10,9 @@ public class Gun : Weapon
     new void Start()
     {
         base.Start();
-        audioPath = "PlayerShoot";
+        audioPath0 = "PlayerShoot";
     }
-    
+
     void Update()
     {
         if (GameMenu.Instance.isPaused || GameMenu.Instance.playerFrozen || isReloading || GameMenu.Instance.isUpdateMenuOpen)
@@ -44,7 +44,7 @@ public class Gun : Weapon
         bullet.AddPosition(Nozzle.position);
         bullet.transform.position = transform.position + (Nozzle.forward * 200);
 
-        SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 0.5f);
+        SoundFXManager.instance.PrepareSoundFXClip(audioPath0, transform, 0.5f);
 
         if (Physics.Raycast(FirePoint.position, FirePoint.forward, out hit, range))
         {
@@ -62,7 +62,7 @@ public class Gun : Weapon
             EnemyAI enemy = hit.transform.GetComponent<EnemyAI>();
             if (enemy != null)
             {
-                
+
                 enemy.TakeDamage(damage, gameObject);
             }
         }

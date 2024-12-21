@@ -912,6 +912,11 @@ MonoBehaviour:
   waveText: {fileID: 144963766}
   EnemyOrTimerText: {fileID: 144963763}
   wherePlayerSpawn: {x: 52, y: 0.9, z: 22}
+  audioPath: CountDownStartRound
+  audioPath2: PlayerRespawn
+  audioPath3: StartRound
+  audioPath4: RoundEnd
+  audioPath5: BuildingRespawn
 --- !u!4 &481999872
 Transform:
   m_ObjectHideFlags: 0
@@ -2439,7 +2444,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30

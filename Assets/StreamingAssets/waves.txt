@@ -1,93 +1,100 @@
 {"level":[
     {"level":1,"difficulty":[
         {"difficulty":"easy","waves":[
-            {"wave":1,"totalEnemies":43,"enemies":[{"type":"Ranged","count":10},{"type":"Melee","count":1},{"type":"Tank","count":2},{"type":"Fast","count":30}]},
-            {"wave":2,"totalEnemies":59,"enemies":[{"type":"Ranged","count":20},{"type":"Melee","count":5},{"type":"Tank","count":4},{"type":"Fast","count":30}]},
-            {"wave":3,"totalEnemies":71,"enemies":[{"type":"Ranged","count":30},{"type":"Melee","count":5},{"type":"Tank","count":6},{"type":"Fast","count":30}]},
-            {"wave":4,"totalEnemies":42,"enemies":[{"type":"Ranged","count":0},{"type":"Melee","count":10},{"type":"Tank","count":2},{"type":"Fast","count":30}]},
-            {"wave":5,"totalEnemies":50,"enemies":[{"type":"Ranged","count":0},{"type":"Melee","count":50},{"type":"Tank","count":0},{"type":"Fast","count":0}]},
-            {"wave":6,"totalEnemies":50,"enemies":[{"type":"Ranged","count":0},{"type":"Melee","count":0},{"type":"Tank","count":50},{"type":"Fast","count":0}]},
-            {"wave":7,"totalEnemies":100,"enemies":[{"type":"Ranged","count":10},{"type":"Melee","count":30},{"type":"Tank","count":30},{"type":"Fast","count":30}]}]},
+            {"wave":1,"totalEnemies":7,"enemies":[{"type":"Ranged","count":7},{"type":"Melee","count":0},{"type":"Tank","count":0},{"type":"Fast","count":0}]},
+            {"wave":2,"totalEnemies":13,"enemies":[{"type":"Ranged","count":10},{"type":"Melee","count":0},{"type":"Tank","count":0},{"type":"Fast","count":3}]},
+            {"wave":3,"totalEnemies":6,"enemies":[{"type":"Ranged","count":0},{"type":"Melee","count":1},{"type":"Tank","count":0},{"type":"Fast","count":5}]},
+            {"wave":4,"totalEnemies":15,"enemies":[{"type":"Ranged","count":0},{"type":"Melee","count":5},{"type":"Tank","count":0},{"type":"Fast","count":10}]},
+            {"wave":5,"totalEnemies":26,"enemies":[{"type":"Ranged","count":0},{"type":"Melee","count":10},{"type":"Tank","count":1},{"type":"Fast","count":15}]}
+        ]},
 
         {"difficulty":"medium","waves":[
-            {"wave":1,"totalEnemies":10,"enemies":[{"type":"Ranged","count":10}]},
-            {"wave":2,"totalEnemies":20,"enemies":[{"type":"Ranged","count":20}]},
-            {"wave":3,"totalEnemies":30,"enemies":[{"type":"Ranged","count":30}]},
-            {"wave":4,"totalEnemies":40,"enemies":[{"type":"Ranged","count":40}]},
-            {"wave":5,"totalEnemies":50,"enemies":[{"type":"Ranged","count":50}]},
-            {"wave":6,"totalEnemies":60,"enemies":[{"type":"Ranged","count":60}]},
-            {"wave":7,"totalEnemies":70,"enemies":[{"type":"Ranged","count":70}]}]},
+            {"wave":1,"totalEnemies":10,"enemies":[{"type":"Ranged","count":10},{"type":"Melee","count":0},{"type":"Tank","count":0},{"type":"Fast","count":0}]},
+            {"wave":2,"totalEnemies":15,"enemies":[{"type":"Ranged","count":10},{"type":"Melee","count":0},{"type":"Tank","count":0},{"type":"Fast","count":5}]},
+            {"wave":3,"totalEnemies":15,"enemies":[{"type":"Ranged","count":7},{"type":"Melee","count":5},{"type":"Tank","count":0},{"type":"Fast","count":3}]},
+            {"wave":4,"totalEnemies":25,"enemies":[{"type":"Ranged","count":5},{"type":"Melee","count":5},{"type":"Tank","count":5},{"type":"Fast","count":10}]},
+            {"wave":5,"totalEnemies":35,"enemies":[{"type":"Ranged","count":0},{"type":"Melee","count":10},{"type":"Tank","count":10},{"type":"Fast","count":15}]}
+        ]},
 
         {"difficulty":"hard","waves":[
-            {"wave":1,"totalEnemies":10,"enemies":[{"type":"Ranged","count":10}]},
-            {"wave":2,"totalEnemies":20,"enemies":[{"type":"Ranged","count":20}]},
-            {"wave":3,"totalEnemies":30,"enemies":[{"type":"Ranged","count":30}]},
-            {"wave":4,"totalEnemies":40,"enemies":[{"type":"Ranged","count":40}]},
-            {"wave":5,"totalEnemies":50,"enemies":[{"type":"Ranged","count":50}]},
-            {"wave":6,"totalEnemies":60,"enemies":[{"type":"Ranged","count":60}]},
-            {"wave":7,"totalEnemies":70,"enemies":[{"type":"Ranged","count":70}]}]},
+            {"wave":1,"totalEnemies":15,"enemies":[{"type":"Ranged","count":15},{"type":"Melee","count":0},{"type":"Tank","count":0},{"type":"Fast","count":0}]},
+            {"wave":2,"totalEnemies":25,"enemies":[{"type":"Ranged","count":15},{"type":"Melee","count":0},{"type":"Tank","count":0},{"type":"Fast","count":10}]},
+            {"wave":3,"totalEnemies":22,"enemies":[{"type":"Ranged","count":5},{"type":"Melee","count":5},{"type":"Tank","count":5},{"type":"Fast","count":7}]},
+            {"wave":4,"totalEnemies":48,"enemies":[{"type":"Ranged","count":20},{"type":"Melee","count":5},{"type":"Tank","count":10},{"type":"Fast","count":13}]},
+            {"wave":5,"totalEnemies":70,"enemies":[{"type":"Ranged","count":0},{"type":"Melee","count":20},{"type":"Tank","count":20},{"type":"Fast","count":30}]}
+        ]},
 
         {"difficulty":"death","waves":[
-            {"wave":1,"totalEnemies":1,"enemies":[{"type":"Ranged","count":1}]}]}]},
+            {"wave":1,"totalEnemies":35,"enemies":[{"type":"Ranged","count":0},{"type":"Melee","count":0},{"type":"Tank","count":20},{"type":"Fast","count":15}]},
+            {"wave":2,"totalEnemies":35,"enemies":[{"type":"Ranged","count":0},{"type":"Melee","count":10},{"type":"Tank","count":10},{"type":"Fast","count":15}]},
+            {"wave":3,"totalEnemies":55,"enemies":[{"type":"Ranged","count":5},{"type":"Melee","count":15},{"type":"Tank","count":20},{"type":"Fast","count":20}]}
+        ]}
+    ]},
                 
     {"level":2,"difficulty":[
         {"difficulty":"easy","waves":[
-            {"wave":1,"totalEnemies":43,"enemies":[{"type":"Ranged","count":10},{"type":"Melee","count":1},{"type":"Tank","count":2},{"type":"Fast","count":30}]},
-            {"wave":2,"totalEnemies":59,"enemies":[{"type":"Ranged","count":20},{"type":"Melee","count":5},{"type":"Tank","count":4},{"type":"Fast","count":30}]},
-            {"wave":3,"totalEnemies":71,"enemies":[{"type":"Ranged","count":30},{"type":"Melee","count":5},{"type":"Tank","count":6},{"type":"Fast","count":30}]},
-            {"wave":4,"totalEnemies":42,"enemies":[{"type":"Ranged","count":0},{"type":"Melee","count":10},{"type":"Tank","count":2},{"type":"Fast","count":30}]},
-            {"wave":5,"totalEnemies":50,"enemies":[{"type":"Ranged","count":0},{"type":"Melee","count":50},{"type":"Tank","count":0},{"type":"Fast","count":0}]},
-            {"wave":6,"totalEnemies":50,"enemies":[{"type":"Ranged","count":0},{"type":"Melee","count":0},{"type":"Tank","count":50},{"type":"Fast","count":0}]},
-            {"wave":7,"totalEnemies":100,"enemies":[{"type":"Ranged","count":10},{"type":"Melee","count":30},{"type":"Tank","count":30},{"type":"Fast","count":30}]}]},
+            {"wave":1,"totalEnemies":7,"enemies":[{"type":"Ranged","count":7},{"type":"Melee","count":0},{"type":"Tank","count":0},{"type":"Fast","count":0}]},
+            {"wave":2,"totalEnemies":13,"enemies":[{"type":"Ranged","count":10},{"type":"Melee","count":0},{"type":"Tank","count":0},{"type":"Fast","count":3}]},
+            {"wave":3,"totalEnemies":6,"enemies":[{"type":"Ranged","count":0},{"type":"Melee","count":1},{"type":"Tank","count":0},{"type":"Fast","count":5}]},
+            {"wave":4,"totalEnemies":15,"enemies":[{"type":"Ranged","count":0},{"type":"Melee","count":5},{"type":"Tank","count":0},{"type":"Fast","count":10}]},
+            {"wave":5,"totalEnemies":26,"enemies":[{"type":"Ranged","count":0},{"type":"Melee","count":10},{"type":"Tank","count":1},{"type":"Fast","count":15}]}
+        ]},
             
         {"difficulty":"medium","waves":[
-            {"wave":1,"totalEnemies":10,"enemies":[{"type":"Ranged","count":10}]},
-            {"wave":2,"totalEnemies":20,"enemies":[{"type":"Ranged","count":20}]},
-            {"wave":3,"totalEnemies":30,"enemies":[{"type":"Ranged","count":30}]},
-            {"wave":4,"totalEnemies":40,"enemies":[{"type":"Ranged","count":40}]},
-            {"wave":5,"totalEnemies":50,"enemies":[{"type":"Ranged","count":50}]},
-            {"wave":6,"totalEnemies":60,"enemies":[{"type":"Ranged","count":60}]},
-            {"wave":7,"totalEnemies":70,"enemies":[{"type":"Ranged","count":70}]}]},
+            {"wave":1,"totalEnemies":10,"enemies":[{"type":"Ranged","count":10},{"type":"Melee","count":0},{"type":"Tank","count":0},{"type":"Fast","count":0}]},
+            {"wave":2,"totalEnemies":15,"enemies":[{"type":"Ranged","count":10},{"type":"Melee","count":0},{"type":"Tank","count":0},{"type":"Fast","count":5}]},
+            {"wave":3,"totalEnemies":15,"enemies":[{"type":"Ranged","count":7},{"type":"Melee","count":5},{"type":"Tank","count":0},{"type":"Fast","count":3}]},
+            {"wave":4,"totalEnemies":25,"enemies":[{"type":"Ranged","count":5},{"type":"Melee","count":5},{"type":"Tank","count":5},{"type":"Fast","count":10}]},
+            {"wave":5,"totalEnemies":35,"enemies":[{"type":"Ranged","count":0},{"type":"Melee","count":10},{"type":"Tank","count":10},{"type":"Fast","count":15}]}
+        ]},
 
         {"difficulty":"hard","waves":[
-            {"wave":1,"totalEnemies":10,"enemies":[{"type":"Ranged","count":10}]},
-            {"wave":2,"totalEnemies":20,"enemies":[{"type":"Ranged","count":20}]},
-            {"wave":3,"totalEnemies":30,"enemies":[{"type":"Ranged","count":30}]},
-            {"wave":4,"totalEnemies":40,"enemies":[{"type":"Ranged","count":40}]},
-            {"wave":5,"totalEnemies":50,"enemies":[{"type":"Ranged","count":50}]},
-            {"wave":6,"totalEnemies":60,"enemies":[{"type":"Ranged","count":60}]},
-            {"wave":7,"totalEnemies":70,"enemies":[{"type":"Ranged","count":70}]}]},
+            {"wave":1,"totalEnemies":15,"enemies":[{"type":"Ranged","count":15},{"type":"Melee","count":0},{"type":"Tank","count":0},{"type":"Fast","count":0}]},
+            {"wave":2,"totalEnemies":25,"enemies":[{"type":"Ranged","count":15},{"type":"Melee","count":0},{"type":"Tank","count":0},{"type":"Fast","count":10}]},
+            {"wave":3,"totalEnemies":22,"enemies":[{"type":"Ranged","count":5},{"type":"Melee","count":5},{"type":"Tank","count":5},{"type":"Fast","count":7}]},
+            {"wave":4,"totalEnemies":48,"enemies":[{"type":"Ranged","count":20},{"type":"Melee","count":5},{"type":"Tank","count":10},{"type":"Fast","count":13}]},
+            {"wave":5,"totalEnemies":70,"enemies":[{"type":"Ranged","count":0},{"type":"Melee","count":20},{"type":"Tank","count":20},{"type":"Fast","count":30}]}
+        ]},
             
         {"difficulty":"death","waves":[
-            {"wave":1,"totalEnemies":1,"enemies":[{"type":"Ranged","count":1}]}]}]},
-                
+            {"wave":1,"totalEnemies":40,"enemies":[{"type":"Ranged","count":0},{"type":"Melee","count":20},{"type":"Tank","count":0},{"type":"Fast","count":20}]},
+            {"wave":2,"totalEnemies":40,"enemies":[{"type":"Ranged","count":0},{"type":"Melee","count":8},{"type":"Tank","count":12},{"type":"Fast","count":20}]},
+            {"wave":3,"totalEnemies":90,"enemies":[{"type":"Ranged","count":5},{"type":"Melee","count":25},{"type":"Tank","count":15},{"type":"Fast","count":40}]},
+            {"wave":4,"totalEnemies":80,"enemies":[{"type":"Ranged","count":5},{"type":"Melee","count":25},{"type":"Tank","count":20},{"type":"Fast","count":30}]}
+        ]}
+    ]},
+
     {"level":3,"difficulty":[
         {"difficulty":"easy","waves":[
-            {"wave":1,"totalEnemies":43,"enemies":[{"type":"Ranged","count":10},{"type":"Melee","count":1},{"type":"Tank","count":2},{"type":"Fast","count":30}]},
-            {"wave":2,"totalEnemies":59,"enemies":[{"type":"Ranged","count":20},{"type":"Melee","count":5},{"type":"Tank","count":4},{"type":"Fast","count":30}]},
-            {"wave":3,"totalEnemies":71,"enemies":[{"type":"Ranged","count":30},{"type":"Melee","count":5},{"type":"Tank","count":6},{"type":"Fast","count":30}]},
-            {"wave":4,"totalEnemies":42,"enemies":[{"type":"Ranged","count":0},{"type":"Melee","count":10},{"type":"Tank","count":2},{"type":"Fast","count":30}]},
-            {"wave":5,"totalEnemies":50,"enemies":[{"type":"Ranged","count":0},{"type":"Melee","count":50},{"type":"Tank","count":0},{"type":"Fast","count":0}]},
-            {"wave":6,"totalEnemies":50,"enemies":[{"type":"Ranged","count":0},{"type":"Melee","count":0},{"type":"Tank","count":50},{"type":"Fast","count":0}]},
-            {"wave":7,"totalEnemies":100,"enemies":[{"type":"Ranged","count":10},{"type":"Melee","count":30},{"type":"Tank","count":30},{"type":"Fast","count":30}]}]},
-            
+            {"wave":1,"totalEnemies":7,"enemies":[{"type":"Ranged","count":7},{"type":"Melee","count":0},{"type":"Tank","count":0},{"type":"Fast","count":0}]},
+            {"wave":2,"totalEnemies":13,"enemies":[{"type":"Ranged","count":10},{"type":"Melee","count":0},{"type":"Tank","count":0},{"type":"Fast","count":3}]},
+            {"wave":3,"totalEnemies":6,"enemies":[{"type":"Ranged","count":0},{"type":"Melee","count":1},{"type":"Tank","count":0},{"type":"Fast","count":5}]},
+            {"wave":4,"totalEnemies":15,"enemies":[{"type":"Ranged","count":0},{"type":"Melee","count":5},{"type":"Tank","count":0},{"type":"Fast","count":10}]},
+            {"wave":5,"totalEnemies":26,"enemies":[{"type":"Ranged","count":0},{"type":"Melee","count":10},{"type":"Tank","count":1},{"type":"Fast","count":15}]}
+        ]},
+
         {"difficulty":"medium","waves":[
-            {"wave":1,"totalEnemies":10,"enemies":[{"type":"Ranged","count":10}]},
-            {"wave":2,"totalEnemies":20,"enemies":[{"type":"Ranged","count":20}]},
-            {"wave":3,"totalEnemies":30,"enemies":[{"type":"Ranged","count":30}]},
-            {"wave":4,"totalEnemies":40,"enemies":[{"type":"Ranged","count":40}]},
-            {"wave":5,"totalEnemies":50,"enemies":[{"type":"Ranged","count":50}]},
-            {"wave":6,"totalEnemies":60,"enemies":[{"type":"Ranged","count":60}]},
-            {"wave":7,"totalEnemies":70,"enemies":[{"type":"Ranged","count":70}]}]},
+            {"wave":1,"totalEnemies":10,"enemies":[{"type":"Ranged","count":10},{"type":"Melee","count":0},{"type":"Tank","count":0},{"type":"Fast","count":0}]},
+            {"wave":2,"totalEnemies":15,"enemies":[{"type":"Ranged","count":10},{"type":"Melee","count":0},{"type":"Tank","count":0},{"type":"Fast","count":5}]},
+            {"wave":3,"totalEnemies":15,"enemies":[{"type":"Ranged","count":7},{"type":"Melee","count":5},{"type":"Tank","count":0},{"type":"Fast","count":3}]},
+            {"wave":4,"totalEnemies":25,"enemies":[{"type":"Ranged","count":5},{"type":"Melee","count":5},{"type":"Tank","count":5},{"type":"Fast","count":10}]},
+            {"wave":5,"totalEnemies":35,"enemies":[{"type":"Ranged","count":0},{"type":"Melee","count":10},{"type":"Tank","count":10},{"type":"Fast","count":15}]}
+        ]},
 
         {"difficulty":"hard","waves":[
-            {"wave":1,"totalEnemies":10,"enemies":[{"type":"Ranged","count":10}]},
-            {"wave":2,"totalEnemies":20,"enemies":[{"type":"Ranged","count":20}]},
-            {"wave":3,"totalEnemies":30,"enemies":[{"type":"Ranged","count":30}]},
-            {"wave":4,"totalEnemies":40,"enemies":[{"type":"Ranged","count":40}]},
-            {"wave":5,"totalEnemies":50,"enemies":[{"type":"Ranged","count":50}]},
-            {"wave":6,"totalEnemies":60,"enemies":[{"type":"Ranged","count":60}]},
-            {"wave":7,"totalEnemies":70,"enemies":[{"type":"Ranged","count":70}]}]},
+            {"wave":1,"totalEnemies":15,"enemies":[{"type":"Ranged","count":15},{"type":"Melee","count":0},{"type":"Tank","count":0},{"type":"Fast","count":0}]},
+            {"wave":2,"totalEnemies":25,"enemies":[{"type":"Ranged","count":15},{"type":"Melee","count":0},{"type":"Tank","count":0},{"type":"Fast","count":10}]},
+            {"wave":3,"totalEnemies":22,"enemies":[{"type":"Ranged","count":5},{"type":"Melee","count":5},{"type":"Tank","count":5},{"type":"Fast","count":7}]},
+            {"wave":4,"totalEnemies":48,"enemies":[{"type":"Ranged","count":20},{"type":"Melee","count":5},{"type":"Tank","count":10},{"type":"Fast","count":13}]},
+            {"wave":5,"totalEnemies":70,"enemies":[{"type":"Ranged","count":0},{"type":"Melee","count":20},{"type":"Tank","count":20},{"type":"Fast","count":30}]}
+        ]},
             
         {"difficulty":"death","waves":[
-            {"wave":1,"totalEnemies":1,"enemies":[{"type":"Ranged","count":1}]}]}]}]}
+            {"wave":1,"totalEnemies":40,"enemies":[{"type":"Ranged","count":0},{"type":"Melee","count":20},{"type":"Tank","count":0},{"type":"Fast","count":20}]},
+            {"wave":2,"totalEnemies":40,"enemies":[{"type":"Ranged","count":0},{"type":"Melee","count":8},{"type":"Tank","count":12},{"type":"Fast","count":20}]},
+            {"wave":3,"totalEnemies":90,"enemies":[{"type":"Ranged","count":5},{"type":"Melee","count":25},{"type":"Tank","count":15},{"type":"Fast","count":40}]},
+            {"wave":4,"totalEnemies":80,"enemies":[{"type":"Ranged","count":5},{"type":"Melee","count":25},{"type":"Tank","count":20},{"type":"Fast","count":30}]},
+            {"wave":5,"totalEnemies":115,"enemies":[{"type":"Ranged","count":0},{"type":"Melee","count":45},{"type":"Tank","count":40},{"type":"Fast","count":30}]}
+        ]}
+    ]}  
+]}

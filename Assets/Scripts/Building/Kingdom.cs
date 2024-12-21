@@ -11,8 +11,9 @@ public class Kingdom : Building, IDamageable
     public bool allySpawnInTrouble = false;
     private int toggleOnce = 0;
     UpgradeJsonHandler.Root root;
-    public string audioPath = "TowerDamage";
     public string audioPath2 = "AllySpawn";
+    public string audioPath1 = "KingdomLowHealth";
+    bool triggerSong;
     void Start()
     {
 
@@ -22,6 +23,19 @@ public class Kingdom : Building, IDamageable
         towerAttack = gameObject.GetComponentsInChildren<TowerAttack>();
         towerGun = gameObject.GetComponentsInChildren<TowerGun>();
         initalize();
+    }
+
+    public void Update()
+    {
+        if (!ComponentManager.Instance.lockCamera && (toggleOnce != 0 || triggerSong))
+        {
+            toggleOnce = 0;
+            triggerSong = false;
+            if (SoundFXManager.instance.globalAudioObject != null)
+            {
+                SoundFXManager.instance.DestroyGlobalSound(SoundFXManager.instance.globalAudioObject);
+            }
+        }
     }
 
     public void initalize()
@@ -82,22 +96,20 @@ public class Kingdom : Building, IDamageable
         getHealthBar().UpdateHealthBar(health, maxHealth);
         float healthPercent = health / maxHealth * 100;
 
-        // Upgrade for FishKingdom to spawn allies when in trouble
-        // TODO: Sound Alert?
+        GlobalSoundAlert(healthPercent);
+
         if (healthPercent <= 50 && allySpawnInTrouble && toggleOnce < 1)
         {
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 5; i++)
             {
                 SoundFXManager.instance.PrepareSoundFXClip(audioPath2, transform, 0.5f);
                 Instantiate(ally, SpawnPointForAlly, transform.rotation);
-                
             }
             toggleOnce++;
         }
 
         if (healthPercent <= 30 && allySpawnInTrouble && toggleOnce < 2)
         {
-
             for (int i = 0; i < 7; i++)
             {
                 SoundFXManager.instance.PrepareSoundFXClip(audioPath2, transform, 0.5f);
@@ -109,7 +121,32 @@ public class Kingdom : Building, IDamageable
         if (health <= 0)
         {
             MenuController.didKingdomDie = true;
+            SoundFXManager.instance.PrepareSoundFXClip(audioPath3, transform, 0.5f);
             StartCoroutine(PlayParticleAndDisable(true));
+        }
+    }
+
+    public void GlobalSoundAlert(float healthPercent)
+    {
+        if (healthPercent <= 30 && !triggerSong)
+        {
+            // Destroys globalSound
+            if (SoundFXManager.instance.globalAudioObject != null)
+            {
+                SoundFXManager.instance.DestroyGlobalSound(SoundFXManager.instance.globalAudioObject);
+            }
+            // Creates new globalSound
+            SoundFXManager.instance.PrepareSoundFXClip(audioPath1, transform, 0.5f, true);
+            triggerSong = true;
+        }
+
+        if (healthPercent >= 40 && triggerSong)
+        {
+            if (SoundFXManager.instance.globalAudioObject != null)
+            {
+                SoundFXManager.instance.DestroyGlobalSound(SoundFXManager.instance.globalAudioObject);
+            }
+            triggerSong = false;
         }
     }
 

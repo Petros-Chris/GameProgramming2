@@ -1,1 +1,1 @@
-{"displayFps":true,"fullScreen":false,"eggsMode":true,"frameRate":0,"vSyncLevel":1}
+{"displayFps":true,"fullScreen":false,"eggsMode":true,"frameRate":0,"vSyncLevel":0,"masterVolume":1.0,"masterFxVolume":1.0,"musicVolume":0.5114774703979492}
