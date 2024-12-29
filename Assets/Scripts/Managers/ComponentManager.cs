@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
-
+using UnityEngine.InputSystem;
 
 public class ComponentManager : MonoBehaviour
 {
@@ -12,7 +12,6 @@ public class ComponentManager : MonoBehaviour
     public Camera buildCam;
     public Camera playerCam;
     public Camera deathCam;
-    public KeyCode switchModes = KeyCode.M;
     public GameObject defaultEnemy;
     public GameObject fastEnemy;
     public GameObject tankEnemy;
@@ -26,6 +25,23 @@ public class ComponentManager : MonoBehaviour
     public GameObject winCanvas;
     public bool winScreenIsDisplayed;
     public string difficultyLevel;
+    public InputAction switchModes;
+    public InputAction interactKey;
+    private FishGuard fishGuardMovement;
+
+    void OnEnable()
+    {
+        switchModes = fishGuardMovement.Player.BuildMode;
+        interactKey = fishGuardMovement.Player.Interact;
+        switchModes.Enable();
+        interactKey.Enable();
+    }
+
+    void OnDisable()
+    {
+        switchModes.Disable();
+        interactKey.Disable();
+    }
     void Awake()
     {
         messageText = message.GetComponent<TextMeshProUGUI>();
@@ -33,6 +49,7 @@ public class ComponentManager : MonoBehaviour
         defaultEnemy = Resources.Load<GameObject>("PreFabs/Characters/Enemies/RangedEnemy");
         tankEnemy = Resources.Load<GameObject>("PreFabs/Characters/Enemies/TankEnemy");
         defaultAlly = Resources.Load<GameObject>("PreFabs/Characters/RangedAlly");
+        fishGuardMovement = new FishGuard();
 
         Camera[] cameras = FindObjectsOfType<Camera>(true);
         foreach (var camera in cameras)
@@ -83,7 +100,7 @@ public class ComponentManager : MonoBehaviour
 
     public void ToggleBuildPlayerMode()
     {
-        if (Input.GetKeyDown(switchModes))
+        if (switchModes.triggered)
         {
             if (lockCamera)
             {
@@ -173,5 +190,11 @@ public class ComponentManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
+    }
+
+    public bool IsInRange(float range, Vector3 firstPoint, Vector3 secondPoint)
+    {
+        float distanceBetweenTwoPoints = Vector3.Distance(firstPoint, secondPoint);
+        return distanceBetweenTwoPoints <= range;
     }
 }

@@ -1,1 +1,1 @@
-{"worldLevel":2,"difficultyLevel":2}
+{"worldLevel":2,"difficultyLevel":1}

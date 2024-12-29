@@ -1,12 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class Sliding : MonoBehaviour
 {
     [Header("References")]
-    public Transform orientation;
     public Transform playerObj;
     private Rigidbody rb;
     private PlayerMovementAdvanced pm;
@@ -20,12 +17,23 @@ public class Sliding : MonoBehaviour
     private float startYScale;
 
     [Header("Input")]
-    public KeyCode slideKey = KeyCode.LeftControl;
-    private float horizontalInput;
-    private float verticalInput;
     private bool slide;
+    public InputAction slideKey;
+    FishGuard fishGuardMovement;
+    void Awake()
+    {
+        fishGuardMovement = new FishGuard();
+    }
+    void OnEnable()
+    {
+        slideKey = fishGuardMovement.Player.Slide;
+        slideKey.Enable();
+    }
 
-
+    void OnDisable()
+    {
+        slideKey.Disable();
+    }
 
     private void Start()
     {
@@ -37,17 +45,14 @@ public class Sliding : MonoBehaviour
 
     private void Update()
     {
-        horizontalInput = Input.GetAxisRaw("Horizontal");
-        verticalInput = Input.GetAxisRaw("Vertical");
-
-        if (Input.GetKey(slideKey) && (horizontalInput != 0 || verticalInput != 0) && pm.grounded && !slide)
+        if (slideKey.IsPressed() && (pm.walkMovement.x != 0 || pm.walkMovement.y != 0) && pm.grounded && !slide)
         {
             StartSlide();
             slide = true;
         }
-        if (Input.GetKeyUp(slideKey))
+        if (slideKey.WasPressedThisFrame())
             slide = false;
-        if (Input.GetKeyUp(slideKey) && pm.sliding)
+        if (slideKey.WasReleasedThisFrame() && pm.sliding)
             StopSlide();
     }
 
@@ -69,7 +74,7 @@ public class Sliding : MonoBehaviour
 
     private void SlidingMovement()
     {
-        Vector3 inputDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+        Vector3 inputDirection = pm.orientation.forward * pm.walkMovement.y + pm.orientation.right * pm.walkMovement.x;
 
         // sliding normal
         if (!pm.OnSlope() || rb.velocity.y > -0.1f)

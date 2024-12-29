@@ -19,7 +19,7 @@ public class WallGate : Wall, IDamageable
         Debug.Log("Aa");
         towerAttack = gameObject.GetComponentsInChildren<TowerAttack>();
         towerGun = gameObject.GetComponentsInChildren<TowerGun>();
-        setHealthBar(gameObject.GetComponentInChildren<HealthBarScript>());
+        SetHealthBar(gameObject.GetComponentInChildren<VisibleHealthBar>());
         Initalize();
     }
 
@@ -33,7 +33,7 @@ public class WallGate : Wall, IDamageable
         SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 0.5f);
         health -= damage;
 
-        getHealthBar().UpdateHealthBar(health, maxHealth);
+        GetHealthBar().UpdateHealthBar(health, maxHealth);
 
         if (health <= 0)
         {

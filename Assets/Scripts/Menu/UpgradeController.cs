@@ -11,8 +11,6 @@ public class UpgradeController : MonoBehaviour
 {
     public GameObject upgradeCanvas;
     // will likely be used for shop as well (if we interact with a person for shop)
-    public KeyCode interact = KeyCode.E;
-
     public float RayCastRange = 5f;
     public float RangeInBuildMode = 30f;
     private float RayRange;
@@ -45,7 +43,7 @@ public class UpgradeController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (ComponentManager.Instance.interactKey.triggered)
         {
             GetObjectWithRayCast();
         }
@@ -125,7 +123,7 @@ public class UpgradeController : MonoBehaviour
 
             CleanUpPastPanel();
             upgradeCanvas.SetActive(true);
-            GameMenu.Instance.isUpdateMenuOpen = true; // Freeze player
+            GameMenu.Instance.isInGameMenuOpen = true; // Freeze player
             ComponentManager.Instance.FocusCursor(false); // Show mouse
 
             menuCreation = cameraToUse.transform.position;
@@ -320,7 +318,7 @@ public class UpgradeController : MonoBehaviour
         SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 1f);
         upgradeCanvas.SetActive(false);
         shouldValuesBeUpdated = false;
-        GameMenu.Instance.isUpdateMenuOpen = false;
+        GameMenu.Instance.isInGameMenuOpen = false;
         ComponentManager.Instance.FocusCursor();
     }
     public bool IsPlayerInMenuCreationRange()

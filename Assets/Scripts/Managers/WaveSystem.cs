@@ -35,7 +35,7 @@ public class WaveSystem : MonoBehaviour
     int worldLevelInt;
     bool winDisplayed;
     public string audioPath = "CountDownStartRound";
-    public string audioPath2 = "PlayerRespawn";
+
     public string audioPath3 = "StartRound";
     public string audioPath4 = "RoundEnd";
     public string audioPath5 = "BuildingRespawn";
@@ -127,7 +127,7 @@ public class WaveSystem : MonoBehaviour
     //? Can spawn on top of player, but it doesn't seem to push them out of map so perhaps its fine
     public void ReviveAllTowers()
     {
-        if (SoundFXManager.instance != null)
+        if (SoundFXManager.instance != null && ComponentManager.Instance.buildingsDisabled.Count != 0)
             SoundFXManager.instance.PrepareSoundFXClip(audioPath5, transform, 0.5f, true);
         foreach (GameObject building in ComponentManager.Instance.buildingsDisabled)
         {
@@ -140,7 +140,7 @@ public class WaveSystem : MonoBehaviour
             // Giving object health 
             Building buildingScript = building.GetComponent<Building>();
             buildingScript.health = 50; // towerScript.maxHealth if you want it to come back with max health
-            buildingScript.getHealthBar().UpdateHealthBar(buildingScript.health, buildingScript.maxHealth);
+            buildingScript.GetHealthBar().UpdateHealthBar(buildingScript.health, buildingScript.maxHealth);
         }
         // So it won't attempt to fix the same buildings next round
         ComponentManager.Instance.buildingsDisabled.Clear();
@@ -150,12 +150,12 @@ public class WaveSystem : MonoBehaviour
     {
         if (ComponentManager.Instance.hasPlayerDied)
         {
-            SoundFXManager.instance.PrepareSoundFXClip(audioPath2, transform, 0.5f);
+
+            Debug.Log("HI");
             playerToCreate = Resources.Load<GameObject>("Prefabs/Characters/Player");
 
             Instantiate(playerToCreate, wherePlayerSpawn, Quaternion.identity);
             // ComponentManager.Instance.ReAssignCameras();
-            ComponentManager.Instance.hasPlayerDied = false;
             ComponentManager.Instance.SwitchToPlayerAndLockCamera(false); // Should probably make another method for this
         }
     }
@@ -209,7 +209,6 @@ public class WaveSystem : MonoBehaviour
         round++;
         ComponentManager.Instance.SwitchToPlayerAndLockCamera();
         ComponentManager.Instance.CallCoroutine(ComponentManager.Instance.ShowMessage("Round Starting!"));
-        Debug.Log("AAA");
         StartCoroutine(DestroyAllGlobalAudio());
         StartCoroutine(SpawnWave());
     }
@@ -218,7 +217,6 @@ public class WaveSystem : MonoBehaviour
     {
         while (SoundFXManager.instance.globalAudioObject)
         {
-            Debug.Log("MEOW");
             SoundFXManager.instance.DestroyGlobalSound(SoundFXManager.instance.globalAudioObject);
             yield return null;
         }

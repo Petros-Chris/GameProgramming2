@@ -17,12 +17,12 @@ public class HealGun : Weapon
 
     void Update()
     {
-        if (GameMenu.Instance.isPaused || GameMenu.Instance.playerFrozen || isReloading || GameMenu.Instance.isUpdateMenuOpen)
+        if (GameMenu.Instance.isPaused || GameMenu.Instance.playerFrozen || isReloading || GameMenu.Instance.isInGameMenuOpen)
         {
             return;
         }
 
-        if (Input.GetButton("Fire1") && Time.time >= nextFireTime && currentBullets > 0)
+        if (attack.IsPressed() && Time.time >= nextFireTime && currentBullets > 0)
         {
             nextFireTime = Time.time + fireRate;
             HealLink();
@@ -33,7 +33,7 @@ public class HealGun : Weapon
             ComponentManager.Instance.CallCoroutine(ComponentManager.Instance.Reload(gameObject.GetComponent<Weapon>()));
         }
 
-        if (Input.GetKeyDown(reloadKey) && !isReloading && currentBullets != magazineSize)
+        if (reloadKey.triggered && !isReloading && currentBullets != magazineSize)
         {
             ComponentManager.Instance.CallCoroutine(ComponentManager.Instance.Reload(gameObject.GetComponent<Weapon>()));
         }

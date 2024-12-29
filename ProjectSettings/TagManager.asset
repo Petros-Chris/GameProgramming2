@@ -9,6 +9,7 @@ TagManager:
   - Kingdom
   - Score
   - Event
+  - Shop
   layers:
   - Default
   - TransparentFX

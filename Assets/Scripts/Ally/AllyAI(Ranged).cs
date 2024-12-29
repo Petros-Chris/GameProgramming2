@@ -8,7 +8,7 @@ public class AllyAI : MonoBehaviour, IDamageable
 {
     //Little thing at the front that will look at you and shoot at you (rotates around building)
     public StateMachineAlly StateMachine { get; set; }
-    public HealthBarScript healthBarScript;
+    public VisibleHealthBar healthBarScript;
     public NavMeshAgent Agent { get; set; }
     public Transform enemy;
     public LayerMask EnemyLayer;
@@ -141,7 +141,7 @@ public class AllyAI : MonoBehaviour, IDamageable
     /// <param name="damage">How much damage the enemy is going to take</param>
     public void TakeDamage(float damage, GameObject whoOwMe)
     {
-        if(SoundFXManager.instance.chancePlaySound(10)){
+        if(SoundFXManager.instance.ChanceToPlaySound(10)){
              SoundFXManager.instance.PrepareSoundFXClipArray(audioPath, transform, 0.5f);
         }
         health -= damage;
@@ -163,7 +163,7 @@ public class AllyAI : MonoBehaviour, IDamageable
 
         if (health <= 0)
         {
-           if(SoundFXManager.instance.chancePlaySound(20)){
+           if(SoundFXManager.instance.ChanceToPlaySound(20)){
              SoundFXManager.instance.PrepareSoundFXClipArray(audioPath2, transform, 0.5f);
         }
             Destroy(gameObject);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Kingdom : Building, IDamageable
 {
@@ -14,11 +15,13 @@ public class Kingdom : Building, IDamageable
     public string audioPath2 = "AllySpawn";
     public string audioPath1 = "KingdomLowHealth";
     bool triggerSong;
+    public Slider gameOverlayHealthBar;
     void Start()
     {
 
         ally = ComponentManager.Instance.defaultAlly;
-        setHealthBar(gameObject.GetComponentInChildren<HealthBarScript>());
+        SetHealthBar(gameObject.GetComponentInChildren<VisibleHealthBar>());
+        SetGameOverlayHealthBarKingdom(GameObject.Find("KingdomSlider").GetComponent<RegularHealthBar>());
         SpawnPointForAlly = new Vector3(transform.position.x, transform.position.y, transform.position.z + -2);
         towerAttack = gameObject.GetComponentsInChildren<TowerAttack>();
         towerGun = gameObject.GetComponentsInChildren<TowerGun>();
@@ -93,7 +96,8 @@ public class Kingdom : Building, IDamageable
         SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 0.5f);
         health -= damage;
 
-        getHealthBar().UpdateHealthBar(health, maxHealth);
+        GetHealthBar().UpdateHealthBar(health, maxHealth);
+        GetGameOverlayHealthBarKingdom().UpdateHealthBar(health, maxHealth);
         float healthPercent = health / maxHealth * 100;
 
         GlobalSoundAlert(healthPercent);

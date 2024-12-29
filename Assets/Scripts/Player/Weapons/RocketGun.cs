@@ -15,12 +15,12 @@ public class RocketGun : Weapon
 
     void Update()
     {
-        if (GameMenu.Instance.isPaused || GameMenu.Instance.playerFrozen || isReloading || GameMenu.Instance.isUpdateMenuOpen)
+        if (GameMenu.Instance.isPaused || GameMenu.Instance.playerFrozen || isReloading || GameMenu.Instance.isInGameMenuOpen)
         {
             return;
         }
 
-        if (Input.GetButton("Fire1") && Time.time >= nextFireTime && currentBullets > 0)
+        if (attack.IsPressed() && Time.time >= nextFireTime && currentBullets > 0)
         {
             nextFireTime = Time.time + fireRate;
             ExplosiveShot();
@@ -32,22 +32,22 @@ public class RocketGun : Weapon
             ComponentManager.Instance.CallCoroutine(ComponentManager.Instance.Reload(gameObject.GetComponent<Weapon>()));
         }
 
-        if (Input.GetKeyDown(reloadKey) && !isReloading && currentBullets != magazineSize)
+        if (reloadKey.triggered && !isReloading && currentBullets != magazineSize)
         {
             ComponentManager.Instance.CallCoroutine(ComponentManager.Instance.Reload(gameObject.GetComponent<Weapon>()));
         }
     }
 
     void ExplosiveShot()
-    {  
+    {
         SoundFXManager.instance.PrepareSoundFXClip(audioPath2, transform, 0.5f);
         RaycastHit hit;
         if (Physics.Raycast(FirePoint.position, FirePoint.forward, out hit, range))
         {
-           
+
             if (ExplosionEffect != null)
             {
-                 SoundFXManager.instance.PrepareSoundFXClip(audioPath0, transform, 0.5f);
+                SoundFXManager.instance.PrepareSoundFXClip(audioPath0, transform, 0.5f);
                 GameObject explosion = Instantiate(ExplosionEffect, hit.point, Quaternion.identity);
                 Destroy(explosion, 2.0f);
             }

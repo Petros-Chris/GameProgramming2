@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +6,8 @@ public class Building : MonoBehaviour
 {
     public float health;
     public float maxHealth;
-    private HealthBarScript healthBar;
+    private VisibleHealthBar healthBar;
+    private RegularHealthBar gameOverlayHealthBarKingdom;
     private int healthLevel = 0;
     private int attackLevel = 0;
     private int moneySpent = 0;
@@ -65,7 +65,8 @@ public class Building : MonoBehaviour
     {
         health += healAmount;
 
-        getHealthBar().UpdateHealthBar(health, maxHealth);
+        GetHealthBar().UpdateHealthBar(health, maxHealth);
+        GetGameOverlayHealthBarKingdom().UpdateHealthBar(health, maxHealth);
 
         if (health >= maxHealth)
         {
@@ -73,7 +74,7 @@ public class Building : MonoBehaviour
         }
     }
 
-    public bool SetMaxHealth(List<UpgradeJsonHandler.MaxHealth> jsonHealth)
+    public bool SetMaxHealth(List<UpgradeJsonHandler.MaxHealth> jsonHealth, RegularHealthBar kingdomHealth = null)
     {
         // Checks if broke
         if (jsonHealth[GetHealthLevel()].cost > CurrencyManager.Instance.Currency && GetHealthLevel() != 0)
@@ -90,7 +91,10 @@ public class Building : MonoBehaviour
         // Sets new stats and adds the cost to the money
         maxHealth = jsonHealth[GetHealthLevel()].maxHealth;
         health = maxHealth; // Sets it to full
-        getHealthBar().UpdateHealthBar(health, maxHealth);
+        GetHealthBar().UpdateHealthBar(health, maxHealth);
+        // Should only update the kingdom health
+        if (kingdomHealth != null)
+            kingdomHealth.UpdateHealthBar(health, maxHealth);
 
         if (GetHealthLevel() != 0)
         {
@@ -150,6 +154,16 @@ public class Building : MonoBehaviour
         moneySpent += amount;
     }
 
+    public RegularHealthBar GetGameOverlayHealthBarKingdom()
+    {
+        return gameOverlayHealthBarKingdom;
+    }
+
+    public void SetGameOverlayHealthBarKingdom(RegularHealthBar newHealthBarKingdom)
+    {
+        gameOverlayHealthBarKingdom = newHealthBarKingdom;
+    }
+
     public int GetEmergencyAllySpawn()
     {
         return emergencyAllySpawn;
@@ -160,12 +174,12 @@ public class Building : MonoBehaviour
         emergencyAllySpawn = localeas;
     }
 
-    public HealthBarScript getHealthBar()
+    public VisibleHealthBar GetHealthBar()
     {
         return healthBar;
     }
 
-    public void setHealthBar(HealthBarScript localhealthBar)
+    public void SetHealthBar(VisibleHealthBar localhealthBar)
     {
         healthBar = localhealthBar;
     }

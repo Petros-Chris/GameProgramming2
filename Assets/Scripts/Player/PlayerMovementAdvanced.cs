@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovementAdvanced : MonoBehaviour
 {
@@ -34,11 +35,6 @@ public class PlayerMovementAdvanced : MonoBehaviour
     public float crouchYScale;
     private float startYScale;
 
-    [Header("Keybinds")]
-    public KeyCode jumpKey = KeyCode.Space;
-    public KeyCode sprintKey = KeyCode.LeftShift;
-    public KeyCode crouchKey = KeyCode.LeftControl;
-
     [Header("Ground Check")]
     public float playerHeight;
     public LayerMask whatIsGround;
@@ -54,14 +50,8 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     public Transform orientation;
 
-    public float horizontalInput;
-    public float verticalInput;
-
     Vector3 moveDirection;
-
     Rigidbody rb;
-
-
     public MovementState state;
     public enum MovementState
     {
@@ -72,12 +62,49 @@ public class PlayerMovementAdvanced : MonoBehaviour
         sliding,
         dashing,
         air
-
     }
 
     public bool dashing;
 
     public bool sliding;
+
+    [Header("Keybinds")]
+    public FishGuard ass;
+    private InputAction move;
+    private InputAction jump;
+    private InputAction sprint;
+    private InputAction crouch;
+    private InputAction look;
+    public Vector2 walkMovement;
+
+    void Awake()
+    {
+        ass = new FishGuard();
+    }
+
+    void OnEnable()
+    {
+        move = ass.Player.Move;
+        jump = ass.Player.Jump;
+        crouch = ass.Player.Crouch;
+        sprint = ass.Player.Sprint;
+        look = ass.Player.Look;
+
+        move.Enable();
+        jump.Enable();
+        crouch.Enable();
+        sprint.Enable();
+        look.Enable();
+    }
+
+    void OnDisable()
+    {
+        move.Disable();
+        jump.Disable();
+        sprint.Disable();
+        crouch.Disable();
+        look.Disable();
+    }
 
     private void Start()
     {
@@ -101,8 +128,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
         // Only process movement and jumping if the game is not paused or frozen
         if (GameMenu.Instance.playerFrozen)
         {
-            horizontalInput = 0;
-            verticalInput = 0;
+            walkMovement = Vector2.zero;
             return;
         }
         // ground check
@@ -132,8 +158,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
         // Only process movement and jumping if the game is not paused or frozen
         if (GameMenu.Instance.playerFrozen)
         {
-            horizontalInput = 0;
-            verticalInput = 0;
+            walkMovement = Vector2.zero;
             return;
         }
         MovePlayer();
@@ -143,11 +168,11 @@ public class PlayerMovementAdvanced : MonoBehaviour
 
     private void MyInput()
     {
-        horizontalInput = Input.GetAxisRaw("Horizontal");
-        verticalInput = Input.GetAxisRaw("Vertical");
+        walkMovement = move.ReadValue<Vector2>();
+
 
         // when to jump
-        if (Input.GetKey(jumpKey) && readyToJump && jumpCount < 1)
+        if (jump.triggered && readyToJump && jumpCount < 1)
         {
             readyToJump = false;
             Jump();
@@ -155,14 +180,14 @@ public class PlayerMovementAdvanced : MonoBehaviour
         }
 
         // start crouch
-        if (Input.GetKeyDown(crouchKey))
+        if (crouch.triggered)
         {
             transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
             rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
         }
 
         // stop crouch
-        if (Input.GetKeyUp(crouchKey))
+        if (crouch.WasReleasedThisFrame())
         {
             transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
         }
@@ -191,14 +216,14 @@ public class PlayerMovementAdvanced : MonoBehaviour
         }
 
         // Mode - Crouching
-        else if (Input.GetKey(crouchKey))
+        else if (crouch.IsPressed())
         {
             state = MovementState.crouching;
             desiredMoveSpeed = crouchSpeed;
         }
 
         // Mode - Sprinting
-        else if (grounded && Input.GetKey(sprintKey))
+        else if (grounded && sprint.IsPressed())
         {
             state = MovementState.sprinting;
             desiredMoveSpeed = sprintSpeed;
@@ -264,7 +289,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
         if (state == MovementState.dashing)
             return;
         // calculate movement direction
-        moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+        moveDirection = orientation.forward * walkMovement.y + orientation.right * walkMovement.x;
 
         // on slope
         if (OnSlope() && !exitingSlope)

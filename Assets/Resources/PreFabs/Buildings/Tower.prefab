@@ -5014,7 +5014,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 333152320382167467}
   m_FillRect: {fileID: 6741360543032693726}
   m_HandleRect: {fileID: 0}
   m_Direction: 0
@@ -5037,6 +5037,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f16b9d829683a574fba0cfbc3124eee5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cam: {fileID: 0}
   offSet: {x: 0, y: 0, z: 0}
 --- !u!1 &1947366674048889597
 GameObject:
@@ -5073,7 +5074,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9124061621893816640
 CanvasRenderer:
@@ -5189,6 +5190,8 @@ MonoBehaviour:
   maxHealth: 300
   towerAttack: []
   towerGun: []
+  audioPath: TowerDamage
+  audioPath3: TowerDestroy
 --- !u!208 &2044045311047592250
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -10071,7 +10074,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0, y: 1}
+  m_AnchoredPosition: {x: -0, y: 1.4}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5279904400158423277
@@ -10171,7 +10174,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -10, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &8864893466691562174
 GameObject:

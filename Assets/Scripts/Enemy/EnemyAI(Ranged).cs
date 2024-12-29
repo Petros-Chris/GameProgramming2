@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class EnemyAI : MonoBehaviour
 {
-    public HealthBarScript healthBarScript;
+    public VisibleHealthBar healthBarScript;
     public StateMachine StateMachine { get; set; }
     public NavMeshAgent Agent { get; set; }
     // public Animator Animator { get; private set; } // Not needed since we're not using animations
@@ -30,22 +30,22 @@ public class EnemyAI : MonoBehaviour
     public Animator animator;
     public float thinkingSpeed = 0.5f;
     public bool CurrentlyInLookCooldown = false;
-    private string[] audioPath = {"Damage1","Damage2","Damage1"};
-    private string[] audioPath2 = {"Death1","Death2","Death3"};
+    private string[] audioPath = { "Damage1", "Damage2", "Damage1" };
+    private string[] audioPath2 = { "Death1", "Death2", "Death3" };
 
     void Start()
     {
         Agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        healthBarScript.UpdateHealthBar(health, maxHealth);
         building = GetClosestBuilding();
         ally = GetClosestEnemy();
         StateMachine = new StateMachine();
+        StateMachine.AddState(new IdleState(this));
         StateMachine.AddState(new HeadToTowerState(this));
         StateMachine.AddState(new ChaseState(this));
         StateMachine.AddState(new AttackPlayerState(this));
         StateMachine.AddState(new AttackBuildingState(this));
-        StateMachine.TransitionToState(StateType.HeadToTower);
+        StateMachine.TransitionToState(StateType.Idle);
     }
 
     void Update()
@@ -218,8 +218,9 @@ public class EnemyAI : MonoBehaviour
     /// <param name="damage">How much damage the enemy is going to take</param>
     public void TakeDamage(float damage, GameObject whoOwMe)
     {
-        if(SoundFXManager.instance.chancePlaySound(3)){
-             SoundFXManager.instance.PrepareSoundFXClipArray(audioPath, transform, 0.5f);
+        if (SoundFXManager.instance.ChanceToPlaySound(3))
+        {
+            SoundFXManager.instance.PrepareSoundFXClipArray(audioPath, transform, 0.5f);
         }
         health -= damage;
 
@@ -227,9 +228,10 @@ public class EnemyAI : MonoBehaviour
 
         if (health <= 0)
         {
-            if(SoundFXManager.instance.chancePlaySound(5)){
-             SoundFXManager.instance.PrepareSoundFXClipArray(audioPath2, transform, 0.5f);
-        }
+            if (SoundFXManager.instance.ChanceToPlaySound(5))
+            {
+                SoundFXManager.instance.PrepareSoundFXClipArray(audioPath2, transform, 0.5f);
+            }
             CurrencyManager.Instance.Currency += value;
             Destroy(gameObject);
         }

@@ -11,7 +11,7 @@ public class EnemyAIOld : MonoBehaviour
     public GameObject projectile;
     public GameObject weapon;
     //Transform healthBar;
-    public HealthBarScript healthBarScript;
+    public VisibleHealthBar healthBarScript;
 
     public LayerMask whatIsPlayer;
     public LayerMask whatIsBuilding;
@@ -37,7 +37,7 @@ public class EnemyAIOld : MonoBehaviour
         {
             fishKingdom = GameObject.Find("FishKingdom").transform;
         }
-        healthBarScript = GetComponentInChildren<HealthBarScript>();
+        healthBarScript = GetComponentInChildren<VisibleHealthBar>();
         agent = GetComponent<NavMeshAgent>();
         health = maxHealth;
     }

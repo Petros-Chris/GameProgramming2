@@ -1090,6 +1090,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shop
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 63b9e37741e4dc840b5c0a076a2e1cfb, type: 3}
+      propertyPath: m_TagString
+      value: Shop
+      objectReference: {fileID: 0}
     - target: {fileID: 1961593151469467333, guid: 63b9e37741e4dc840b5c0a076a2e1cfb, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 

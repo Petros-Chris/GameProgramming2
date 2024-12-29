@@ -21,7 +21,7 @@ public class FramerateCounter : MonoBehaviour
             }
         }
 
-        m_AccumulatedDeltaTime += Time.deltaTime;
+        m_AccumulatedDeltaTime += Time.unscaledDeltaTime;
         m_AccumulatedFrameCount++;
 
         if (m_AccumulatedDeltaTime >= pollingTime)

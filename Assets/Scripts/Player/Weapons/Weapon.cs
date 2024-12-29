@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Weapon : MonoBehaviour
 {
@@ -18,17 +19,31 @@ public class Weapon : MonoBehaviour
     public float nextFireTime = 0f;
     [SerializeField] public string audioPath0;
     public TrailRenderer bulletTrail;
-    public KeyCode reloadKey = KeyCode.R;
+    public InputAction reloadKey;
+    public InputAction attack;
+    FishGuard fishGuardMovement;
+    void Awake()
+    {
+        fishGuardMovement = new FishGuard();
+    }
+    void OnEnable()
+    {
+        reloadKey = fishGuardMovement.Player.Reload;
+        attack = fishGuardMovement.Player.Fire;
+        reloadKey.Enable();
+        attack.Enable();
+        PlayerUIManager.Instance.SwitchWeapon(gameObject);
+    }
 
+    void OnDisable()
+    {
+        reloadKey.Disable();
+        attack.Disable();
+    }
 
     public void Start()
     {
         currentBullets = magazineSize;
         FirePoint = ComponentManager.Instance.playerCam.transform;
-    }
-
-    public void OnEnable()
-    {
-        PlayerUIManager.Instance.SwitchWeapon(gameObject);
     }
 }

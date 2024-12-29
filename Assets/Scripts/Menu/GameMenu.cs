@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,7 +9,7 @@ public class GameMenu : MonoBehaviour
     public KeyCode pauseGame = KeyCode.Escape;
     public GameObject gameMenu;
     public GameObject settingMenu;
-    public bool isUpdateMenuOpen = false;
+    public bool isInGameMenuOpen = false;
     public bool playerFrozen;
     private string audioPath = "GUI";
 

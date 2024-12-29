@@ -21,12 +21,12 @@ public class PostProcessVolume : MonoBehaviour
     [Header("VolumeMode")]
     public VolumeShape ShapeOfVolume = VolumeShape.BOX;
     [Header("SphereVolumeSetting")]
-    public float OuterSphereRadius=1;
+    public float OuterSphereRadius = 1;
     public float InnerSphereRadius;
     [Header("BoxVolumeSetting")]
-    public Vector3 OuterBoxSize=Vector3.one;
-    private Vector3 _outerBoxSize=Vector3.one;
-  
+    public Vector3 OuterBoxSize = Vector3.one;
+    private Vector3 _outerBoxSize = Vector3.one;
+
     public float OuterBoxSizeMultiplier = 1;
     private float _outerBoxSizeMultiplier = 1;
     public Vector3 InnerBoxSize = Vector3.zero;
@@ -57,25 +57,26 @@ public class PostProcessVolume : MonoBehaviour
 
     private bool _hasJustStarted = true;
     // Use this for initialization
-    void Start () {
-        
+    void Start()
+    {
+
         _sphereCollider = this.GetComponent<SphereCollider>();
         _sphereCollider.isTrigger = true;
         _boxCollider = this.GetComponent<BoxCollider>();
         _boxCollider.isTrigger = true;
 
         this.transform.localScale = Vector3.one;
-        
-       if (ShapeOfVolume == VolumeShape.BOX)
+
+        if (ShapeOfVolume == VolumeShape.BOX)
         {
-            
+
             _boxCollider.enabled = true;
             _sphereCollider.enabled = false;
 
         }
         else if (ShapeOfVolume == VolumeShape.SPHERE)
         {
-            
+
             _boxCollider.enabled = false;
             _sphereCollider.enabled = true;
         }
@@ -85,16 +86,17 @@ public class PostProcessVolume : MonoBehaviour
     {
         CheckColliderShape();
     }
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 
 
     void OnTriggerStay(Collider other)
     {
         PostProcessVolumeReceiver receivers = other.gameObject.GetComponent<PostProcessVolumeReceiver>();
-        if (receivers!=null)
+        if (receivers != null)
         {
             var thisVolume = this.GetComponent<PostProcessVolume>();
             receivers.SetValues(ref thisVolume, GradientPercentage(other.transform.position));
@@ -119,19 +121,17 @@ public class PostProcessVolume : MonoBehaviour
         {
 
 
-                case VolumeShape.BOX:
-                distanceVec = Quaternion.Inverse(this.transform.rotation)*distanceVec;
+            case VolumeShape.BOX:
+                distanceVec = Quaternion.Inverse(this.transform.rotation) * distanceVec;
                 float distanceXPerc = Mathf.Clamp01((Mathf.Abs(distanceVec.x) - InnerBoxSize.x * 0.5f) / ((_boxCollider.size.x - InnerBoxSize.x) * 0.5f));
                 float distanceYPerc = Mathf.Clamp01((Mathf.Abs(distanceVec.y) - InnerBoxSize.y * 0.5f) / ((_boxCollider.size.y - InnerBoxSize.y) * 0.5f));
                 float distanceZPerc = Mathf.Clamp01((Mathf.Abs(distanceVec.z) - InnerBoxSize.z * 0.5f) / ((_boxCollider.size.z - InnerBoxSize.z) * 0.5f));
 
                 float max = Mathf.Max(distanceXPerc, distanceYPerc, distanceZPerc);
                 return Mathf.Clamp01(1 - max);
-                break;
-                case VolumeShape.SPHERE:
-                float percentage= (distanceVec.magnitude-InnerSphereRadius)/ (_sphereCollider.radius-InnerSphereRadius);
+            case VolumeShape.SPHERE:
+                float percentage = (distanceVec.magnitude - InnerSphereRadius) / (_sphereCollider.radius - InnerSphereRadius);
                 return Mathf.Clamp01(1 - percentage);
-                break;
         }
 
         return 0;
@@ -139,7 +139,7 @@ public class PostProcessVolume : MonoBehaviour
 
     public void ResetValues()
     {
-        if (_ResetProfile==null)
+        if (_ResetProfile == null)
         {
             Debug.LogError("No ProfileEntered");
             return;
@@ -183,12 +183,12 @@ public class PostProcessVolume : MonoBehaviour
         if (_hasJustStarted)
         {
             _hasJustStarted = false;
-            _outerBoxSize = OuterBoxSize/ OuterBoxSizeMultiplier;
-            _innerBoxSize = InnerBoxSize/InnerBoxSizeMultiplier;
+            _outerBoxSize = OuterBoxSize / OuterBoxSizeMultiplier;
+            _innerBoxSize = InnerBoxSize / InnerBoxSizeMultiplier;
         }
 
         this.transform.localScale = Vector3.one;
-        if (_boxCollider==null|| _sphereCollider==null)
+        if (_boxCollider == null || _sphereCollider == null)
         {
             _sphereCollider = this.GetComponent<SphereCollider>();
             _sphereCollider.isTrigger = true;
@@ -201,18 +201,18 @@ public class PostProcessVolume : MonoBehaviour
         InnerSphereRadius = Mathf.Clamp(InnerSphereRadius, 0, _sphereCollider.radius);
 
         //OuterBoxSize
-        if (_outerBoxSizeMultiplier!=OuterBoxSizeMultiplier)
+        if (_outerBoxSizeMultiplier != OuterBoxSizeMultiplier)
         {
             OuterBoxSizeMultiplier = Mathf.Clamp(OuterBoxSizeMultiplier, 0.01f, float.PositiveInfinity);
 
-            OuterBoxSize = _outerBoxSize*OuterBoxSizeMultiplier;
+            OuterBoxSize = _outerBoxSize * OuterBoxSizeMultiplier;
             _outerBoxSizeMultiplier = OuterBoxSizeMultiplier;
         }
 
         OuterBoxSize.x = Mathf.Clamp(OuterBoxSize.x, 0, float.PositiveInfinity);
         OuterBoxSize.y = Mathf.Clamp(OuterBoxSize.y, 0, float.PositiveInfinity);
         OuterBoxSize.z = Mathf.Clamp(OuterBoxSize.z, 0, float.PositiveInfinity);
-        _outerBoxSize = OuterBoxSize/_outerBoxSizeMultiplier;
+        _outerBoxSize = OuterBoxSize / _outerBoxSizeMultiplier;
 
         _boxCollider.size = OuterBoxSize;
 
@@ -227,13 +227,13 @@ public class PostProcessVolume : MonoBehaviour
 
         _innerBoxSize = InnerBoxSize / _innerBoxSizeMultiplier;
 
-        InnerBoxSize.x = Mathf.Clamp(InnerBoxSize.x , 0, _boxCollider.size.x);
-        InnerBoxSize.y = Mathf.Clamp(InnerBoxSize.y , 0, _boxCollider.size.y);
-        InnerBoxSize.z = Mathf.Clamp(InnerBoxSize.z , 0, _boxCollider.size.z);
+        InnerBoxSize.x = Mathf.Clamp(InnerBoxSize.x, 0, _boxCollider.size.x);
+        InnerBoxSize.y = Mathf.Clamp(InnerBoxSize.y, 0, _boxCollider.size.y);
+        InnerBoxSize.z = Mathf.Clamp(InnerBoxSize.z, 0, _boxCollider.size.z);
         //GeneralInnerScale = 1;
 
 
-        if (ShapeOfVolume == VolumeShape.BOX )
+        if (ShapeOfVolume == VolumeShape.BOX)
         {
             //if (!_boxCollider.enabled)
             //{
@@ -242,7 +242,7 @@ public class PostProcessVolume : MonoBehaviour
             //}
 
         }
-        else if (ShapeOfVolume == VolumeShape.SPHERE )
+        else if (ShapeOfVolume == VolumeShape.SPHERE)
         {
             //if (!_sphereCollider.enabled)
             //{
@@ -259,16 +259,16 @@ public class PostProcessVolume : MonoBehaviour
         Gizmos.matrix = rotationMatrix;
         switch (ShapeOfVolume)
         {
-                case VolumeShape.BOX:
+            case VolumeShape.BOX:
                 Gizmos.color = Color.blue;
-                
+
                 Gizmos.DrawWireCube(Vector3.zero, _boxCollider.size);
                 Gizmos.color = Color.yellow;
                 Gizmos.DrawWireCube(Vector3.zero, InnerBoxSize);
                 break;
-                
-                case VolumeShape.SPHERE:
-                Gizmos.color=Color.blue;
+
+            case VolumeShape.SPHERE:
+                Gizmos.color = Color.blue;
                 Gizmos.DrawWireSphere(Vector3.zero, _sphereCollider.radius);
                 Gizmos.color = Color.yellow;
                 Gizmos.DrawWireSphere(Vector3.zero, InnerSphereRadius);
@@ -276,6 +276,6 @@ public class PostProcessVolume : MonoBehaviour
                 break;
         }
 
-        Gizmos.matrix=Matrix4x4.identity;
+        Gizmos.matrix = Matrix4x4.identity;
     }
 }

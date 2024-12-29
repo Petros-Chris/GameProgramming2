@@ -178,7 +178,7 @@ public class SoundFXManager : MonoBehaviour
 
     }
 
-    public bool chancePlaySound(float chance)
+    public bool ChanceToPlaySound(float chance)
     {
         float randNum = Random.Range(1f, 100f);
         if (randNum < chance)
@@ -189,7 +189,5 @@ public class SoundFXManager : MonoBehaviour
         {
             return false;
         }
-
     }
-
 }

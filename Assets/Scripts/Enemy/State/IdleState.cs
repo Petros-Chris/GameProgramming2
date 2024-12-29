@@ -5,7 +5,7 @@ using UnityEngine;
 public class IdleState : IState
 {
     private EnemyAI aiController;
-    private float idleDuration = 1f;
+    private float idleDuration = 0.2f;
     private float idleTimer;
 
     public StateType Type => StateType.Idle;
@@ -18,7 +18,6 @@ public class IdleState : IState
     public void Enter()
     {
         idleTimer = 0f;
-        //aiController.Animator.SetBool("isMoving", false);
     }
 
     public void Execute()
@@ -26,6 +25,7 @@ public class IdleState : IState
         idleTimer += Time.deltaTime;
         if (idleTimer >= idleDuration)
         {
+            aiController.healthBarScript.UpdateHealthBar(aiController.health, aiController.maxHealth);
             aiController.StateMachine.TransitionToState(StateType.HeadToTower);
         }
     }

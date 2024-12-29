@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Unity.VisualScripting;
+using UnityEngine.InputSystem;
 
 public class WeaponSystem : MonoBehaviour
 {
@@ -97,7 +98,7 @@ public class WeaponSystem : MonoBehaviour
         {
             inventory.gameObject.SetActive(true);
             ComponentManager.Instance.FocusCursor(false);
-            GameMenu.Instance.isUpdateMenuOpen = true;
+            GameMenu.Instance.isInGameMenuOpen = true;
             StartCoroutine(WhileInventoryOpen());
         }
     }
@@ -110,6 +111,6 @@ public class WeaponSystem : MonoBehaviour
         }
         inventory.gameObject.SetActive(false);
         ComponentManager.Instance.FocusCursor();
-        GameMenu.Instance.isUpdateMenuOpen = false;
+        GameMenu.Instance.isInGameMenuOpen = false;
     }
 }

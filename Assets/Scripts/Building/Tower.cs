@@ -1,9 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.SceneManagement;
 
 public class Tower : Building, IDamageable
 {
@@ -11,32 +6,33 @@ public class Tower : Building, IDamageable
 
     void Start()
     {
-        setHealthBar(gameObject.GetComponentInChildren<HealthBarScript>());
+        SetHealthBar(gameObject.GetComponentInChildren<VisibleHealthBar>());
         towerAttack = gameObject.GetComponentsInChildren<TowerAttack>();
         towerGun = gameObject.GetComponentsInChildren<TowerGun>();
-        initalize();
+        Initialize();
     }
     public void TakeDamage(float damage, GameObject whoOwMe)
     {
+        // Ow Sound Effect
         SoundFXManager.instance.PrepareSoundFXClip(audioPath, transform, 0.5f);
-        health -= damage;
 
-        getHealthBar().UpdateHealthBar(health, maxHealth);
+        health -= damage;
+        GetHealthBar().UpdateHealthBar(health, maxHealth);
 
         if (health <= 0)
         {
+            // Death Sound Effect
             SoundFXManager.instance.PrepareSoundFXClip(audioPath3, transform, 0.5f);
             StartCoroutine(PlayParticleAndDisable());
         }
     }
 
-    public void initalize()
+    public void Initialize()
     {
         root = UpgradeJsonHandler.ReadFile();
         var upgrades = root.building.Find(b => b.building == "Tower").upgrades;
         foreach (var upgrade in upgrades)
         {
-            // It only runs one :O
             if (upgrade.attack.Count != 0)
             {
                 SetAttack(upgrade.attack);
@@ -44,11 +40,11 @@ public class Tower : Building, IDamageable
 
             else if (upgrade.maxHealth.Count != 0)
             {
-                // Set it as the first level
                 SetMaxHealth(upgrade.maxHealth);
             }
         }
     }
+
     public void OnDisable()
     {
         ComponentManager.Instance.buildingsDisabled.Add(gameObject);

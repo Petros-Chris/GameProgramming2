@@ -1,5 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.InputSystem;
 public class CameraMovement : MonoBehaviour
 {
     public float sensX;
@@ -8,7 +9,24 @@ public class CameraMovement : MonoBehaviour
     public Transform mesh;
     float xRotation;
     float yRotation;
+    public InputAction look;
+    FishGuard ass;
+    public Vector2 cameraMovement;
 
+    void Awake()
+    {
+        ass = new FishGuard();
+    }
+    void OnEnable()
+    {
+        look = ass.Player.Look;
+        look.Enable();
+    }
+
+    void OnDisable()
+    {
+        look.Disable();
+    }
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -29,13 +47,13 @@ public class CameraMovement : MonoBehaviour
             return;
         }
 
-        if (GameMenu.Instance.isUpdateMenuOpen)
+        if (GameMenu.Instance.isInGameMenuOpen)
         {
             return;
         }
-
-        float mouseXAxis = Input.GetAxisRaw("Mouse X") * Time.fixedDeltaTime * sensX;
-        float mouseYAxis = Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * sensY;
+        cameraMovement = look.ReadValue<Vector2>();
+        float mouseXAxis = cameraMovement.x * Time.deltaTime * sensX;
+        float mouseYAxis = cameraMovement.y * Time.deltaTime * sensY;
 
         yRotation += mouseXAxis;
         xRotation -= mouseYAxis;
